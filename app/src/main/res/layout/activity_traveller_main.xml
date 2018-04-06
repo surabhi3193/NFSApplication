@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    android:orientation="vertical"
+    android:background="@color/background_color"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include
+        layout="@layout/back_layout"/>
+
+    <EditText
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:id="@+id/msearch"
+        android:layout_width="350dp"
+        android:layout_height="32dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/textview_back_of_item"
+        android:drawableLeft="@drawable/search_icon"
+        android:drawableTint="@color/current_location"
+        android:ems="20"
+        android:gravity="center"
+        android:hint="  city"
+        android:imeOptions="actionSearch"
+        android:padding="8dp"
+        android:paddingLeft="25dp"
+        android:paddingRight="10dp"
+        android:singleLine="true"
+        android:textColor="@color/current_location"
+        android:textSize="15dp" />
+
+    <ListView
+        android:padding="5dp"
+        android:dividerHeight="8dp"
+        android:divider="@color/white"
+        android:id="@+id/recycler_view"
+        android:scrollbars="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+</LinearLayout>

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:padding="3dp"
+    android:id="@+id/main_lay"
+    android:gravity="center"
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background_color"
+    android:clickable="true"
+    android:focusable="true">
+
+<RelativeLayout
+    android:layout_width="100dp"
+    android:layout_height="100dp">
+
+    <ImageView
+        android:scaleType="centerCrop"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/item"/>
+    <TextView
+        android:id="@+id/view_btn"
+        android:layout_marginBottom="5dp"
+        android:textStyle="bold"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/trans_text_bg"
+        android:textColor="@color/white"
+        android:fontFamily="@font/estre"
+        android:text="View"
+        android:fontFeatureSettings="18sp"/>
+
+</RelativeLayout>
+
+    <RelativeLayout
+        android:paddingLeft="5dp"
+        android:layout_weight="5"
+        android:gravity="center"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textColor="@color/colorPrimaryDark"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="Name"
+            android:fontFamily="@font/estre"
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:textSize="15sp"
+            android:padding="3dp"
+            />
+
+        <TextView
+            android:textSize="15sp"
+            android:padding="3dp"
+            android:fontFamily="@font/estre"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="Departure :"
+            android:id="@+id/depart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title" />
+        <TextView
+
+            android:textSize="15sp"
+            android:fontFamily="@font/estre"
+            android:padding="3dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="Arrival :"
+            android:id="@+id/arrival"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/depart" />
+
+        <TextView
+
+            android:textSize="15sp"
+            android:fontFamily="@font/estre"
+            android:padding="3dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="Amount : 200 $"
+            android:id="@+id/amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/arrival" />
+
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_weight="3"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:gravity="center"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="04/03/2018"
+            android:fontFamily="@font/estre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:textSize="13sp"
+            android:padding="3dp"
+            />
+
+        <Button
+            android:layout_centerInParent="true"
+            android:id="@+id/details_btn"
+            android:textAllCaps="false"
+            android:textSize="11sp"
+            android:text="Book Now"
+            android:textColor="@color/white"
+            android:layout_width="80dp"
+            android:layout_height="25dp"
+            android:background="@drawable/btn" />
+        <TextView
+            android:textColor="@color/green"
+            android:gravity="center"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="1 Miles"
+            android:fontFamily="@font/estre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:textSize="11dp"
+            android:padding="3dp"
+            />
+
+    </RelativeLayout>
+
+</LinearLayout>

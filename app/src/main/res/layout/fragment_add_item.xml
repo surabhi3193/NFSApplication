@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:scrollbars="none"
+    android:fillViewport="true"
+    android:padding="15dp"
+    android:gravity="center_horizontal"
+    android:background="@color/background_color"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:padding="15dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:background="@color/background_color"
+        xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp">
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pager"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_alignParentTop="true" />
+
+            <me.relex.circleindicator.CircleIndicator
+                android:id="@+id/indicator"
+                android:layout_width="match_parent"
+                android:layout_height="18dp"
+                android:layout_alignParentBottom="true"/>
+            <LinearLayout
+                android:visibility="visible"
+                android:id="@+id/camera_lay"
+                android:gravity="center"
+                android:layout_centerInParent="true"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:src="@drawable/cam"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp" />
+                <TextView
+                    android:padding="5dp"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/estre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Upload Product Photo"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+    <EditText
+        android:id="@+id/p_nameEt"
+android:singleLine="true"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:textCursorDrawable="@null"
+        android:layout_marginTop="10dp"
+        android:padding="8dp"
+        android:hint="Product Name"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:imeOptions="actionNext"
+        android:textColor="@color/colorPrimaryDark"
+        android:fontFamily="@font/estre"
+        android:textSize="15sp"
+        />
+        <EditText
+            android:id="@+id/p_descEt"
+            android:singleLine="true"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textCursorDrawable="@null"
+            android:layout_marginTop="5dp"
+            android:padding="8dp"
+            android:hint="Product Description"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:imeOptions="actionNext"
+            android:textColor="@color/colorPrimaryDark"
+            android:fontFamily="@font/estre"
+            android:textSize="15sp"
+            />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:inputType="number|numberDecimal"
+                android:minWidth="200dp"
+                android:id="@+id/weightEt"
+                android:layout_alignParentLeft="true"
+                android:singleLine="true"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:textCursorDrawable="@null"
+                android:layout_marginTop="5dp"
+                android:padding="8dp"
+                android:hint="Product Weight"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:imeOptions="actionNext"
+                android:textColor="@color/colorPrimaryDark"
+                android:fontFamily="@font/estre"
+                android:textSize="15sp"
+                />
+            <android.support.v7.widget.AppCompatSpinner
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/weightEt"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/textview_back_of_item"
+                android:id="@+id/weightSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:entries="@array/Time_in_Am">
+
+            </android.support.v7.widget.AppCompatSpinner>
+
+
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/p_costEt"
+            android:enabled="false"
+            android:visibility="visible"
+            android:singleLine="true"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textCursorDrawable="@null"
+            android:layout_marginTop="5dp"
+            android:padding="8dp"
+            android:hint="Shipping Cost  : $200"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:imeOptions="actionNext"
+            android:textColor="@color/colorPrimaryDark"
+            android:fontFamily="@font/estre"
+            android:textSize="15sp"
+            />
+
+        <CheckBox
+            android:id="@+id/costCB"
+            android:fontFamily="@font/estre"
+            android:textSize="13sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:checked="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Increase shipping cost to attract Traveler’s interest"/>
+
+        <TextView
+            android:gravity="center_vertical"
+            android:id="@+id/pickupEt"
+            android:visibility="visible"
+            android:singleLine="true"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textCursorDrawable="@null"
+            android:layout_marginTop="5dp"
+            android:padding="8dp"
+            android:hint="Pickup Location"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:fontFamily="@font/estre"
+            android:textSize="15sp"
+            />
+
+        <TextView
+            android:gravity="center_vertical"
+
+            android:id="@+id/destET"
+            android:visibility="visible"
+            android:singleLine="true"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textCursorDrawable="@null"
+            android:layout_marginTop="5dp"
+            android:padding="8dp"
+            android:hint="Destination Location"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:imeOptions="actionNext"
+            android:textColor="@color/colorPrimaryDark"
+            android:fontFamily="@font/estre"
+            android:textSize="15sp"
+            />
+
+
+        <EditText
+            android:id="@+id/paymentEt"
+            android:singleLine="true"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textCursorDrawable="@null"
+            android:layout_marginTop="5dp"
+            android:padding="8dp"
+            android:hint="Payment Mode"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:imeOptions="actionNext"
+            android:textColor="@color/colorPrimaryDark"
+            android:fontFamily="@font/estre"
+            android:textSize="15sp"
+            />
+        <TextView
+            android:id="@+id/uploadIDCardTV"
+            android:layout_margin="10dp"
+            android:drawablePadding="5dp"
+            android:drawableLeft="@drawable/upload"
+            android:padding="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimaryDark"
+            android:fontFamily="@font/estre"
+            android:text="Upload valid id card"/>
+
+        <ImageView
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:id="@+id/idIV"/>
+        <TextView
+            android:padding="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:fontFamily="@font/estre"
+            android:textSize="15sp"
+            android:text="Receiver Information"/>
+
+        <EditText
+            android:id="@+id/rec_nameEt"
+            android:singleLine="true"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textCursorDrawable="@null"
+            android:layout_marginTop="5dp"
+            android:padding="8dp"
+            android:hint="Name"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:imeOptions="actionNext"
+            android:textColor="@color/colorPrimaryDark"
+            android:fontFamily="@font/estre"
+            android:textSize="15sp"
+            />
+
+        <EditText
+            android:id="@+id/rec_mob1"
+            android:inputType="number"
+            android:singleLine="true"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textCursorDrawable="@null"
+            android:layout_marginTop="5dp"
+            android:padding="8dp"
+            android:hint="Mobile No. 1"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:imeOptions="actionNext"
+            android:textColor="@color/colorPrimaryDark"
+            android:fontFamily="@font/estre"
+            android:textSize="15sp"
+            />
+        <EditText
+            android:id="@+id/rec_mob2"
+            android:inputType="number"
+            android:singleLine="true"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textCursorDrawable="@null"
+            android:layout_marginTop="5dp"
+            android:padding="8dp"
+            android:hint="Mobile No. 2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:imeOptions="actionNext"
+            android:textColor="@color/colorPrimaryDark"
+            android:fontFamily="@font/estre"
+            android:textSize="15sp"
+            />
+
+        <EditText
+            android:id="@+id/rec_emailEt"
+            android:singleLine="true"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textCursorDrawable="@null"
+            android:layout_marginTop="5dp"
+            android:padding="8dp"
+            android:hint="Email id"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:imeOptions="actionDone"
+            android:textColor="@color/colorPrimaryDark"
+            android:fontFamily="@font/estre"
+            android:textSize="15sp"
+            />
+
+        <CheckBox
+            android:id="@+id/insureCB"
+            android:fontFamily="@font/estre"
+            android:textColor="@color/colorPrimaryDark"
+            android:checked="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Secure my trip with insurance"/>
+
+        <CheckBox
+            android:fontFamily="@font/estre"
+            android:id="@+id/termsCB"
+            android:textColor="@color/colorPrimaryDark"
+            android:checked="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Terms and Conditions"/>
+
+
+        <CheckBox
+            android:fontFamily="@font/estre"
+            android:id="@+id/itemCB"
+            android:textColor="@color/colorPrimaryDark"
+            android:checked="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Prohibited Item"/>
+
+        <Button
+            android:id="@+id/book_btn"
+            android:fontFamily="@font/estre"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/white"
+            android:text="Add Item"
+            android:background="@drawable/btn"
+            android:layout_width="100dp"
+            android:layout_height="40dp" />
+    </LinearLayout>
+</ScrollView>

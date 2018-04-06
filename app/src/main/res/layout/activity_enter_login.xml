@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:paddingLeft="40dp"
+    android:paddingRight="40dp"
+    android:gravity="center"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg"
+    tools:context="com.nfsapp.surbhi.nfsapplication.activities.EnterLoginActivity">
+
+<ImageView
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:src="@drawable/logo"/>
+
+
+    <RelativeLayout
+
+        android:id="@+id/login_btn"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:background="@drawable/btn"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" >
+
+        <TextView
+            android:fontFamily="@font/estre"
+            android:layout_centerInParent="true"
+            android:text="Login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:id="@+id/btn_text" />
+
+        <ImageView
+            android:layout_marginLeft="10dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignTop="@+id/btn_text"
+            android:layout_toEndOf="@+id/btn_text"
+            android:layout_toRightOf="@+id/btn_text"
+            android:src="@drawable/login_icon" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_marginTop="30dp"
+        android:id="@+id/signup_btn"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:background="@drawable/btn"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" >
+
+        <TextView
+            android:fontFamily="@font/estre"
+            android:layout_centerInParent="true"
+            android:text="Signup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:id="@+id/btn_text2" />
+
+        <ImageView
+            android:layout_marginLeft="10dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignTop="@+id/btn_text2"
+            android:layout_toEndOf="@+id/btn_text2"
+            android:layout_toRightOf="@+id/btn_text2"
+            android:src="@drawable/login_icon" />
+    </RelativeLayout>
+
+</LinearLayout>

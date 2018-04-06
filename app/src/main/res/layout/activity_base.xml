@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.BaseActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimary">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/image"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:padding="5dp"
+            android:src="@drawable/profile_pic" />
+
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/image"
+            android:textStyle="bold"
+            android:gravity="center_vertical"
+            android:textSize="15sp"
+            android:textColor="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="John Doe"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:id="@+id/bottom_lay"
+        android:background="@drawable/footer"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <ImageView
+            android:layout_marginTop="5dp"
+            android:padding="15dp"
+            android:src="@drawable/home"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/home_img"/>
+
+        <ImageView
+            android:id="@+id/chat_img"
+            android:layout_marginTop="5dp"
+            android:padding="15dp"
+            android:src="@drawable/chat"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+        <ImageView
+            android:id="@+id/notify_img"
+            android:layout_marginTop="5dp"
+            android:padding="15dp"
+            android:src="@drawable/notification"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+        <ImageView
+            android:id="@+id/settings_img"
+            android:layout_marginTop="5dp"
+            android:padding="15dp"
+            android:src="@drawable/setting"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+        <ImageView
+            android:id="@+id/profile_img"
+            android:layout_marginTop="5dp"
+            android:padding="15dp"
+            android:src="@drawable/profie_footer"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+    </LinearLayout>
+</RelativeLayout>

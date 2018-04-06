@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "542099082758",
+    "firebase_url": "https://nfsapp-170a2.firebaseio.com",
+    "project_id": "nfsapp-170a2",
+    "storage_bucket": "nfsapp-170a2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:542099082758:android:d54d9636d21575d3",
+        "android_client_info": {
+          "package_name": "com.nfsapp.surbhi.nfsapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "542099082758-a9bl57gjun0sn4dfu4kq19ol3lnpqfjp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBq9r4p4E0bQ6VSHoXsi19sdTYTxNylaVg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:padding="3dp"
+    android:id="@+id/main_lay"
+    android:gravity="center"
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background_color"
+    android:clickable="true"
+    android:focusable="true">
+
+
+ <ImageView
+     android:layout_width="100dp"
+     android:layout_height="100dp"
+     android:src="@drawable/item"/>
+
+    <RelativeLayout
+        android:paddingLeft="5dp"
+        android:layout_weight="5"
+        android:gravity="center"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textColor="@color/colorPrimaryDark"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="Name"
+            android:fontFamily="@font/estre"
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:textSize="15sp"
+            android:padding="3dp"
+            />
+
+        <TextView
+            android:textSize="15sp"
+            android:padding="3dp"
+            android:fontFamily="@font/estre"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="Departure :"
+            android:id="@+id/depart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title" />
+        <TextView
+
+            android:textSize="15sp"
+            android:fontFamily="@font/estre"
+            android:padding="3dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="Arrival :"
+            android:id="@+id/arrival"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/depart" />
+
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_weight="3"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/date"
+            android:textColor="@color/colorPrimaryDark"
+            android:gravity="center"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="04/03/2018"
+            android:fontFamily="@font/estre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:textSize="13sp"
+            android:padding="3dp"
+            />
+
+        <Button
+            android:id="@+id/details_btn"
+            android:textAllCaps="false"
+            android:textSize="11sp"
+            android:text="View Details"
+            android:textColor="@color/white"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:background="@drawable/btn" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    android:background="@color/background_color"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+<ScrollView
+    android:fillViewport="true"
+    android:scrollbars="none"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background_color">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background_color"
+    android:orientation="vertical"
+    tools:context=".activities.ItemDetails">
+
+    <include layout="@layout/back_layout" />
+
+    <ImageView
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/item" />
+
+    <LinearLayout
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:fontFamily="@font/estre"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="Product Name"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <TextView
+                android:fontFamily="@font/estre"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text=" : "
+                android:textColor="@color/colorPrimaryDark" />
+
+            <TextView
+                android:maxWidth="150dp"
+                android:fontFamily="@font/estre"
+                android:textSize="18sp"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="Laptop Hp"
+                android:textColor="@color/colorPrimaryDark" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:fontFamily="@font/estre"
+                android:textSize="17sp"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text=" Product Description"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <TextView
+                android:fontFamily="@font/estre"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:text=" : "
+                android:textColor="@color/colorPrimaryDark" />
+
+            <TextView
+                android:maxWidth="150dp"
+                android:fontFamily="@font/estre"
+                android:textSize="18sp"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="Laptop Hp White Colour"
+                android:textColor="@color/colorPrimaryDark" />
+
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:fontFamily="@font/estre"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="Product Weight"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <TextView
+                android:fontFamily="@font/estre"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text=" : "
+                android:textColor="@color/colorPrimaryDark" />
+
+            <TextView
+                android:maxWidth="150dp"
+                android:fontFamily="@font/estre"
+                android:textSize="18sp"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="2 Kg/Lbs"
+                android:textColor="@color/colorPrimaryDark" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:fontFamily="@font/estre"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="Money to be Earned"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <TextView
+                android:id="@+id/comma"
+                android:fontFamily="@font/estre"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text=" : "
+                android:textColor="@color/colorPrimaryDark" />
+
+            <TextView
+                android:id="@+id/amountTV"
+                android:layout_marginLeft="12dp"
+                android:layout_toRightOf="@+id/comma"
+                android:maxWidth="150dp"
+                android:fontFamily="@font/estre"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$200"
+                android:textColor="@color/colorPrimaryDark" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:fontFamily="@font/estre"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="Pickup Location"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <TextView
+                android:fontFamily="@font/estre"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text=" : "
+                android:textColor="@color/colorPrimaryDark" />
+
+            <TextView
+                android:maxWidth="150dp"
+                android:fontFamily="@font/estre"
+                android:textSize="18sp"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="Chicago"
+                android:textColor="@color/colorPrimaryDark" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:fontFamily="@font/estre"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="Destination Location"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <TextView
+                android:fontFamily="@font/estre"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text=" : "
+                android:textColor="@color/colorPrimaryDark" />
+
+            <TextView
+                android:maxWidth="150dp"
+                android:fontFamily="@font/estre"
+                android:textSize="18sp"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="Naperville"
+                android:textColor="@color/colorPrimaryDark" />
+
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:fontFamily="@font/estre"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="Payment Mode"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <TextView
+                android:fontFamily="@font/estre"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text=" : "
+                android:textColor="@color/colorPrimaryDark" />
+
+            <TextView
+                android:maxWidth="150dp"
+                android:fontFamily="@font/estre"
+                android:textSize="18sp"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="Paypal"
+                android:textColor="@color/colorPrimaryDark" />
+
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/book_btn"
+            android:textColor="@color/white"
+            android:text="Book Now"
+            android:layout_marginBottom="10dp"
+            android:layout_width="180dp"
+            android:layout_height="40dp"
+            android:background="@drawable/btn"/>
+    </LinearLayout>
+</LinearLayout>
+</ScrollView>
+
+</LinearLayout>

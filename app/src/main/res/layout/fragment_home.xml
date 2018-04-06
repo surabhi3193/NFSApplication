@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/home_lay"
+        android:background="@color/background_color"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.whygraphics.gifview.gif.GIFView
+            android:layout_alignParentTop="true"
+            android:id="@+id/main_activity_gif_vie"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="fitXY" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@color/dark_trans"/>
+
+        <ImageView
+            android:layout_marginTop="10dp"
+            android:id="@+id/logo"
+            android:src="@drawable/logo"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_below="@+id/main_activity_gif_vie"/>
+
+        <TextView
+            android:layout_marginBottom="5dp"
+            android:id="@+id/dummy_text"
+            android:layout_above="@+id/btn_lay"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:fontFamily="@font/estre"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:layout_below="@id/logo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dummy_text"/>
+
+        <LinearLayout
+            android:id="@+id/btn_lay"
+            android:layout_marginBottom="20dp"
+            android:paddingRight="20dp"
+            android:paddingLeft="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+            <Button
+                android:text="Sender"
+                android:fontFamily="@font/estre"
+                android:textColor="@color/white"
+                android:id="@+id/sender_btn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/btn"
+                android:layout_weight="1"/>
+
+            <Space
+                android:layout_width="20dp"
+                android:layout_height="match_parent"/>
+
+            <Button
+                android:text="Traveller"
+                android:fontFamily="@font/estre"
+                android:textColor="@color/white"
+                android:id="@+id/receiver_btn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/btn"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">NFS</string>
+    <string name="type_prompt">Choose Type</string>
+    <string name="dummy_text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s.</string>
+    <string name="otp_text">Check your text messages to enter verification code</string>
+    <string name="no_camera_app">No Camera Application Available</string>
+
+
+    <string-array name="type_arrays">
+        <item>Type</item>
+        <item>Type1</item>
+        <item>Type2</item>
+        <item>Type3</item>
+
+    </string-array>
+
+    <string-array name="Time_in_Am">
+
+        <item>Kg</item>
+        <item>Lbs</item>
+    </string-array>
+</resources>

@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    android:background="@color/background_color"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+  <include
+      layout="@layout/back_layout"/>
+
+<ScrollView
+    android:scrollbars="none"
+    android:fillViewport="true"
+    android:padding="15dp"
+    android:gravity="center_horizontal"
+    android:background="@color/background_color"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:padding="15dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:background="@color/background_color"
+        xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <EditText
+            android:visibility="visible"
+            android:singleLine="true"
+            android:textCursorDrawable="@null"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:layout_marginTop="10dp"
+            android:padding="8dp"
+            android:hint="Full Name (As shown on ID)"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:imeOptions="actionNext"
+            android:textColor="@color/colorPrimaryDark"
+            android:fontFamily="@font/estre"
+            android:textSize="15sp"
+            />
+
+        <EditText
+            android:visibility="visible"
+            android:singleLine="true"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textCursorDrawable="@null"
+            android:layout_marginTop="5dp"
+            android:padding="8dp"
+            android:hint="Address"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:imeOptions="actionNext"
+            android:textColor="@color/colorPrimaryDark"
+            android:fontFamily="@font/estre"
+            android:textSize="15sp"
+            />
+
+        <EditText
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textCursorDrawable="@null"
+            android:singleLine="true"
+            android:visibility="visible"
+            android:layout_marginTop="5dp"
+            android:padding="8dp"
+            android:hint="Email"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:imeOptions="actionNext"
+            android:textColor="@color/colorPrimaryDark"
+            android:fontFamily="@font/estre"
+            android:textSize="15sp"
+            />
+
+        <EditText
+            android:visibility="visible"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textCursorDrawable="@null"
+            android:singleLine="true"
+            android:inputType="number"
+            android:layout_marginTop="5dp"
+            android:padding="8dp"
+            android:hint="Phone Number"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:imeOptions="actionNext"
+            android:textColor="@color/colorPrimaryDark"
+            android:fontFamily="@font/estre"
+            android:textSize="15sp"
+            />
+
+        <EditText
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textCursorDrawable="@null"
+            android:singleLine="true"
+
+            android:layout_marginTop="5dp"
+            android:padding="8dp"
+            android:hint="Travelling From (Departure Airport)"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:imeOptions="actionNext"
+            android:textColor="@color/colorPrimaryDark"
+            android:fontFamily="@font/estre"
+            android:textSize="15sp"
+            />
+
+        <EditText
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textCursorDrawable="@null"
+            android:singleLine="true"
+
+            android:layout_marginTop="5dp"
+            android:padding="8dp"
+            android:hint="Travelling To (Arrival AIrport)"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:imeOptions="actionNext"
+            android:textColor="@color/colorPrimaryDark"
+            android:fontFamily="@font/estre"
+            android:textSize="15sp"
+            />
+
+        <EditText
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textCursorDrawable="@null"
+            android:singleLine="true"
+
+            android:layout_marginTop="5dp"
+            android:padding="8dp"
+            android:hint="Flight Number"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:imeOptions="actionNext"
+            android:textColor="@color/colorPrimaryDark"
+            android:fontFamily="@font/estre"
+            android:textSize="15sp"
+            />
+
+
+        <EditText
+            android:visibility="gone"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textCursorDrawable="@null"
+            android:singleLine="true"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/estre"
+            android:hint="Deposit Amount"
+            android:imeOptions="actionDone"
+            android:padding="8dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="15sp" />
+
+        <TextView
+            android:visibility="visible"
+            android:drawablePadding="5dp"
+            android:drawableLeft="@drawable/upload"
+            android:padding="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimaryDark"
+            android:fontFamily="@font/estre"
+            android:text="Upload valid id card"/>
+        <TextView
+            android:drawablePadding="5dp"
+            android:drawableLeft="@drawable/upload"
+            android:padding="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimaryDark"
+            android:fontFamily="@font/estre"
+            android:text="Upload traveller's valid travelling ticket"/>
+
+
+        <Button
+            android:id="@+id/book_btn"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/estre"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/white"
+            android:text="Book Item"
+            android:background="@drawable/btn"
+            android:layout_width="100dp"
+            android:layout_height="40dp" />
+    </LinearLayout>
+</ScrollView>
+</LinearLayout>

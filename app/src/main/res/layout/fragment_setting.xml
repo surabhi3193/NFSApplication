@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:focusable="true"
+    android:clickable="true"
+    android:id="@+id/settings_lay"
+    android:background="@color/background_color"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_marginTop="25dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:textSize="20sp"
+        android:fontFamily="@font/estre"
+        android:textColor="@color/colorPrimary"
+        android:text="Setting"
+        android:textAllCaps="true"
+        android:textStyle="bold"/>
+    <View
+        android:layout_gravity="center"
+        android:layout_width="85dp"
+        android:layout_height="3dp"
+        android:background="@color/colorPrimary"/>
+
+    <TextView
+        android:textSize="14sp"
+        android:layout_marginTop="50dp"
+        android:padding="10dp"
+        android:drawableLeft="@drawable/arrow"
+        android:drawablePadding="10dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/colorPrimaryDark"
+        android:fontFamily="@font/estre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="My History"
+        />
+
+    <TextView
+        android:textSize="14sp"
+        android:padding="10dp"
+        android:drawableLeft="@drawable/arrow"
+        android:drawablePadding="10dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/colorPrimaryDark"
+        android:fontFamily="@font/estre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Terms &amp; Conditions"
+        />
+    <TextView
+        android:textSize="14sp"
+        android:drawablePadding="10dp"
+        android:padding="10dp"
+        android:drawableLeft="@drawable/arrow"
+        android:gravity="center_vertical"
+        android:textColor="@color/colorPrimaryDark"
+        android:fontFamily="@font/estre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Privacy Policy"
+        />
+    <TextView
+        android:textSize="14sp"
+
+        android:drawablePadding="10dp"
+        android:padding="10dp"
+        android:drawableLeft="@drawable/arrow"
+        android:gravity="center_vertical"
+        android:textColor="@color/colorPrimaryDark"
+        android:fontFamily="@font/estre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Rate The App"
+        />
+    <TextView
+        android:textSize="14sp"
+
+        android:drawablePadding="10dp"
+        android:padding="10dp"
+        android:drawableLeft="@drawable/arrow"
+        android:gravity="center_vertical"
+        android:textColor="@color/colorPrimaryDark"
+        android:fontFamily="@font/estre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Share The App"
+        />
+    <TextView
+        android:textSize="14sp"
+
+        android:drawablePadding="10dp"
+        android:padding="10dp"
+        android:drawableLeft="@drawable/arrow"
+        android:gravity="center_vertical"
+        android:textColor="@color/colorPrimaryDark"
+        android:fontFamily="@font/estre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Contact Us"
+        />
+    <TextView
+        android:textSize="14sp"
+
+        android:drawablePadding="10dp"
+        android:padding="10dp"
+        android:drawableLeft="@drawable/arrow"
+        android:gravity="center_vertical"
+        android:textColor="@color/colorPrimaryDark"
+        android:fontFamily="@font/estre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Help"
+        />
+    <TextView
+        android:textSize="14sp"
+
+        android:drawablePadding="10dp"
+        android:padding="10dp"
+        android:drawableLeft="@drawable/arrow"
+        android:gravity="center_vertical"
+        android:textColor="@color/colorPrimaryDark"
+        android:fontFamily="@font/estre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Change Password"
+        />
+    <TextView
+        android:textSize="14sp"
+
+        android:padding="10dp"
+        android:drawableLeft="@drawable/arrow"
+        android:drawablePadding="10dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/colorPrimaryDark"
+        android:fontFamily="@font/estre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Request Payment"
+        />
+
+</LinearLayout>

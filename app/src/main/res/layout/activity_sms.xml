@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/logo"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="20dp"/>
+
+    <TextView
+        android:id="@+id/verifyHEad"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/logo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enter Code"
+        android:textColor="@color/colorPrimaryDark"
+        />
+
+    <TextView
+        android:gravity="center"
+        android:textSize="18sp"
+        android:layout_below="@id/verifyHEad"
+        android:padding="15dp"
+        android:id="@+id/heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimaryDark"
+        android:text="@string/otp_text"/>
+
+
+
+    <LinearLayout
+        android:id="@+id/otpLayout"
+        android:layout_margin="25dp"
+        android:layout_below="@+id/heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <EditText
+            android:inputType="number"
+            android:singleLine="true"
+            android:hint="-"
+            android:id="@+id/otp1"
+            android:textColor="@color/colorPrimaryDark"
+            android:gravity="center"
+            android:maxLength="1"
+            android:imeOptions="actionNext"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <EditText
+            android:singleLine="true"
+            android:inputType="number"
+
+            android:hint="-"
+            android:id="@+id/otp2"
+            android:textColor="@color/colorPrimaryDark"
+            android:gravity="center"
+            android:maxLength="1"
+            android:imeOptions="actionNext"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <EditText
+            android:singleLine="true"
+            android:inputType="number"
+            android:hint="-"
+            android:id="@+id/otp3"
+            android:textColor="@color/colorPrimaryDark"
+            android:gravity="center"
+            android:maxLength="1"
+            android:imeOptions="actionNext"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <EditText
+            android:singleLine="true"
+            android:hint="-"
+            android:inputType="number"
+            android:id="@+id/otp4"
+            android:textColor="@color/colorPrimaryDark"
+            android:gravity="center"
+            android:maxLength="1"
+            android:imeOptions="actionDone"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_marginRight="25dp"
+        android:layout_alignParentRight="true"
+        android:id="@+id/resend_btn"
+        android:visibility="visible"
+        android:padding="10dp"
+        android:gravity="center"
+        android:textColor="@color/colorPrimaryDark"
+        android:text="Resend OTP"
+        android:layout_below="@+id/otpLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:textColor="@color/white"
+        android:text="Verify"
+        android:textAllCaps="true"
+        android:gravity="center"
+        android:background="@drawable/btn"
+        android:id="@+id/verifyOtp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/resend_btn"
+        android:layout_width="match_parent"
+        android:layout_height="35dp" />
+
+
+
+
+</RelativeLayout>

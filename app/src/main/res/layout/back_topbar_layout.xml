@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_alignParentTop="true"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimary">
+
+        <ImageView
+            android:padding="12dp"
+            android:id="@+id/back_btn"
+            android:layout_centerVertical="true"
+            android:layout_width="40dp"
+            android:layout_height="50dp"
+            android:src="@drawable/back_arrow"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/back_btn"
+            android:id="@+id/image"
+            android:padding="5dp"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/profile_pic"/>
+
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/image"
+            android:textStyle="bold"
+            android:layout_centerInParent="true"
+            android:gravity="center_vertical"
+            android:textSize="15sp"
+            android:textColor="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="John Doe"/>
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>
