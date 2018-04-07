@@ -6,19 +6,27 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        
     </style>
 
 
-    <style name="MyAlertDialogStyle1" parent="Theme.AppCompat.Dialog.Alert">
+<!--    <style name="MyAlertDialogStyle1">
         <item name="android:windowIsTranslucent">true</item>
-
         <item name="android:windowBackground">@android:color/white</item>
-        <!-- Used for the buttons -->
         <item name="colorAccent">@color/colorAccent</item>
-        <!-- Used for the title and text -->
         <item name="android:textColorPrimary">@color/black</item>
-        <!-- Used for the background -->
         <item name="android:background">#00000000</item>
+        <item name="android:windowEnterAnimation">@anim/grow_in</item>
+        <item name="android:windowExitAnimation">@anim/grow_out</item>
+    </style>-->
+
+    <style name="MyAlertDialogStyle1" parent="@android:style/Theme.Dialog">
+        <item name="android:windowAnimationStyle">@style/CustomDialogAnimation</item>
+    </style>
+
+    <style name="CustomDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/grow_in</item>
+        <item name="android:windowExitAnimation">@anim/grow_out</item>
     </style>
 
 

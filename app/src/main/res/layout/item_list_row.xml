@@ -13,6 +13,7 @@
 
 
  <ImageView
+     android:id="@+id/product_pic"
      android:layout_width="100dp"
      android:layout_height="100dp"
      android:src="@drawable/item"/>
@@ -24,43 +25,76 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:textColor="@color/colorPrimaryDark"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:text="Name"
-            android:fontFamily="@font/estre"
-            android:id="@+id/title"
+            <TextView
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:layout_alignParentTop="true"
+                android:textColor="@color/colorPrimaryDark"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="John "
+                android:fontFamily="@font/estre"
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:padding="3dp"
+                />
+
+
+        <LinearLayout
+            android:id="@+id/departLay"
+            android:layout_below="@+id/title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:textSize="15sp"
-            android:padding="3dp"
-            />
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/head_depart"
+                android:textSize="15sp"
+                android:padding="3dp"
+                android:fontFamily="@font/estre"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="Departure "
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+             />
 
-        <TextView
-            android:textSize="15sp"
-            android:padding="3dp"
-            android:fontFamily="@font/estre"
-            android:textColor="@color/colorPrimaryDark"
-            android:text="Departure :"
-            android:id="@+id/depart"
+            <TextView
+                android:textSize="15sp"
+                android:padding="3dp"
+                android:fontFamily="@font/estre"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="Delhi"
+                android:id="@+id/depart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+             />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/arrivalLay"
+            android:layout_below="@+id/departLay"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/title" />
-        <TextView
+            android:layout_height="wrap_content">
 
-            android:textSize="15sp"
-            android:fontFamily="@font/estre"
-            android:padding="3dp"
-            android:textColor="@color/colorPrimaryDark"
-            android:text="Arrival :"
-            android:id="@+id/arrival"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/depart" />
+            <TextView
+                android:id="@+id/head_arrival"
+                android:textSize="15sp"
+                android:fontFamily="@font/estre"
+                android:padding="3dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="Arrival "
+                android:layout_width="80dp"
+                android:layout_height="wrap_content" />
 
-
+            <TextView
+                android:textSize="15sp"
+                android:fontFamily="@font/estre"
+                android:padding="3dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="Agra"
+                android:id="@+id/arrival"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
     </RelativeLayout>
 

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class SliderAdapter  extends PagerAdapter {
 
     private ArrayList<Uri> images;
+
     private LayoutInflater inflater;
     private Context context;
 
@@ -24,6 +25,7 @@ public class SliderAdapter  extends PagerAdapter {
         this.images=images;
         inflater = LayoutInflater.from(context);
     }
+
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {

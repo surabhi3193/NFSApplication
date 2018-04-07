@@ -9,5 +9,5 @@
         android:adjustViewBounds="true"
         android:layout_gravity="center"
         android:src="@drawable/logo"
-        android:scaleType="fitXY"/>
+        android:scaleType="fitCenter"/>
 </FrameLayout>

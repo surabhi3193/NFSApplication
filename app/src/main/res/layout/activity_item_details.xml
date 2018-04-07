@@ -10,13 +10,22 @@
 
     <include layout="@layout/back_layout" />
 
-    <ImageView
-        android:padding="10dp"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/item" />
+        android:layout_height="180dp">
 
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true" />
+
+    <me.relex.circleindicator.CircleIndicator
+        android:id="@+id/indicator"
+        android:layout_width="match_parent"
+        android:layout_height="18dp"
+        android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
     <LinearLayout
         android:gravity="center"
         android:layout_width="match_parent"
@@ -50,6 +59,7 @@
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
+                android:id="@+id/productNameTv"
                 android:maxWidth="150dp"
                 android:fontFamily="@font/estre"
                 android:textSize="18sp"
@@ -212,6 +222,7 @@
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
+                android:id="@+id/destinationTV"
                 android:maxWidth="150dp"
                 android:fontFamily="@font/estre"
                 android:textSize="18sp"
@@ -252,6 +263,7 @@
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
+                android:id="@+id/pickupTV"
                 android:maxWidth="150dp"
                 android:fontFamily="@font/estre"
                 android:textSize="18sp"

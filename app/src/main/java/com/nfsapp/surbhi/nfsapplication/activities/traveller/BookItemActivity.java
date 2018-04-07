@@ -1,16 +1,22 @@
 package com.nfsapp.surbhi.nfsapplication.activities.traveller;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nfsapp.surbhi.nfsapplication.R;
+import com.nfsapp.surbhi.nfsapplication.other.GifImageView;
 
 public class BookItemActivity extends AppCompatActivity {
 
@@ -42,28 +48,28 @@ public class BookItemActivity extends AppCompatActivity {
     }
 
     private void warningBooking() {
-            AlertDialog.Builder ab = new AlertDialog.Builder
-                    (BookItemActivity.this, R.style.MyAlertDialogStyle1);
-            ab.setTitle("Book").setIcon(R.drawable.book_right);
-            ab.setMessage("Are you sure ?");
-            ab.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
+          final Dialog dialog = new Dialog(BookItemActivity.this,R.style.Theme_AppCompat_Dialog);
+        dialog.setContentView(R.layout.alertdialog);
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.show();
 
-                    dialog.dismiss();
-                  startActivity(new Intent(BookItemActivity.this,TravellerMainActivity.class));
-                  finish();
-                }
-            });
+        TextView ok_btn = dialog.findViewById(R.id.ok_btn);
+        TextView cancel_btn = dialog.findViewById(R.id.cancel_btn);
+        ok_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                startActivity(new Intent(BookItemActivity.this,TravellerMainActivity.class));
+                finish();
+            }
+        });
 
-            ab.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-            ab.show();
-
-
+        cancel_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
     }
 }

@@ -52,30 +52,31 @@ public class TravellerMainActivity extends AppCompatActivity {
         recyclerView.setAdapter(mAdapter);
     }
 
-    private void prepareTravellerData() {
-        Traveller movie = new Traveller("Laptop HP", "Departure : Chicago", "Arrival : Naperville", "04/03/2018", "50 KM");
+    private void prepareTravellerData() 
+    {
+        Traveller movie = new Traveller("","Adam Khan", "","Departure : Chicago", "Arrival : Naperville", "04/03/2018", "50 KM");
         travellerList.add(movie);
 
 
-        movie = new Traveller("Adam Khan", "Departure : Chicago", "Arrival : Naperville", "04/03/2018", "50 KM");
+        movie = new Traveller("","Adam Khan", "","Departure : Chicago", "Arrival : Naperville", "04/03/2018", "50 KM");
         travellerList.add(movie);
 
-        movie = new Traveller("Adam Khan", "Departure : Chicago", "Arrival : Naperville", "04/03/2018", "50 KM");
+        movie = new Traveller("","Adam Khan", "","Departure : Chicago", "Arrival : Naperville", "04/03/2018", "50 KM");
         travellerList.add(movie);
 
-        movie = new Traveller("Adam Khan", "Departure : Chicago", "Arrival : Naperville", "04/03/2018", "50 KM");
+        movie = new Traveller("","Adam Khan", "","Departure : Chicago", "Arrival : Naperville", "04/03/2018", "50 KM");
         travellerList.add(movie);
 
-        movie = new Traveller("Adam Khan", "Departure : Chicago", "Arrival : Naperville", "04/03/2018", "50 KM");
+        movie = new Traveller("","Adam Khan", "","Departure : Chicago", "Arrival : Naperville", "04/03/2018", "50 KM");
         travellerList.add(movie);
 
-        movie = new Traveller("Adam Khan", "Departure : Chicago", "Arrival : Naperville", "04/03/2018", "50 KM");
+        movie = new Traveller("","Adam Khan", "","Departure : Chicago", "Arrival : Naperville", "04/03/2018", "50 KM");
         travellerList.add(movie);
 
-        movie = new Traveller("Adam Khan", "Departure : Chicago", "Arrival : Naperville", "04/03/2018", "50 KM");
+        movie = new Traveller("","Adam Khan", "","Departure : Chicago", "Arrival : Naperville", "04/03/2018", "50 KM");
         travellerList.add(movie);
 
-        movie = new Traveller("Adam Khan", "Departure : Chicago", "Arrival : Naperville", "04/03/2018", "50 KM");
+        movie = new Traveller("","Adam Khan", "","Departure : Chicago", "Arrival : Naperville", "04/03/2018", "50 KM");
         travellerList.add(movie);
 
 

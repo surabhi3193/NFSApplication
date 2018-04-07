@@ -2,6 +2,7 @@ package com.nfsapp.surbhi.nfsapplication.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ public class TravellerAdapter  extends ArrayAdapter<Traveller> implements View.O
         TextView txtName;
         TextView txtType;
         TextView txtVersion;
+        TextView datetV;
         Button details_btn;
     }
     public TravellerAdapter(ArrayList<Traveller> data, Context context) {
@@ -60,6 +62,7 @@ public class TravellerAdapter  extends ArrayAdapter<Traveller> implements View.O
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.taveller_list_row, parent, false);
             viewHolder.txtName = (TextView) convertView.findViewById(R.id.title);
+            viewHolder.datetV = (TextView) convertView.findViewById(R.id.datetV);
             viewHolder.txtType = (TextView) convertView.findViewById(R.id.depart);
             viewHolder.txtVersion = (TextView) convertView.findViewById(R.id.arrival);
             viewHolder.details_btn =convertView.findViewById(R.id.details_btn);
@@ -71,6 +74,16 @@ public class TravellerAdapter  extends ArrayAdapter<Traveller> implements View.O
         }
 
         lastPosition = position;
+
+        Typeface face = Typeface.createFromAsset(mContext.getAssets(),
+                "fonts/estre.ttf");
+
+        viewHolder.txtName.setTypeface(face);
+        viewHolder.txtType.setTypeface(face);
+        viewHolder.txtVersion.setTypeface(face);
+        viewHolder.datetV.setTypeface(face);
+        viewHolder.details_btn.setTypeface(face);
+
 
         viewHolder.txtName.setText(Traveller.getName());
         viewHolder.txtType.setText(Traveller.getDeparture_airport());

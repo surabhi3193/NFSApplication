@@ -2,17 +2,35 @@ package com.nfsapp.surbhi.nfsapplication.beans;
 
 public class Traveller  {
 
-    private String name, departure_airport, arrival_airport,date,distance;
+    private String id,name,product_pic, departure_airport, arrival_airport,date,distance;
 
     public Traveller() {
     }
 
-    public Traveller(String name, String departure_airport, String arrival_airport,String date, String distance) {
+    public Traveller(String id,String name,String product_pic, String departure_airport, String arrival_airport,String date, String distance) {
+        this.id = id;
         this.name = name;
+        this.product_pic = product_pic;
         this.departure_airport = departure_airport;
         this.arrival_airport = arrival_airport;
         this.date = date;
         this.distance = distance;
+    }
+
+    public String getProduct_pic() {
+        return product_pic;
+    }
+
+    public void setProduct_pic(String product_pic) {
+        this.product_pic = product_pic;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {

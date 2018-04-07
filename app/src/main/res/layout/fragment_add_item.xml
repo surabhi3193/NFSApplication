@@ -68,7 +68,6 @@ android:singleLine="true"
         />
         <EditText
             android:id="@+id/p_descEt"
-            android:singleLine="true"
             android:backgroundTint="@color/colorPrimaryDark"
             android:textCursorDrawable="@null"
             android:layout_marginTop="5dp"

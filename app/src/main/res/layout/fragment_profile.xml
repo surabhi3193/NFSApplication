@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-        <LinearLayout
-    android:background="@drawable/profile_bg"
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp">
+<LinearLayout android:background="@drawable/profile_bg"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
             <RelativeLayout
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <ImageView
-                    android:layout_centerInParent="true"
+                <com.jackandphantom.circularprogressbar.CircleProgressbar
                     android:layout_width="120dp"
                     android:layout_height="120dp"
-                    android:src="@drawable/curcal" />
+                    android:layout_centerInParent="true"
+                    app:cpb_progress="50"
+                    app:cpb_roundedCorner="true"
+                    app:cpb_backgroundProgressColor="@color/trans"
+                    app:cpb_foregroundProgressWidth="5"
+                    app:cpb_foregroundProgressColor="@color/white"
+                    app:cpb_touchEnabled="true"
+                    android:id="@+id/progress"/>
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"

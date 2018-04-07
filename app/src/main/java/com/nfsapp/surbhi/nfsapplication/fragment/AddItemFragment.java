@@ -34,11 +34,14 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.nfsapp.surbhi.nfsapplication.R;
+import com.nfsapp.surbhi.nfsapplication.adapter.ItemListAdapter;
 import com.nfsapp.surbhi.nfsapplication.adapter.SliderAdapter;
+import com.nfsapp.surbhi.nfsapplication.beans.Traveller;
 import com.nfsapp.surbhi.nfsapplication.constants.Utility;
 import com.nfsapp.surbhi.nfsapplication.other.GifImageView;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -245,9 +248,8 @@ public class AddItemFragment extends Fragment {
 
 
                 String path =getRealPathFromURI(idimageUri);
-                String path_product =(imageArray.get(0).getPath());
                 pweight = pweight + " " + weightSpinner.getSelectedItem().toString();
-                postItem(path_product, pname, pdesc, pweight, cost, pickup, destination, payment,path, receiver, rec_mob_1,
+                postItem(imageArray, pname, pdesc, pweight, cost, pickup, destination, payment,path, receiver, rec_mob_1,
                         rec_mob_2, rec_mail, p_lat, p_lng, isinsure);
             }
         });
@@ -308,7 +310,7 @@ public class AddItemFragment extends Fragment {
         return cursor.getString(idx);
     }
 
-    private void postItem(String imageArray, String pname, String pdesc, String pweight, String cost,
+    private void postItem(ArrayList<Uri> imageArray, String pname, String pdesc, String pweight, String cost,
                           String pickup, String destination, String payment, String idimageUri, String receiver,
                           String rec_mob_1, String rec_mob_2, String recMail, String p_lat, String p_lng, String isinsure) {
 
@@ -341,13 +343,19 @@ public class AddItemFragment extends Fragment {
         params.put("pickup_logitude", p_lng);
         params.put("destination_location", destination);
 
-        File imageFile = new File(imageArray);
 
-        try {
-            params.put("product_pic", imageFile);
+        for (int i =0;i<imageArray.size();i++)
+        {
+            String path_product =(imageArray.get(i).getPath());
+            File imageFile = new File(path_product); try {
+            params.put("product_pic"+i, imageFile);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+
+        }
+
+
         File idfile = new File(idimageUri);
         try {
             System.out.println(idimageUri);
@@ -424,6 +432,8 @@ public class AddItemFragment extends Fragment {
                     p_lng = String.valueOf(location.longitude);
                     String new_location = getAddressFromLatlng(location, getActivity().getApplicationContext(), 0);
                     pickupEt.setText("  " + new_location);
+
+
                 }
                 break;
 
@@ -457,13 +467,19 @@ public class AddItemFragment extends Fragment {
         Cursor cursor = loadCursor();
         String[] paths = getImagePaths(cursor, image_count_before);
 
-        if (paths != null && paths.length > 0) {
+        if (paths != null && paths.length <=4)
+        {
             List<String> wordList = Arrays.asList(paths);
             camera_lay.setVisibility(View.GONE);
             process(wordList);
-        } else {
+            cursor.close();
+            return;
+        }
+        else
+            {
             camera_lay.setVisibility(View.VISIBLE);
-
+            if (paths!=null)
+            makeToast(getActivity(),"Maximum 4 pictures are allowed");
         }
 
         cursor.close();
@@ -496,6 +512,7 @@ public class AddItemFragment extends Fragment {
 
         responseArray = wordList;
         System.out.println("========== image uri ========= ");
+
         for (int i = 0; i < responseArray.size(); i++) {
             Uri tempUri = Uri.fromFile(new File(responseArray.get(i)));
             imageArray.add(tempUri);
@@ -508,6 +525,7 @@ public class AddItemFragment extends Fragment {
         final int[] currentPage = {0};
 
         mPager.setAdapter(new SliderAdapter(getActivity(), imageArray));
+        mPager.setBackgroundColor(getResources().getColor(R.color.black));
         indicator.setViewPager(mPager);
 
         // Auto start of viewpager
@@ -528,5 +546,7 @@ public class AddItemFragment extends Fragment {
 //            }
 //        }, 2500, 2500);
     }
+
+
 
 }

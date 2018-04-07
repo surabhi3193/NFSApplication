@@ -47,41 +47,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-
+        String fr=getSupportFragmentManager().findFragmentById(R.id.container).getTag();
         switch (view.getId()) {
             case R.id.home_img:
-                setFragment("home");
-                fragment = new HomeFragment();
-                replaceFragment(fragment, true,"home");
-                break;
+                if (!fr.equals("home")) {
+                    setFragment("home");
+                    fragment = new HomeFragment();
+                    replaceFragment(fragment, true, "home");
 
+                }
+                break;
             case R.id.chat_img:
-                setFragment("chat");
-                fragment = new ChatFragment();
-                replaceFragment(fragment, true,"chat");
+                if (!fr.equals("chat")) {
+                    setFragment("chat");
+                    fragment = new ChatFragment();
+                    replaceFragment(fragment, true, "chat");
+                }
                 break;
 
             case R.id.notify_img:
-
-                setFragment("notification");
-                fragment = new NotificationFragment();
-                replaceFragment(fragment, true,"notification");
-
+                if (!fr.equals("notification")) {
+                    setFragment("notification");
+                    fragment = new NotificationFragment();
+                    replaceFragment(fragment, true, "notification");
+                }
                 break;
 
             case R.id.settings_img:
-
-                setFragment("setting");
-                fragment = new SettingsFragment();
-                replaceFragment(fragment, true,"setting");
+                if (!fr.equals("setting")) {
+                    setFragment("setting");
+                    fragment = new SettingsFragment();
+                    replaceFragment(fragment, true, "setting");
+                }
                 break;
 
             case R.id.profile_img:
-
-
-                setFragment("profile");
-                fragment = new ProfileFragment();
-                replaceFragment(fragment, true,"profile");
+                if (!fr.equals("profile")) {
+                    setFragment("profile");
+                    fragment = new ProfileFragment();
+                    replaceFragment(fragment, true, "profile");
+                }
                 break;
         }
 
