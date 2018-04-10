@@ -185,6 +185,19 @@ android:singleLine="true"
             android:textSize="15sp"
             />
 
+        <TextView
+            android:textSize="15sp"
+            android:fontFamily="@font/estre"
+            android:id="@+id/dateTVStock"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:hint="Pickup Date"
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp"
+            android:textColor="@color/black" />
+
 
         <EditText
             android:id="@+id/paymentEt"

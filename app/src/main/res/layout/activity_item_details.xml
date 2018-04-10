@@ -101,6 +101,7 @@
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
+                android:id="@+id/descTV"
                 android:maxWidth="150dp"
                 android:fontFamily="@font/estre"
                 android:textSize="18sp"
@@ -141,7 +142,7 @@
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
-
+                android:id="@+id/weightTV"
                 android:maxWidth="150dp"
                 android:fontFamily="@font/estre"
                 android:textSize="18sp"
@@ -182,6 +183,7 @@
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
+                android:id="@+id/priceTV"
                 android:maxWidth="150dp"
                 android:fontFamily="@font/estre"
                 android:textSize="18sp"
@@ -304,6 +306,7 @@
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
+                android:id="@+id/paymentTV"
                 android:maxWidth="150dp"
                 android:fontFamily="@font/estre"
                 android:textSize="18sp"
@@ -312,7 +315,6 @@
                 android:layout_alignParentRight="true"
                 android:text="Paypal"
                 android:textColor="@color/colorPrimaryDark" />
-
 
         </RelativeLayout>
     </LinearLayout>

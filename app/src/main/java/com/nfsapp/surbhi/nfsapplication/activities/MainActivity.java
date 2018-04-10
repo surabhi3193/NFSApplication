@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.nfsapp.surbhi.nfsapplication.R;
+import com.nfsapp.surbhi.nfsapplication.constants.Utility;
 import com.nfsapp.surbhi.nfsapplication.fragment.ChatFragment;
 import com.nfsapp.surbhi.nfsapplication.fragment.HomeFragment;
 import com.nfsapp.surbhi.nfsapplication.fragment.NotificationFragment;
@@ -28,6 +29,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         fm = getSupportFragmentManager();
+        Utility.checkFINELOCATION(this);
+
+
         home_img = findViewById(R.id.home_img);
         chat_img = findViewById(R.id.chat_img);
         notify_img = findViewById(R.id.notify_img);

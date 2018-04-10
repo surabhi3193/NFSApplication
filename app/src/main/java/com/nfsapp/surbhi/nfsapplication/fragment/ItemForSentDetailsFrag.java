@@ -38,6 +38,7 @@ import cz.msebera.android.httpclient.Header;
 
 import static com.nfsapp.surbhi.nfsapplication.other.MySharedPref.getData;
 import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.BASE_URL_NEW;
+import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.makeToast;
 
 public class ItemForSentDetailsFrag extends Fragment {
 
@@ -45,9 +46,7 @@ public class ItemForSentDetailsFrag extends Fragment {
     private ArrayList<Traveller> travellerList = new ArrayList<>();
     ListView recyclerView;
 
-    static void makeToast(Context ctx, String s) {
-        Toast.makeText(ctx, s, Toast.LENGTH_SHORT).show();
-    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
@@ -113,11 +112,11 @@ public class ItemForSentDetailsFrag extends Fragment {
                             String destination_location = jsonObject.getString("destination_location");
                             String product_pic = jsonObject.getString("product_pic");
 
-                            Traveller movie = new Traveller(product_id,product_name,product_pic, pickup_location,destination_location, "04/03/2018", "50 KM");
+                            Traveller movie = new Traveller(product_id,product_name,product_pic, pickup_location,destination_location, "04/03/2018", "50 KM","");
                             travellerList.add(movie);
 
                         }
-                        mAdapter = new ItemListAdapter(travellerList,getActivity().getApplicationContext());
+                        mAdapter = new ItemListAdapter(travellerList,getActivity());
                         mAdapter.notifyDataSetChanged();
                         recyclerView.setAdapter(mAdapter);
                     }

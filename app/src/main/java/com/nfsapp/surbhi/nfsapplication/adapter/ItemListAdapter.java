@@ -1,5 +1,6 @@
 package com.nfsapp.surbhi.nfsapplication.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -21,13 +22,16 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static com.nfsapp.surbhi.nfsapplication.other.MySharedPref.getData;
+import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.getPostDetails;
+
 public class ItemListAdapter extends ArrayAdapter<Traveller> {
 
-    Context mContext;
+    Activity mContext;
     private ArrayList<Traveller> dataSet;
     private int lastPosition = -1;
 
-    public ItemListAdapter(ArrayList<Traveller> data, Context context) {
+    public ItemListAdapter(ArrayList<Traveller> data, Activity context) {
         super(context, R.layout.item_list_row, data);
         this.dataSet = data;
         this.mContext = context;
@@ -82,20 +86,10 @@ public class ItemListAdapter extends ArrayAdapter<Traveller> {
             @Override
             public void onClick(View view) {
 
-                JSONObject jobj = new JSONObject();
-                try {
-                    jobj.put("product_name", traveller.getName());
-                    jobj.put("pickup_location", traveller.getDeparture_airport());
-                    jobj.put("destination_location", traveller.getArrival_airport());
-                    jobj.put("date", traveller.getDate());
-                    jobj.put("product_pic", traveller.getProduct_pic());
 
-                    mContext.startActivity(new Intent(mContext, ItemDetails.class).putExtra("detail_obj", jobj.toString())
-                            .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                  String  user_id = getData(mContext.getApplicationContext(), "user_id", "");
 
+                    getPostDetails(mContext, user_id, traveller.getId(), ItemDetails.class);
             }
         });
         return convertView;
@@ -107,7 +101,6 @@ public class ItemListAdapter extends ArrayAdapter<Traveller> {
         TextView txtType;
         TextView head_depart;
         TextView head_arrival;
-
         TextView txtVersion, date;
         ImageView product_pic;
         Button details_btn;

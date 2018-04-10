@@ -2,12 +2,12 @@ package com.nfsapp.surbhi.nfsapplication.beans;
 
 public class Traveller  {
 
-    private String id,name,product_pic, departure_airport, arrival_airport,date,distance;
+    private String id,name,product_pic, departure_airport, arrival_airport,date,distance,cost;
 
     public Traveller() {
     }
 
-    public Traveller(String id,String name,String product_pic, String departure_airport, String arrival_airport,String date, String distance) {
+    public Traveller(String id,String name,String product_pic, String departure_airport, String arrival_airport,String date, String distance,String cost) {
         this.id = id;
         this.name = name;
         this.product_pic = product_pic;
@@ -15,6 +15,15 @@ public class Traveller  {
         this.arrival_airport = arrival_airport;
         this.date = date;
         this.distance = distance;
+        this.cost = cost;
+    }
+
+    public String getCost() {
+        return cost;
+    }
+
+    public void setCost(String cost) {
+        this.cost = cost;
     }
 
     public String getProduct_pic() {

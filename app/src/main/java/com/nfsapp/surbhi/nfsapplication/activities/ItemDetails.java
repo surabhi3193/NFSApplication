@@ -20,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import me.relex.circleindicator.CircleIndicator;
 
@@ -41,6 +42,11 @@ public class ItemDetails extends AppCompatActivity {
      TextView destinationTV =findViewById(R.id.destinationTV);
      TextView pickupTV =findViewById(R.id.pickupTV);
 
+     TextView paymentTV =findViewById(R.id.paymentTV);
+     TextView descTV =findViewById(R.id.descTV);
+     TextView weightTV =findViewById(R.id.weightTV);
+     TextView priceTV =findViewById(R.id.priceTV);
+
 
 
         setupWindowAnimations();
@@ -58,20 +64,43 @@ public class ItemDetails extends AppCompatActivity {
         if (bundle!=null)
         {
             try {
-                JSONObject responseObj = new JSONObject(bundle.getString("detail_obj"));
 
-                String product_name = responseObj.getString("product_name");
-                String pickup_location = responseObj.getString("pickup_location");
-                String destination_location = responseObj.getString("destination_location");
-                String product_pic = responseObj.getString("product_pic");
-                String date = responseObj.getString("date");
+                String productDetails = bundle.getString("productDetails");
+
+                JSONObject obj = new JSONObject(productDetails);
+
+                String product_name = obj.getString("product_name");
+                String pickup_location = obj.getString("pickup_location");
+                String destination_location = obj.getString("destination_location");
+                String product_desc = obj.getString("product_desc");
+                String product_weight = obj.getString("product_weight");
+                String product_cost = obj.getString("product_cost");
+                String payment_mode = obj.getString("payment_mode");
+//                String reciever_name = obj.getString("reciever_name");
+//                String reciever_phone = obj.getString("reciever_phone");
+//                String reciever_email = obj.getString("reciever_email");
+//                String product_insurence = obj.getString("product_insurence");
+//                String product_added_date = obj.getString("product_added_date");
+
+                String product_pic = obj.getString("product_pic");
+//                String date = responseObj.getString("date");
 
                 productNameTv.setText(product_name);
                 pickupTV.setText(pickup_location);
                 destinationTV.setText(destination_location);
 
+                priceTV.setText(product_cost);
+                weightTV.setText(product_weight);
+                descTV.setText(product_desc);
+                paymentTV.setText(payment_mode);
+
+                String[] uris = product_pic.split(",");
+
                 ArrayList<Uri> imageArray = new ArrayList<>();
-                imageArray.add(Uri.parse(product_pic));
+                for (String uri : uris) {
+                    imageArray.add(Uri.parse(uri));
+                }
+
                 init(imageArray);
             } catch (JSONException e) {
                 e.printStackTrace();

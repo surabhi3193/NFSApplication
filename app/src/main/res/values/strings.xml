@@ -4,6 +4,15 @@
     <string name="dummy_text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s.</string>
     <string name="otp_text">Check your text messages to enter verification code</string>
     <string name="no_camera_app">No Camera Application Available</string>
+    <string name="update">Update</string>
+    <string name="cancel">Cancel</string>
+    <string name="gender">Gender</string>
+    <string name="date_of_birth">Date of Birth</string>
+    <string name="full_name">Full Name</string>
+    <string name="location">City</string>
+    <string name="email">Email</string>
+    <string name="phone_no">Mobile Number</string>
+    <string name="account_no">Deposit Account</string>
 
 
     <string-array name="type_arrays">

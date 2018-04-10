@@ -116,7 +116,7 @@ public class TravellerListFragment extends Fragment {
 
 
                             Traveller movie = new Traveller(product_id, trevaller_name, "", "Departure : " + departure,
-                                    "Arrival : " + arrival, "04/03/2018", "50 KM");
+                                    "Arrival : " + arrival, "04/03/2018", "50 KM","");
                             travellerList.add(movie);
 
                         }

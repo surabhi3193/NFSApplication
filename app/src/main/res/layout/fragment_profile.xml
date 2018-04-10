@@ -1,133 +1,250 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:background="@drawable/profile_bg"
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center"
+    android:background="@drawable/profile_bg2"
     android:orientation="vertical"
     android:paddingLeft="20dp"
-    android:paddingRight="20dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-            <RelativeLayout
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <com.jackandphantom.circularprogressbar.CircleProgressbar
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_centerInParent="true"
-                    app:cpb_progress="50"
-                    app:cpb_roundedCorner="true"
-                    app:cpb_backgroundProgressColor="@color/trans"
-                    app:cpb_foregroundProgressWidth="5"
-                    app:cpb_foregroundProgressColor="@color/white"
-                    app:cpb_touchEnabled="true"
-                    android:id="@+id/progress"/>
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/profile_pic"
+    android:paddingRight="20dp">
 
-                    />
-            </RelativeLayout>
+    <TextView
+        android:id="@+id/edit_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:fontFamily="@font/estre"
+        android:padding="8dp"
+        android:text="Edit"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.jackandphantom.circularprogressbar.CircleProgressbar
+            android:id="@+id/progress"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_centerInParent="true"
+            app:cpb_backgroundProgressColor="@color/trans"
+            app:cpb_foregroundProgressColor="@color/white"
+            app:cpb_foregroundProgressWidth="5"
+            app:cpb_progress="50"
+            app:cpb_roundedCorner="true"
+            app:cpb_touchEnabled="true" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profileIV"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/profile_pic"
+
+            />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/nameTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/estre"
+        android:gravity="center"
+        android:padding="8dp"
+        android:singleLine="true"
+        android:text="John Doe"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
+    <View
+        android:layout_width="100dp"
+        android:layout_height="3dp"
+        android:layout_gravity="center"
+        android:background="@color/white" />
+
+    <TextView
+        android:id="@+id/locationTv"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:drawableLeft="@drawable/location_white"
+        android:drawablePadding="10dp"
+        android:fontFamily="@font/estre"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="Chicago"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/estre"
+        android:gravity="center"
+        android:padding="8dp"
+        android:singleLine="true"
+        android:text="Profile is 62% completed"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:visibility="gone" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <TableRow
+            android:layout_marginTop="10dp"
+            android:padding="10dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/estre"
-                android:gravity="center"
-                android:padding="8dp"
-                android:singleLine="true"
-                android:text="John Doe"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                 android:textSize="14sp" />
-            <View
-                android:layout_width="100dp"
-                android:layout_height="3dp"
-                android:background="@color/white"/>
-            <TextView
-                android:layout_marginTop="8dp"
-                android:textSize="18sp"
-                android:fontFamily="@font/estre"
-                android:drawableLeft="@drawable/location_white"
-                android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:singleLine="true"
-                android:textColor="@color/white"
-                android:drawablePadding="10dp"
-                android:text="Chicago"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/estre"
-                android:gravity="center"
-                android:padding="8dp"
-                android:singleLine="true"
-                android:text="Profile is 62% completed"
-                android:textColor="@color/white"
-                 android:textSize="14sp" />
-
-            <TextView
-                android:layout_marginTop="45dp"
-                 android:textSize="14sp"
-                android:fontFamily="@font/estre"
-                android:gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:singleLine="true"
-                android:textColor="@color/colorPrimaryDark"
                 android:drawableLeft="@drawable/email"
                 android:drawablePadding="8dp"
-                android:text="Email                                   :        john@#gmail.com"/>
-            <TextView
-                 android:textSize="14sp"
                 android:fontFamily="@font/estre"
                 android:gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
                 android:singleLine="true"
+                android:text="Email "
                 android:textColor="@color/colorPrimaryDark"
-                android:drawableLeft="@drawable/phone"
-                android:drawablePadding="8dp"
-                android:text="Phone                                 :        98765432110"/>
+                android:textSize="14sp" />
 
             <TextView
-                 android:textSize="14sp"
-                android:fontFamily="@font/estre"
-                android:gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:singleLine="true"
-                android:drawableLeft="@drawable/bank_deposit"
-                android:textColor="@color/colorPrimaryDark"
-                android:drawablePadding="8dp"
-                android:text="Deposit Account             :        ABCXXX123456"/>
-
-
-            <TextView
-                android:visibility="visible"
-                android:drawablePadding="5dp"
-                android:drawableLeft="@drawable/upload"
-                android:padding="8dp"
+                android:id="@+id/emailTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimaryDark"
-                android:fontFamily="@font/estre"
-                android:text="Upload valid id card"/>
-
-            <TextView
-                 android:textSize="14sp"
+                android:drawablePadding="8dp"
                 android:fontFamily="@font/estre"
                 android:gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
                 android:singleLine="true"
-                android:textColor="@color/colorPrimary"
-                android:drawableLeft="@drawable/logout"
-                android:drawablePadding="8dp"
-                android:text="Logout"/>
+                android:text="john@#gmail.com"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14sp" />
 
-        </LinearLayout>
+        </TableRow>
+
+        <TableRow
+            android:layout_marginTop="10dp"
+
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/phone"
+                android:drawablePadding="8dp"
+                android:fontFamily="@font/estre"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:text="Phone"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/phoneTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="8dp"
+                android:fontFamily="@font/estre"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:text="9874563210"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14sp" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_marginTop="10dp"
+
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/bank_deposit"
+                android:drawablePadding="8dp"
+                android:fontFamily="@font/estre"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:text="Deposit Account         "
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/accountTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="8dp"
+                android:fontFamily="@font/estre"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:text="clfng950305830"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14sp" />
+
+        </TableRow>
+
+    </TableLayout>
+
+    <TextView
+        android:id="@+id/uploadTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:drawableLeft="@drawable/upload"
+        android:drawablePadding="5dp"
+        android:fontFamily="@font/estre"
+        android:padding="8dp"
+        android:text="Upload valid id card"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp"
+        android:visibility="visible" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:id="@+id/logoutTv"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:drawableLeft="@drawable/logout"
+        android:drawablePadding="8dp"
+        android:fontFamily="@font/estre"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:text="Logout"
+        android:textColor="@color/colorPrimary"
+        android:textSize="15sp" />
+
+</LinearLayout>
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/imageLay"
+        android:padding="10dp"
+        android:background="@color/dark_trans"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/cancel_btn"
+            android:padding="20dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/cancel"/>
+        <ImageView
+            android:layout_centerInParent="true"
+            android:layout_below="@+id/cancel_btn"
+            android:src="@drawable/item"
+            android:id="@+id/idIV_main"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            />
+    </RelativeLayout>
+</RelativeLayout>

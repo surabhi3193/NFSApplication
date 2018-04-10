@@ -15,12 +15,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.mukesh.countrypicker.fragments.CountryPicker;
 import com.mukesh.countrypicker.interfaces.CountryPickerListener;
 import com.nfsapp.surbhi.nfsapplication.R;
+import com.nfsapp.surbhi.nfsapplication.beans.User;
+import com.nfsapp.surbhi.nfsapplication.constants.GPSTracker;
+import com.nfsapp.surbhi.nfsapplication.constants.Utility;
 import com.nfsapp.surbhi.nfsapplication.notification.Config;
 import com.nfsapp.surbhi.nfsapplication.other.GifImageView;
 import com.nfsapp.surbhi.nfsapplication.smsPack.Sms;
@@ -29,6 +33,7 @@ import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
 
+import static com.nfsapp.surbhi.nfsapplication.constants.GeocodingLocation.getAddressFromLatlng;
 import static com.nfsapp.surbhi.nfsapplication.other.MySharedPref.saveData;
 import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.BASE_URL_NEW;
 
@@ -38,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        Utility.checkFINELOCATION(LoginActivity.this);
         RelativeLayout login_btn = findViewById(R.id.login_btn);
         TextView create_account = findViewById(R.id.create_account);
         final TextView codeTV = findViewById(R.id.spinner1);
@@ -139,6 +144,22 @@ public class LoginActivity extends AppCompatActivity {
                     {
                         saveData(getApplicationContext(), "login", "1");
                         saveData(getApplicationContext(), "user_id", response.getString("user_id"));
+                        final User user =User.getInstance();
+                        GPSTracker gps = new GPSTracker (LoginActivity.this);
+                      double  latitude = gps.getLatitude();
+                     double   longitude= gps.getLongitude();
+                      String city=  getAddressFromLatlng(new LatLng(latitude,longitude),LoginActivity.this,0);
+
+                        user.setId(response.getString("user_id"));
+                        user.setProfile_pic(response.getString("user_pic"));
+                        user.setName(response.getString("full_name"));
+                        user.setLocation(city);
+                        user.setProfile_percent(response.getString("profile_sttaus"));
+                        user.setEmail(response.getString("user_email"));
+                        user.setPhone(response.getString("user_phone"));
+                        user.setAccount_no(response.getString("deposit_account"));
+                        user.setId_image(response.getString("valid_identity"));
+
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         finish();
                     }

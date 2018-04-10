@@ -24,14 +24,25 @@
 
     <include layout="@layout/back_layout" />
 
-    <ImageView
-        android:padding="10dp"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/item" />
+        android:layout_height="180dp">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentTop="true" />
+
+        <me.relex.circleindicator.CircleIndicator
+            android:id="@+id/indicator"
+            android:layout_width="match_parent"
+            android:layout_height="18dp"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
 
     <LinearLayout
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:gravity="center"
         android:layout_width="match_parent"
@@ -65,6 +76,7 @@
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
+                android:id="@+id/productNameTv"
                 android:maxWidth="150dp"
                 android:fontFamily="@font/estre"
                 android:textSize="18sp"
@@ -105,6 +117,7 @@
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
+                android:id="@+id/descTV"
                 android:maxWidth="150dp"
                 android:fontFamily="@font/estre"
                 android:textSize="18sp"
@@ -144,6 +157,7 @@
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
+                android:id="@+id/weightTV"
                 android:maxWidth="150dp"
                 android:fontFamily="@font/estre"
                 android:textSize="18sp"
@@ -185,7 +199,7 @@
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
-                android:id="@+id/amountTV"
+                android:id="@+id/priceTV"
                 android:layout_marginLeft="12dp"
                 android:layout_toRightOf="@+id/comma"
                 android:maxWidth="150dp"
@@ -226,6 +240,7 @@
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
+                android:id="@+id/pickupTV"
                 android:maxWidth="150dp"
                 android:fontFamily="@font/estre"
                 android:textSize="18sp"
@@ -266,6 +281,7 @@
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
+                android:id="@+id/destinationTV"
                 android:maxWidth="150dp"
                 android:fontFamily="@font/estre"
                 android:textSize="18sp"
@@ -307,6 +323,7 @@
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
+                android:id="@+id/paymentTV"
                 android:maxWidth="150dp"
                 android:fontFamily="@font/estre"
                 android:textSize="18sp"

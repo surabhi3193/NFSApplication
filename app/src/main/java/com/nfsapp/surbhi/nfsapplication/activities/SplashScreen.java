@@ -21,6 +21,7 @@ import com.nfsapp.surbhi.nfsapplication.notification.Config;
 import com.nfsapp.surbhi.nfsapplication.notification.NotificationUtils;
 import com.nfsapp.surbhi.nfsapplication.other.MySharedPref;
 
+import static com.nfsapp.surbhi.nfsapplication.other.MySharedPref.getData;
 import static com.nfsapp.surbhi.nfsapplication.other.MySharedPref.saveData;
 
 public class SplashScreen extends AppCompatActivity {
@@ -56,7 +57,7 @@ public class SplashScreen extends AppCompatActivity {
             }
         };
 
-        String login = MySharedPref.getData(getApplicationContext(), FirebaseAnalytics.Event.LOGIN, "");
+        String login =getData(getApplicationContext(), "login", "");
 
         if (login.equals("1"))
         {
@@ -65,18 +66,18 @@ public class SplashScreen extends AppCompatActivity {
         }
         else {
             Utility.checkSMSPermission(this);
-//            Handler handler = new Handler();
-//            handler.postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    Intent intent = new Intent(SplashScreen.this, EnterLoginActivity.class
-//                    ).putExtra("FirebaseId", regId);
-//                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-//                    startActivity(intent);
-//                    finish();
-//
-//                }
-//            }, SPLASH_TIME_OUT);
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent intent = new Intent(SplashScreen.this, EnterLoginActivity.class
+                    ).putExtra("FirebaseId", regId);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(intent);
+                    finish();
+
+                }
+            }, SPLASH_TIME_OUT);
         }
     }
 

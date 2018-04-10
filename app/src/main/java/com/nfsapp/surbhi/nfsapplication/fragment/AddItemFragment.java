@@ -1,6 +1,7 @@
 package com.nfsapp.surbhi.nfsapplication.fragment;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -39,6 +41,7 @@ import com.nfsapp.surbhi.nfsapplication.adapter.SliderAdapter;
 import com.nfsapp.surbhi.nfsapplication.beans.Traveller;
 import com.nfsapp.surbhi.nfsapplication.constants.Utility;
 import com.nfsapp.surbhi.nfsapplication.other.GifImageView;
+import com.nfsapp.surbhi.nfsapplication.other.NetworkClass;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -49,6 +52,7 @@ import java.io.FileNotFoundException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
@@ -57,6 +61,7 @@ import me.relex.circleindicator.CircleIndicator;
 import static com.nfsapp.surbhi.nfsapplication.constants.GeocodingLocation.getAddressFromLatlng;
 import static com.nfsapp.surbhi.nfsapplication.other.MySharedPref.getData;
 import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.BASE_URL_NEW;
+import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.getRealPathFromURI;
 
 public class AddItemFragment extends Fragment {
     private static final int CAPTURE_IMAGES_FROM_CAMERA = 1;
@@ -69,7 +74,7 @@ public class AddItemFragment extends Fragment {
     private CircleIndicator indicator;
     private Uri idimageUri;
     private ImageView idIV;
-    private TextView pickupEt, destET;
+    private TextView pickupEt, destET,dateTV;
     private String p_lat = "0.0", p_lng = "0.0";
     private String d_lat = "0.0", d_lng = "0.0";
 
@@ -99,6 +104,7 @@ public class AddItemFragment extends Fragment {
         final EditText rec_emailEt = v.findViewById(R.id.rec_emailEt);
         final Spinner weightSpinner = v.findViewById(R.id.weightSpinner);
         idIV = v.findViewById(R.id.idIV);
+        dateTV =v.findViewById(R.id.dateTVStock);
 
         TextView idTV = v.findViewById(R.id.uploadIDCardTV);
         final CheckBox costCB = v.findViewById(R.id.costCB);
@@ -106,7 +112,29 @@ public class AddItemFragment extends Fragment {
         final CheckBox termsCB = v.findViewById(R.id.termsCB);
         CheckBox itemCB = v.findViewById(R.id.itemCB);
 
+        final Calendar myCalendar = Calendar.getInstance();
 
+        final DatePickerDialog.OnDateSetListener datestock = new DatePickerDialog.OnDateSetListener() {
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                NetworkClass.updateLabel(dateTV, myCalendar);
+            }
+        };
+
+        dateTV.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                DatePickerDialog d= new DatePickerDialog(getActivity(), datestock, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH));
+                d.getDatePicker().setMinDate(System.currentTimeMillis());
+                d.show();
+            }
+        });
+        
         pickupEt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -167,6 +195,7 @@ public class AddItemFragment extends Fragment {
                 String pweight = weightEt.getText().toString();
                 String pickup = pickupEt.getText().toString();
                 String destination = destET.getText().toString();
+                String date = dateTV.getText().toString();
                 String payment = paymentEt.getText().toString();
                 String receiver = rec_nameEt.getText().toString();
                 String rec_mob_1 = rec_mob1.getText().toString();
@@ -207,7 +236,12 @@ public class AddItemFragment extends Fragment {
                 }
 
                 if (destination.length() == 0) {
-                    makeToast(getActivity(), "Enter destination nlocation");
+                    makeToast(getActivity(), "Enter destination location");
+                    return;
+                }
+
+                if (date.length() == 0) {
+                    makeToast(getActivity(), "Enter pickup date");
                     return;
                 }
 
@@ -247,9 +281,9 @@ public class AddItemFragment extends Fragment {
                     isinsure = "no";
 
 
-                String path =getRealPathFromURI(idimageUri);
+                String path =getRealPathFromURI(idimageUri,getActivity());
                 pweight = pweight + " " + weightSpinner.getSelectedItem().toString();
-                postItem(imageArray, pname, pdesc, pweight, cost, pickup, destination, payment,path, receiver, rec_mob_1,
+                postItem(imageArray, pname, pdesc, pweight, cost, pickup, destination,date, payment,path, receiver, rec_mob_1,
                         rec_mob_2, rec_mail, p_lat, p_lng, isinsure);
             }
         });
@@ -303,15 +337,10 @@ public class AddItemFragment extends Fragment {
     }
 
 
-    public  String getRealPathFromURI(Uri uri) {
-        Cursor cursor = getActivity().getContentResolver().query(uri, null, null, null, null);
-        cursor.moveToFirst();
-        int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-        return cursor.getString(idx);
-    }
+
 
     private void postItem(ArrayList<Uri> imageArray, String pname, String pdesc, String pweight, String cost,
-                          String pickup, String destination, String payment, String idimageUri, String receiver,
+                          String pickup, String destination, String date, String payment, String idimageUri, String receiver,
                           String rec_mob_1, String rec_mob_2, String recMail, String p_lat, String p_lng, String isinsure) {
 
         final AsyncHttpClient client = new AsyncHttpClient();
@@ -342,6 +371,7 @@ public class AddItemFragment extends Fragment {
         params.put("pickup_latitude", p_lat);
         params.put("pickup_logitude", p_lng);
         params.put("destination_location", destination);
+        params.put("product_send_date", date);
 
 
         for (int i =0;i<imageArray.size();i++)

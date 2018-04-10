@@ -15,6 +15,8 @@ public class Utility {
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
     public static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 124;
     public static final int MY_PERMISSIONS_SMS = 126;
+    public static final int MY_FINE_LOCATION = 121;
+    public static final int MY_COARSE_LOCATION = 120;
 
     @TargetApi(16)
     public static boolean checkCameraPermission(final Context context) {
@@ -113,6 +115,59 @@ public class Utility {
             alertBuilder.create().show();
         } else {
             ActivityCompat.requestPermissions((Activity) context, new String[]{"android.permission.RECEIVE_SMS"}, MY_PERMISSIONS_SMS);
+        }
+        return false;
+    }
+
+
+    public static boolean checkFINELOCATION(final Context context) {
+        if (VERSION.SDK_INT < 23) {
+            return true;
+        }
+        if (ContextCompat.checkSelfPermission(context, "android.permission.ACCESS_FINE_LOCATION") == 0) {
+            return true;
+        }
+        if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, "android.permission.ACCESS_FINE_LOCATION")) {
+            Builder alertBuilder = new Builder(context);
+            alertBuilder.setCancelable(true);
+            alertBuilder.setTitle("Permission necessary");
+            alertBuilder.setMessage("SMS permission is necessary");
+            alertBuilder.setPositiveButton(android.R.string.yes, new OnClickListener() {
+                @TargetApi(16)
+                public void onClick(DialogInterface dialog, int which) {
+                    ActivityCompat.requestPermissions((Activity) context, new String[]{"android.permission.ACCESS_FINE_LOCATION"},
+                            Utility.MY_FINE_LOCATION);
+                }
+            });
+            alertBuilder.create().show();
+        } else {
+            ActivityCompat.requestPermissions((Activity) context, new String[]{"android.permission.ACCESS_FINE_LOCATION"}, MY_FINE_LOCATION);
+        }
+        return false;
+    }
+
+    public static boolean checkCOARSELOCATION(final Context context) {
+        if (VERSION.SDK_INT < 23) {
+            return true;
+        }
+        if (ContextCompat.checkSelfPermission(context, "android.permission.ACCESS_COARSE_LOCATION") == 0) {
+            return true;
+        }
+        if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, "android.permission.ACCESS_COARSE_LOCATION")) {
+            Builder alertBuilder = new Builder(context);
+            alertBuilder.setCancelable(true);
+            alertBuilder.setTitle("Permission necessary");
+            alertBuilder.setMessage("SMS permission is necessary");
+            alertBuilder.setPositiveButton(android.R.string.yes, new OnClickListener() {
+                @TargetApi(16)
+                public void onClick(DialogInterface dialog, int which) {
+                    ActivityCompat.requestPermissions((Activity) context, new String[]{"android.permission.ACCESS_COARSE_LOCATION"},
+                            Utility.MY_COARSE_LOCATION);
+                }
+            });
+            alertBuilder.create().show();
+        } else {
+            ActivityCompat.requestPermissions((Activity) context, new String[]{"android.permission.ACCESS_COARSE_LOCATION"}, MY_COARSE_LOCATION);
         }
         return false;
     }

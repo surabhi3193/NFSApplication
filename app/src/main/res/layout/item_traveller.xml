@@ -16,6 +16,7 @@
     android:layout_height="100dp">
 
     <ImageView
+        android:id="@+id/productIV"
         android:scaleType="centerCrop"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -59,41 +60,92 @@
             android:padding="3dp"
             />
 
-        <TextView
-            android:textSize="15sp"
-            android:padding="3dp"
-            android:fontFamily="@font/estre"
-            android:textColor="@color/colorPrimaryDark"
-            android:text="Departure :"
-            android:id="@+id/depart"
+
+        <LinearLayout
+            android:id="@+id/departLay"
+            android:layout_below="@+id/title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/title" />
-        <TextView
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/head_depart"
+                android:textSize="15sp"
+                android:padding="3dp"
+                android:fontFamily="@font/estre"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="Departure "
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                />
 
-            android:textSize="15sp"
-            android:fontFamily="@font/estre"
-            android:padding="3dp"
-            android:textColor="@color/colorPrimaryDark"
-            android:text="Arrival :"
-            android:id="@+id/arrival"
+            <TextView
+                android:textSize="15sp"
+                android:padding="3dp"
+                android:fontFamily="@font/estre"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="Departure :"
+                android:id="@+id/depart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/arrivalLay"
+            android:layout_below="@+id/departLay"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/depart" />
+            android:layout_height="wrap_content">
 
-        <TextView
+            <TextView
+                android:id="@+id/head_arrival"
+                android:textSize="15sp"
+                android:fontFamily="@font/estre"
+                android:padding="3dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="Arrival "
+                android:layout_width="80dp"
+                android:layout_height="wrap_content" />
 
-            android:textSize="15sp"
-            android:fontFamily="@font/estre"
-            android:padding="3dp"
-            android:textColor="@color/colorPrimaryDark"
-            android:text="Amount : 200 $"
-            android:id="@+id/amount"
+            <TextView
+
+                android:textSize="15sp"
+                android:fontFamily="@font/estre"
+                android:padding="3dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="Arrival :"
+                android:id="@+id/arrival"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/depart" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_below="@+id/arrivalLay"
+            android:id="@+id/amountLay"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/arrival" />
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/head_amount"
+                android:textSize="15sp"
+                android:fontFamily="@font/estre"
+                android:padding="3dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="Amount "
+                android:layout_width="80dp"
+                android:layout_height="wrap_content" />
 
 
+            <TextView
+
+                android:textSize="15sp"
+                android:fontFamily="@font/estre"
+                android:padding="3dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="200 $"
+                android:id="@+id/amountTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </LinearLayout>
 
     </RelativeLayout>
 
@@ -104,6 +156,7 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/dateTV"
             android:gravity="center"
             android:ellipsize="end"
             android:maxLines="2"
@@ -127,6 +180,7 @@
             android:layout_height="25dp"
             android:background="@drawable/btn" />
         <TextView
+            android:id="@+id/distanceTV"
             android:textColor="@color/green"
             android:gravity="center"
             android:ellipsize="end"
