@@ -33,6 +33,7 @@
         android:textSize="15dp" />
 
     <ListView
+        android:splitMotionEvents="false"
         android:padding="5dp"
         android:dividerHeight="8dp"
         android:divider="@color/white"

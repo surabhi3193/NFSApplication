@@ -72,11 +72,8 @@ public class TravellerListFragment extends Fragment {
                 }, 2000);
             }
         });
-
-
         return v;
     }
-
     private void prepareTravellerData() {
         final AsyncHttpClient client = new AsyncHttpClient();
         final RequestParams params = new RequestParams();
@@ -115,7 +112,7 @@ public class TravellerListFragment extends Fragment {
                             String arrival = jsonObject.getString("arrival");
 
 
-                            Traveller movie = new Traveller(product_id, trevaller_name, "", "Departure : " + departure,
+                            Traveller movie = new Traveller(product_id,"", trevaller_name, "", "Departure : " + departure,
                                     "Arrival : " + arrival, "04/03/2018", "50 KM","");
                             travellerList.add(movie);
 

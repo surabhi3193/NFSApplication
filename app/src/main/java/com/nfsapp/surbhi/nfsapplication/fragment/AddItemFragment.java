@@ -16,6 +16,7 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,20 +37,16 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.nfsapp.surbhi.nfsapplication.R;
-import com.nfsapp.surbhi.nfsapplication.adapter.ItemListAdapter;
 import com.nfsapp.surbhi.nfsapplication.adapter.SliderAdapter;
-import com.nfsapp.surbhi.nfsapplication.beans.Traveller;
 import com.nfsapp.surbhi.nfsapplication.constants.Utility;
 import com.nfsapp.surbhi.nfsapplication.other.GifImageView;
+import com.nfsapp.surbhi.nfsapplication.other.MultiPhotoSelectActivity;
 import com.nfsapp.surbhi.nfsapplication.other.NetworkClass;
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -67,6 +64,7 @@ public class AddItemFragment extends Fragment {
     private static final int CAPTURE_IMAGES_FROM_CAMERA = 1;
     private static final int PLACE_PICKER_REQUEST = 3;
     private static final int PLACE_PICKER_REQUEST_DEST = 4;
+    private static final int GALLERY_PICTURE = 5;
     ArrayList<Uri> imageArray = new ArrayList<>();
     private LinearLayout camera_lay;
     private int image_count_before;
@@ -89,8 +87,7 @@ public class AddItemFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_add_item, null);
         mPager = v.findViewById(R.id.pager);
         indicator = v.findViewById(R.id.indicator);
-        Button book_btn = v.findViewById(R.id.book_btn);
-
+        Button book_btn  = v.findViewById(R.id.book_btn);
         final EditText p_nameEt = v.findViewById(R.id.p_nameEt);
         final EditText p_descEt = v.findViewById(R.id.p_descEt);
         final EditText weightEt = v.findViewById(R.id.weightEt);
@@ -166,6 +163,7 @@ public class AddItemFragment extends Fragment {
         idTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Utility.checkWriteStoragePermission(getActivity());
                 getIDImage();
             }
         });
@@ -293,6 +291,47 @@ public class AddItemFragment extends Fragment {
         camera_lay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+              imageDialog();
+            }
+        });
+        return v;
+    }
+
+
+    private void imageDialog() {
+        final Dialog dialog = new Dialog(getActivity(), R.style.Theme_AppCompat_Dialog);
+        dialog.setContentView(R.layout.upload_image);
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.show();
+
+        TextView gallery_btn = dialog.findViewById(R.id.gallery_btn);
+        TextView cam_btn = dialog.findViewById(R.id.camera_btn);
+        gallery_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+//                Intent pictureActionIntent = null;
+//
+//                pictureActionIntent = new Intent(
+//                        Intent.ACTION_PICK,
+//                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                startActivityForResult(
+//                        pictureActionIntent,
+//                        GALLERY_PICTURE);
+
+                startActivityForResult(new Intent(getActivity().getBaseContext(),
+                        MultiPhotoSelectActivity.class), GALLERY_PICTURE);
+
+
+                dialog.dismiss();
+            }
+        });
+
+        cam_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
                 boolean per = Utility.checkWriteStoragePermission(getActivity());
                 if (per) {
                     Cursor cursor = loadCursor();
@@ -304,6 +343,7 @@ public class AddItemFragment extends Fragment {
 
                     Intent cameraIntent = new Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA);
 
+
                     List<ResolveInfo> activities = getActivity().getPackageManager().queryIntentActivities(cameraIntent, 0);
 
                     if (activities.size() > 0)
@@ -311,10 +351,11 @@ public class AddItemFragment extends Fragment {
                     else
                         Toast.makeText(getActivity(), getResources().getString(R.string.no_camera_app), Toast.LENGTH_SHORT).show();
                 }
+                dialog.dismiss();
             }
         });
-        return v;
     }
+
 
     private void getIDImage() {
         String fileName = "Camera_Example.jpg";
@@ -335,8 +376,6 @@ public class AddItemFragment extends Fragment {
         intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
         startActivityForResult(intent, 2);
     }
-
-
 
 
     private void postItem(ArrayList<Uri> imageArray, String pname, String pdesc, String pweight, String cost,
@@ -461,7 +500,7 @@ public class AddItemFragment extends Fragment {
                     p_lat = String.valueOf(location.latitude);
                     p_lng = String.valueOf(location.longitude);
                     String new_location = getAddressFromLatlng(location, getActivity().getApplicationContext(), 0);
-                    pickupEt.setText("  " + new_location);
+                    pickupEt.setText(new_location);
 
 
                 }
@@ -475,7 +514,32 @@ public class AddItemFragment extends Fragment {
                     d_lat = String.valueOf(location.latitude);
                     d_lng = String.valueOf(location.longitude);
                     String new_location = getAddressFromLatlng(location, getActivity().getApplicationContext(), 0);
-                    destET.setText("  " + new_location);
+                    destET.setText(new_location);
+                }
+                break;
+
+            case GALLERY_PICTURE:
+                if (resultCode == 1) {
+
+                    ArrayList<String> responseArray = new ArrayList<>();
+                    imageArray=new ArrayList<>();
+                    responseArray = data.getStringArrayListExtra("MESSAGE");
+                    if (responseArray.size() > 4)
+                    {
+                        Toast.makeText(getActivity().getApplicationContext(), "Maximum 4 pics allowed", Toast.LENGTH_LONG).show();
+                    }
+                    else if (responseArray.size()>0){
+                        camera_lay.setVisibility(View.GONE);
+                        for (int i = 0; i < responseArray.size(); i++)
+                        {
+                            Uri uri = Uri.fromFile(new File(responseArray.get(i)));
+
+                            Log.e("Uri" + i, uri.toString());
+                            imageArray.add(uri);
+                        }
+
+                        init(imageArray);
+                    }
                 }
                 break;
 

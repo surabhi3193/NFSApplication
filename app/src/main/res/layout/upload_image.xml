@@ -8,9 +8,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/loaderGif"
     android:layout_width="match_parent"
-    android:layout_height="150dp">
+    android:layout_height="wrap_content">
 
     <ImageView
+        android:visibility="gone"
         android:id="@+id/img"
         android:layout_alignParentLeft="true"
         android:layout_width="30dp"
@@ -23,49 +24,39 @@
         android:paddingLeft="7dp"
         android:textSize="25sp"
         android:layout_toRightOf="@+id/img"
-        android:text="Book"
+        android:text="Upload Picture Option"
         android:fontFamily="@font/estre"
         android:textColor="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView
-        android:paddingLeft="7dp"
-        android:paddingTop="7dp"
-        android:textSize="22sp"
-        android:layout_below="@+id/img"
-        android:text="Are you sure ?"
+        android:id="@+id/gallery_btn"
+        android:drawablePadding="15dp"
+        android:drawableLeft="@drawable/gallery"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:layout_below="@+id/book_headerTV"
+        android:textSize="20sp"
+        android:text="Gallery"
         android:fontFamily="@font/estre"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/colorPrimary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
+
     <TextView
         android:id="@+id/camera_btn"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:paddingLeft="7dp"
-        android:paddingTop="7dp"
+        android:padding="10dp"
+        android:gravity="center_vertical"
+        android:drawablePadding="15dp"
+        android:layout_below="@+id/gallery_btn"
         android:textSize="20sp"
-        android:text="Cancel"
+        android:text="Camera"
+        android:drawableLeft="@drawable/photo_cam"
         android:fontFamily="@font/estre"
         android:textColor="@color/colorPrimary"
-        android:layout_width="90dp"
-        android:layout_height="wrap_content" />
-
-
-    <TextView
-        android:id="@+id/gallery_btn"
-        android:layout_marginRight="30dp"
-        android:layout_toLeftOf="@id/camera_btn"
-        android:layout_alignParentBottom="true"
-        android:paddingLeft="7dp"
-        android:paddingTop="7dp"
-        android:textSize="20sp"
-        android:text="Yes"
-        android:fontFamily="@font/estre"
-        android:textColor="@color/colorPrimary"
-        android:layout_width="70dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
 </RelativeLayout>

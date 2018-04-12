@@ -42,7 +42,7 @@
             <TextView
                 android:fontFamily="@font/estre"
                 android:textSize="18sp"
-                android:layout_width="wrap_content"
+                android:layout_width="160dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:text="Product Name"
@@ -54,7 +54,7 @@
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
                 android:text=" : "
                 android:textColor="@color/colorPrimaryDark" />
 
@@ -96,7 +96,7 @@
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
                 android:text=" : "
                 android:textColor="@color/colorPrimaryDark" />
 
@@ -125,7 +125,7 @@
             <TextView
                 android:fontFamily="@font/estre"
                 android:textSize="18sp"
-                android:layout_width="wrap_content"
+                android:layout_width="160dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:text="Product Weight"
@@ -137,7 +137,7 @@
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
                 android:text=" : "
                 android:textColor="@color/colorPrimaryDark" />
 
@@ -166,7 +166,7 @@
             <TextView
                 android:fontFamily="@font/estre"
                 android:textSize="18sp"
-                android:layout_width="wrap_content"
+                android:layout_width="160dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:text="Shipping Cost"
@@ -178,7 +178,7 @@
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
                 android:text=" : "
                 android:textColor="@color/colorPrimaryDark" />
 
@@ -207,7 +207,7 @@
             <TextView
                 android:fontFamily="@font/estre"
                 android:textSize="18sp"
-                android:layout_width="wrap_content"
+                android:layout_width="160dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:text="Destination City"
@@ -219,7 +219,7 @@
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
                 android:text=" : "
                 android:textColor="@color/colorPrimaryDark" />
 
@@ -248,7 +248,7 @@
             <TextView
                 android:fontFamily="@font/estre"
                 android:textSize="18sp"
-                android:layout_width="wrap_content"
+                android:layout_width="160dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:text="Pickup City"
@@ -260,7 +260,7 @@
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
                 android:text=" : "
                 android:textColor="@color/colorPrimaryDark" />
 
@@ -289,7 +289,7 @@
             <TextView
                 android:fontFamily="@font/estre"
                 android:textSize="18sp"
-                android:layout_width="wrap_content"
+                android:layout_width="160dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:text="Payment Mode"
@@ -301,7 +301,7 @@
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
                 android:text=" : "
                 android:textColor="@color/colorPrimaryDark" />
 

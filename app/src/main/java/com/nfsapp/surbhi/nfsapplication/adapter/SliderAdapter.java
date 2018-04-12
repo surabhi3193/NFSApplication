@@ -43,7 +43,7 @@ public class SliderAdapter  extends PagerAdapter {
         ImageView myImage = (ImageView) myImageLayout
                 .findViewById(R.id.image);
 
-        Picasso.with(context).load(images.get(position)).placeholder(R.drawable.no_img).into(myImage);
+        Picasso.with(context).load(images.get(position)).placeholder(R.drawable.no_pic).into(myImage);
         view.addView(myImageLayout, 0);
         return myImageLayout;
     }

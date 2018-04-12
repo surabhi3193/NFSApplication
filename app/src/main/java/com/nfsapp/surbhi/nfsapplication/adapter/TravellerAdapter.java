@@ -1,5 +1,6 @@
 package com.nfsapp.surbhi.nfsapplication.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -20,10 +21,13 @@ import com.nfsapp.surbhi.nfsapplication.beans.Traveller;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.getPostDetails;
+import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.getTraveller;
+
 public class TravellerAdapter  extends ArrayAdapter<Traveller> implements View.OnClickListener {
 
     private ArrayList<Traveller> dataSet;
-    Context mContext;
+    Activity mContext;
 
     // View lookup cache
     private static class ViewHolder {
@@ -33,7 +37,7 @@ public class TravellerAdapter  extends ArrayAdapter<Traveller> implements View.O
         TextView datetV;
         Button details_btn;
     }
-    public TravellerAdapter(ArrayList<Traveller> data, Context context) {
+    public TravellerAdapter(ArrayList<Traveller> data, Activity context) {
         super(context, R.layout.taveller_list_row, data);
         this.dataSet = data;
         this.mContext = context;
@@ -51,7 +55,7 @@ public class TravellerAdapter  extends ArrayAdapter<Traveller> implements View.O
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
-        Traveller Traveller = getItem(position);
+        final Traveller Traveller = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
         TravellerAdapter.ViewHolder viewHolder; // view lookup cache stored in tag
 
@@ -91,7 +95,12 @@ public class TravellerAdapter  extends ArrayAdapter<Traveller> implements View.O
         viewHolder.details_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mContext.startActivity(new Intent(mContext,TravellerDetails.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+
+                System.out.println("======= traveller id ========");
+                System.out.println(Traveller.getId());
+                getTraveller(mContext, Traveller.getId(), TravellerDetails.class);
+                //getTraveller
+//                mContext.startActivity(new Intent(mContext,TravellerDetails.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
 
             }
         });

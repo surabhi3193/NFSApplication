@@ -24,7 +24,6 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.nfsapp.surbhi.nfsapplication.R;
-import com.nfsapp.surbhi.nfsapplication.constants.GPSTracker;
 import com.nfsapp.surbhi.nfsapplication.constants.Utility;
 import com.nfsapp.surbhi.nfsapplication.other.GifImageView;
 import com.nfsapp.surbhi.nfsapplication.other.NetworkClass;
@@ -247,8 +246,8 @@ public class BookItemActivity extends AppCompatActivity {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.show();
 
-        TextView ok_btn = dialog.findViewById(R.id.ok_btn);
-        TextView cancel_btn = dialog.findViewById(R.id.cancel_btn);
+        TextView ok_btn = dialog.findViewById(R.id.gallery_btn);
+        TextView cancel_btn = dialog.findViewById(R.id.camera_btn);
         ok_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -280,8 +279,6 @@ public class BookItemActivity extends AppCompatActivity {
         String dateDepart = dateTVdeparture.getText().toString();
         String phone = phoneEt.getText().toString();
         String flight = flightEt.getText().toString();
-
-
 
         if (traveller_name.length() == 0) {
             makeToast(BookItemActivity.this, "Enter your name");
@@ -452,7 +449,7 @@ public class BookItemActivity extends AppCompatActivity {
                     p_lat = String.valueOf(location.latitude);
                     p_lng = String.valueOf(location.longitude);
                     String new_location = getAddressFromLatlng(location, BookItemActivity.this.getApplicationContext(), 0);
-                    pickupET.setText("  " + new_location);
+                    pickupET.setText(new_location);
 
 
                 }
@@ -466,7 +463,7 @@ public class BookItemActivity extends AppCompatActivity {
                     d_lat = String.valueOf(location.latitude);
                     d_lng = String.valueOf(location.longitude);
                     String new_location = getAddressFromLatlng(location, BookItemActivity.this.getApplicationContext(), 0);
-                    destET.setText("  " + new_location);
+                    destET.setText(new_location);
                 }
                 break;
 

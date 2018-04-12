@@ -81,7 +81,7 @@ public class ItemListAdapter extends ArrayAdapter<Traveller> {
         viewHolder.txtName.setText(traveller.getName());
         viewHolder.txtType.setText(traveller.getDeparture_airport());
         viewHolder.txtVersion.setText(traveller.getArrival_airport());
-        Picasso.with(mContext).load(traveller.getProduct_pic()).placeholder(R.drawable.item).into(viewHolder.product_pic);
+        Picasso.with(mContext).load(traveller.getProduct_pic()).placeholder(R.drawable.no_pic).into(viewHolder.product_pic);
         viewHolder.details_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

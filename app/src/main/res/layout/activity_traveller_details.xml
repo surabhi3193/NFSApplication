@@ -11,11 +11,11 @@
     <include layout="@layout/back_layout" />
 
     <ImageView
+        android:id="@+id/ticketIV"
         android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/ticket" />
+        android:scaleType="fitXY" />
 
     <LinearLayout
         android:gravity="center"
@@ -40,16 +40,17 @@
             android:textColor="@color/colorPrimaryDark" />
 
         <TextView
+            android:layout_centerHorizontal="true"
             android:fontFamily="@font/estre"
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:text=" : "
             android:textColor="@color/colorPrimaryDark" />
 
         <TextView
+            android:id="@+id/nameTV"
             android:maxWidth="150dp"
             android:fontFamily="@font/estre"
             android:textSize="18sp"
@@ -85,12 +86,12 @@
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
             android:text=" : "
             android:textColor="@color/colorPrimaryDark" />
 
         <TextView
-
+            android:id="@+id/pickupET"
             android:maxWidth="150dp"
             android:fontFamily="@font/estre"
             android:textSize="18sp"
@@ -126,11 +127,12 @@
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
             android:text=" : "
             android:textColor="@color/colorPrimaryDark" />
 
         <TextView
+            android:id="@+id/pickypdateEt"
             android:maxWidth="150dp"
             android:fontFamily="@font/estre"
             android:textSize="18sp"
@@ -166,11 +168,12 @@
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
             android:text=" : "
             android:textColor="@color/colorPrimaryDark" />
 
         <TextView
+android:id="@+id/destTV"
             android:maxWidth="150dp"
             android:fontFamily="@font/estre"
             android:textSize="18sp"
@@ -179,7 +182,6 @@
             android:layout_alignParentRight="true"
             android:text="Bangalore"
             android:textColor="@color/colorPrimaryDark" />
-
 
     </RelativeLayout>
 
@@ -206,11 +208,12 @@
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
             android:text=" : "
             android:textColor="@color/colorPrimaryDark" />
 
         <TextView
+            android:id="@+id/destDateTV"
             android:maxWidth="150dp"
             android:fontFamily="@font/estre"
             android:textSize="18sp"
@@ -246,11 +249,12 @@
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
             android:text=" : "
             android:textColor="@color/colorPrimaryDark" />
 
         <TextView
+            android:id="@+id/flightTV"
             android:maxWidth="150dp"
             android:fontFamily="@font/estre"
             android:textSize="18sp"
@@ -286,7 +290,7 @@
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
             android:text=" : "
             android:textColor="@color/colorPrimaryDark" />
 

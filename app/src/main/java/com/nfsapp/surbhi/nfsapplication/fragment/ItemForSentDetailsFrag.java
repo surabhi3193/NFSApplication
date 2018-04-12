@@ -112,7 +112,7 @@ public class ItemForSentDetailsFrag extends Fragment {
                             String destination_location = jsonObject.getString("destination_location");
                             String product_pic = jsonObject.getString("product_pic");
 
-                            Traveller movie = new Traveller(product_id,product_name,product_pic, pickup_location,destination_location, "04/03/2018", "50 KM","");
+                            Traveller movie = new Traveller(product_id,"",product_name,product_pic, pickup_location,destination_location, "04/03/2018", "50 KM","");
                             travellerList.add(movie);
 
                         }
@@ -121,7 +121,7 @@ public class ItemForSentDetailsFrag extends Fragment {
                         recyclerView.setAdapter(mAdapter);
                     }
                     else {
-                        makeToast(getActivity(), response.getString("message"));
+//                        makeToast(getActivity(), response.getString("message"));
                         return;
                     }
                 } catch (Exception e) {

@@ -13,7 +13,6 @@
         android:layout_height="wrap_content">
  <include
      layout="@layout/topbar_layout"/>
-
     </LinearLayout>
     <FrameLayout
         android:layout_above="@+id/bottom_lay"

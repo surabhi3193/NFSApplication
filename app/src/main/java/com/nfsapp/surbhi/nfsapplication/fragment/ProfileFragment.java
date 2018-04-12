@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.nfsapp.surbhi.nfsapplication.R;
 import com.nfsapp.surbhi.nfsapplication.activities.EnterLoginActivity;
+import com.nfsapp.surbhi.nfsapplication.activities.MainActivity;
 import com.nfsapp.surbhi.nfsapplication.beans.User;
 import com.nfsapp.surbhi.nfsapplication.constants.Utility;
 import com.nfsapp.surbhi.nfsapplication.other.GifImageView;
@@ -39,10 +41,10 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.io.IOException;
 
 import cz.msebera.android.httpclient.Header;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -60,9 +62,11 @@ public class ProfileFragment extends Fragment {
 
     private static final int ID_REQUEST_IMAGE = 1;
     private static final int PLACE_PICKER_REQUEST = 2;
+    private static final int GALLERY_PICTURE = 3;
+    private static final int CAPTURE_IMAGES_FROM_CAMERA = 4;
     CircleImageView profileIV;
-    ImageView idIV_main, idIV_update,cancel_btn;
-    private Uri idimageUri;
+    ImageView idIV_main, idIV_update, cancel_btn,edit_img;
+    private Uri idimageUri, profile_uri;
     //    private String pathid="";
     private RelativeLayout imageLay;
     private String p_lat = "0.0", p_lng = "0.0";
@@ -73,7 +77,8 @@ public class ProfileFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         System.out.println("====== fragment  profile =========");
         View v = inflater.inflate(R.layout.fragment_profile, null);
         Utility.checkCameraPermission(getActivity());
@@ -93,7 +98,8 @@ public class ProfileFragment extends Fragment {
         accountTv = v.findViewById(R.id.accountTv);
         uploadtV = v.findViewById(R.id.uploadTv);
         logoutTV = v.findViewById(R.id.logoutTv);
-        cancel_btn = v.findViewById(R.id.cancel_btn);
+        cancel_btn = v.findViewById(R.id.camera_btn);
+        edit_img = v.findViewById(R.id.edit_img);
 
 
         final User user = User.getInstance();
@@ -120,6 +126,20 @@ public class ProfileFragment extends Fragment {
         });
 
 
+        edit_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imageDialog();
+            }
+        });
+            profileIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imageDialog();
+            }
+        });
+
+
         return v;
     }
 
@@ -131,14 +151,10 @@ public class ProfileFragment extends Fragment {
         ab.setNegativeButton("logout", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                saveData(getActivity(), "login", "0");
-                NullData(getActivity(), "user_id");
 
-                Intent intent = new Intent(getActivity(), EnterLoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("EXIT", true);
-                startActivity(intent);
-                getActivity().finish();
+
+                logoutUser();
+
                 dialog.dismiss();
             }
         });
@@ -172,6 +188,7 @@ public class ProfileFragment extends Fragment {
 
         if (user.getId_image() != null && !user.getId_image().equals(BASE_IMAGE_URL)) {
             uploadtV.setText("View Id Card");
+            uploadtV.setTextColor(getActivity().getResources().getColor(R.color.light_red));
             uploadtV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -179,24 +196,22 @@ public class ProfileFragment extends Fragment {
                     Utility.checkWriteStoragePermission(getActivity());
                     imageLay.setVisibility(View.VISIBLE);
                     Picasso.with(getActivity()).load(user.getId_image()).noPlaceholder().into(idIV_main);
-
                 }
             });
         } else {
             uploadtV.setText("Upload valid id card By clicking edit");
             imageLay.setVisibility(View.GONE);
-
         }
 
     }
 
     private void ShowDialog(final User user) {
+
         AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
         final AlertDialog alert;
         alert = ab.create();
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View v = inflater.inflate(R.layout.update_profile, null);
-
         final EditText fullnameET = v.findViewById(R.id.fullnameET);
         cityEt = v.findViewById(R.id.cityEt);
         final EditText emailEt = v.findViewById(R.id.EmailEt);
@@ -229,7 +244,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        if (!user.getId_image().equals(BASE_IMAGE_URL)) {
+        if (user.getId_image() != null && !user.getId_image().equals(BASE_IMAGE_URL)) {
             uploadTV.setText("Update id Card");
             uploadTV.setTextColor(getActivity().getResources().getColor(R.color.light_red));
             idIV_update.setVisibility(View.VISIBLE);
@@ -296,94 +311,6 @@ public class ProfileFragment extends Fragment {
 
     }
 
-    private void PostUserUpdatedDetail(String id, String name, String city, String email,
-                                       String mobile, String acc_no, String pathid) {
-
-        final Dialog ringProgressDialog = new Dialog(getActivity(), R.style.Theme_AppCompat_Dialog);
-        ringProgressDialog.setContentView(R.layout.loading);
-        ringProgressDialog.setCancelable(false);
-        ringProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        ringProgressDialog.show();
-        GifImageView gifview = ringProgressDialog.findViewById(R.id.loaderGif);
-        gifview.setGifImageResource(R.drawable.loader2);
-
-
-        final AsyncHttpClient client = new AsyncHttpClient();
-        final RequestParams params = new RequestParams();
-        String userid = getData(getActivity(), "user_id", "");
-
-        params.put("user_id", userid);
-        params.put("full_name", name);
-        params.put("user_email", email);
-        params.put("deposit_account", acc_no);
-        params.put("user_city", city);
-
-        System.out.println("path id ========"+pathid);
-        if (pathid != null && pathid.length()>0) {
-            File idfile = new File(pathid);
-            try {
-                System.out.println(idimageUri);
-                System.out.println(idfile);
-                params.put("valid_identity", idfile);
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-
-        System.out.println(params);
-
-        client.post(BASE_URL_NEW + "update_profile", params, new JsonHttpResponseHandler() {
-
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                try {
-                    ringProgressDialog.dismiss();
-                    System.out.println("response**********");
-                    System.out.println(response);
-                    if (response.getString("status").equals("0")) {
-                        Toast.makeText(getActivity().getApplicationContext(), response.getString("message"), Toast.LENGTH_LONG).show();
-                    } else {
-                        JSONObject jsonObject = response.getJSONObject("result");
-                        final User user = User.getInstance();
-
-                        user.setId(jsonObject.getString("user_id"));
-                        user.setProfile_pic(jsonObject.getString("user_pic"));
-                        user.setName(jsonObject.getString("user_name"));
-                        user.setLocation(jsonObject.getString("user_city"));
-                        user.setProfile_percent(jsonObject.getString("profile_sttaus"));
-                        user.setEmail(jsonObject.getString("user_email"));
-                        user.setPhone(jsonObject.getString("user_phone_no"));
-                        user.setAccount_no(jsonObject.getString("user_deposit_ac_no"));
-                        user.setId_image(jsonObject.getString("valid_identity"));
-                        setDataToIds(user);
-
-                    }
-                } catch (Exception e) {
-                    ringProgressDialog.dismiss();
-
-                    e.printStackTrace();
-                }
-            }
-
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Toast.makeText(getActivity().getApplicationContext(), "Server Error,Try Again ", Toast.LENGTH_LONG).show();
-                ringProgressDialog.dismiss();
-
-            }
-
-            public void onFailure(int statusCode, Header[] headers, String responseString) {
-                ringProgressDialog.dismiss();
-                System.out.println(responseString);
-            }
-        });
-    }
-
-    boolean isMatch(String s, String patt) {
-        Pattern pat = Pattern.compile(patt);
-        Matcher m = pat.matcher(s);
-        return m.matches();
-    }
-
     private void getIDImage() {
         boolean per = Utility.checkWriteStoragePermission(getActivity());
         if (per) {
@@ -416,7 +343,6 @@ public class ProfileFragment extends Fragment {
         System.out.println(resultCode);
         switch (requestCode) {
 
-
             case PLACE_PICKER_REQUEST:
 
                 if (resultCode == Activity.RESULT_OK) {
@@ -425,8 +351,8 @@ public class ProfileFragment extends Fragment {
                     LatLng location = place.getLatLng();
                     p_lat = String.valueOf(location.latitude);
                     p_lng = String.valueOf(location.longitude);
-                    String new_location = getAddressFromLatlng(location, getActivity().getApplicationContext(), 0);
-                    cityEt.setText("  " + new_location);
+                    String new_location = getAddressFromLatlng(location, getActivity(), 0);
+                    cityEt.setText(new_location);
                 }
                 break;
 
@@ -439,7 +365,314 @@ public class ProfileFragment extends Fragment {
                 }
                 break;
 
+            case GALLERY_PICTURE:
+                if (resultCode == -1) {
+                    onSelectFromGalleryResult(data);
+                }
+                break;
+            case CAPTURE_IMAGES_FROM_CAMERA:
+                if (profile_uri != null && profile_uri.getPath().length() > 0) {
+                 String   pathid = getRealPathFromURI(profile_uri, getActivity());
+                    File imageFile = new File(pathid);
+                    updatePIc(imageFile);
+                }
+
+                break;
+
 
         }
     }
+
+
+    @SuppressWarnings("deprecation")
+    private void onSelectFromGalleryResult(Intent data) {
+
+        Bitmap bm = null;
+        if (data != null) {
+            try {
+                bm = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), data.getData());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (bm != null) {
+            Uri uri = getImageUri(getActivity(), bm);
+            updatePIc(new File(getRealPathFromURI(uri, getActivity())));
+        }
+
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
+    private void imageDialog() {
+        Utility.checkReadStoragePermission(getActivity());
+        final Dialog dialog = new Dialog(getActivity(), R.style.Theme_AppCompat_Dialog);
+        dialog.setContentView(R.layout.upload_image);
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.show();
+
+        TextView gallery_btn = dialog.findViewById(R.id.gallery_btn);
+        TextView cam_btn = dialog.findViewById(R.id.camera_btn);
+        gallery_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);//
+                startActivityForResult(Intent.createChooser(intent, "Select File"), GALLERY_PICTURE);
+                dialog.dismiss();
+            }
+        });
+
+        cam_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                boolean per = Utility.checkWriteStoragePermission(getActivity());
+                if (per) {
+                    {
+                        String fileName = "Camera_Example.jpg";
+                        ContentValues values = new ContentValues();
+                        values.put(MediaStore.Images.Media.TITLE, fileName);
+                        values.put(MediaStore.Images.Media.DESCRIPTION, "Image capture by camera");
+
+                        profile_uri = getActivity().getContentResolver().insert(
+                                MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+                        System.out.println("========== image uri ========= ");
+                        if (profile_uri != null)
+                            System.out.println(profile_uri.getPath());
+
+                        Intent intent = new Intent(
+                                MediaStore.ACTION_IMAGE_CAPTURE);
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, profile_uri);
+                        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+                        startActivityForResult(intent, CAPTURE_IMAGES_FROM_CAMERA);
+
+                    }
+                }
+                dialog.dismiss();
+            }
+        });
+    }
+
+    private void PostUserUpdatedDetail(String id, String name, String city, String email,
+                                       String mobile, String acc_no, String pathid) {
+
+        final Dialog ringProgressDialog = new Dialog(getActivity(), R.style.Theme_AppCompat_Dialog);
+        ringProgressDialog.setContentView(R.layout.loading);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        ringProgressDialog.show();
+        GifImageView gifview = ringProgressDialog.findViewById(R.id.loaderGif);
+        gifview.setGifImageResource(R.drawable.loader2);
+
+
+        final AsyncHttpClient client = new AsyncHttpClient();
+        final RequestParams params = new RequestParams();
+        String userid = getData(getActivity(), "user_id", "");
+
+        params.put("user_id", userid);
+        params.put("full_name", name);
+        params.put("user_email", email);
+        params.put("deposit_account", acc_no);
+        params.put("user_city", city);
+
+        System.out.println("path id ========" + pathid);
+        if (pathid != null && pathid.length() > 0) {
+            File idfile = new File(pathid);
+            try {
+                System.out.println(idimageUri);
+                System.out.println(idfile);
+                params.put("valid_identity", idfile);
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+        System.out.println(params);
+
+        client.post(BASE_URL_NEW + "update_profile", params, new JsonHttpResponseHandler() {
+
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+                    ringProgressDialog.dismiss();
+                    System.out.println("response**********");
+                    System.out.println(response);
+                    if (response.getString("status").equals("0")) {
+                        Toast.makeText(getActivity(), response.getString("message"), Toast.LENGTH_LONG).show();
+                    } else {
+                        JSONObject jsonObject = response.getJSONObject("result");
+                        final User user = User.getInstance();
+
+                        user.setId(jsonObject.getString("user_id"));
+                        user.setProfile_pic(jsonObject.getString("user_pic"));
+                        user.setName(jsonObject.getString("user_name"));
+                        user.setLocation(jsonObject.getString("user_city"));
+                        user.setProfile_percent(jsonObject.getString("profile_sttaus"));
+                        user.setEmail(jsonObject.getString("user_email"));
+                        user.setPhone(jsonObject.getString("user_phone_no"));
+                        user.setAccount_no(jsonObject.getString("user_deposit_ac_no"));
+                        user.setId_image(jsonObject.getString("valid_identity"));
+                        setDataToIds(user);
+
+                    }
+                } catch (Exception e) {
+                    ringProgressDialog.dismiss();
+
+                    e.printStackTrace();
+                }
+            }
+
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Toast.makeText(getActivity(), "Server Error,Try Again ", Toast.LENGTH_LONG).show();
+                ringProgressDialog.dismiss();
+
+            }
+
+            public void onFailure(int statusCode, Header[] headers, String responseString) {
+                ringProgressDialog.dismiss();
+                System.out.println(responseString);
+            }
+        });
+    }
+
+    private void updatePIc(File file) {
+        final Dialog ringProgressDialog = new Dialog(getActivity(), R.style.Theme_AppCompat_Dialog);
+        ringProgressDialog.setContentView(R.layout.loading);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        ringProgressDialog.show();
+        GifImageView gifview = ringProgressDialog.findViewById(R.id.loaderGif);
+        gifview.setGifImageResource(R.drawable.loader2);
+
+
+        final AsyncHttpClient client = new AsyncHttpClient();
+        final RequestParams params = new RequestParams();
+        String userid = getData(getActivity(), "user_id", "");
+
+        System.out.println("========== updatepic=========");
+        System.out.println(file);
+        params.put("user_id", userid);
+        try {
+            params.put("user_pic", file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            Toast.makeText(getActivity(), "Image not found", Toast.LENGTH_LONG).show();
+            ringProgressDialog.dismiss();
+        }
+
+        client.post(BASE_URL_NEW + "update_profile", params, new JsonHttpResponseHandler() {
+
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+                    ringProgressDialog.dismiss();
+
+                    System.out.println("response**********");
+                    System.out.println(response);
+                    if (response.getString("status").equals("0")) {
+                        Toast.makeText(getActivity(), response.getString("message"), Toast.LENGTH_LONG).show();
+                    } else {
+                        JSONObject jsonObject = response.getJSONObject("result");
+                        String firstname = jsonObject.getString("user_name");
+                        String profile_photo = jsonObject.getString("user_pic");
+                        final User user = User.getInstance();
+                        user.setProfile_pic(profile_photo);
+
+                        Picasso.with(getActivity()).load(profile_photo).
+                                placeholder(R.drawable.profile_pic).into(profileIV);
+
+                        Picasso.with(getActivity()).load(profile_photo).
+                                placeholder(R.drawable.profile_pic).into((((MainActivity) getActivity()).profile_pic));
+                    }
+                } catch (Exception e) {
+                    ringProgressDialog.dismiss();
+
+                    e.printStackTrace();
+                }
+            }
+
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Toast.makeText(getActivity(), "Server Error,Try Again ", Toast.LENGTH_LONG).show();
+                ringProgressDialog.dismiss();
+                System.out.println(errorResponse);
+
+            }
+
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Toast.makeText(getActivity(), "Server Error,Try Again ", Toast.LENGTH_LONG).show();
+                ringProgressDialog.dismiss();
+                System.out.println(responseString);
+            }
+
+        });
+    }
+
+    private void logoutUser() {
+        final Dialog ringProgressDialog = new Dialog(getActivity(), R.style.Theme_AppCompat_Dialog);
+        ringProgressDialog.setContentView(R.layout.loading);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        ringProgressDialog.show();
+        GifImageView gifview = ringProgressDialog.findViewById(R.id.loaderGif);
+        gifview.setGifImageResource(R.drawable.loader2);
+
+        final AsyncHttpClient client = new AsyncHttpClient();
+        final RequestParams params = new RequestParams();
+        String userid = getData(getActivity(), "user_id", "");
+
+        params.put("user_id", userid);
+
+        client.post(BASE_URL_NEW + "logout", params, new JsonHttpResponseHandler() {
+
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+                    ringProgressDialog.dismiss();
+
+                    System.out.println("response**********");
+                    System.out.println(response);
+                    if (response.getString("status").equals("1"))
+                    {
+                        saveData(getActivity(), "login", "0");
+                        NullData(getActivity(), "user_id");
+                        Intent intent = new Intent(getActivity(), EnterLoginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.putExtra("EXIT", true);
+                        startActivity(intent);
+                        getActivity().finish();
+                    }
+                        Toast.makeText(getActivity(), response.getString("message"), Toast.LENGTH_LONG).show();
+                }
+                catch (Exception e) {
+                    ringProgressDialog.dismiss();
+
+                    e.printStackTrace();
+                }
+            }
+
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Toast.makeText(getActivity(), "Server Error,Try Again ", Toast.LENGTH_LONG).show();
+                ringProgressDialog.dismiss();
+                System.out.println(errorResponse);
+
+            }
+
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Toast.makeText(getActivity(), "Server Error,Try Again ", Toast.LENGTH_LONG).show();
+                ringProgressDialog.dismiss();
+                System.out.println(responseString);
+            }
+
+        });
+    }
+
+
+
 }

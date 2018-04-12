@@ -113,6 +113,75 @@ public class NetworkClass {
 
     }
 
+
+    public static void getTraveller(final Activity context, String traveller_id,final Class toAct) {
+
+
+        final AsyncHttpClient client = new AsyncHttpClient();
+        final RequestParams params = new RequestParams();
+
+        final Dialog ringProgressDialog = new Dialog(context, R.style.Theme_AppCompat_Dialog);
+        ringProgressDialog.setContentView(R.layout.loading);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        ringProgressDialog.show();
+        GifImageView gifview = ringProgressDialog.findViewById(R.id.loaderGif);
+        gifview.setGifImageResource(R.drawable.loader2);
+
+
+        responseDEtailsOBJ = new JSONObject();
+
+        params.put("trevaller_id", traveller_id);
+
+        System.out.println("========== details traveller  api =======");
+        client.setTimeout(60 * 1000);
+        client.setConnectTimeout(60 * 1000);
+        client.setResponseTimeout(60 * 1000);
+        System.out.println(params);
+        client.post(BASE_URL_NEW + "trevaller_details", params, new JsonHttpResponseHandler() {
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+
+                responseDEtailsOBJ = response;
+                ringProgressDialog.dismiss();
+                System.out.println(response);
+                try {
+                    String response_fav = response.getString("status");
+                    if (response_fav.equals("1")) {
+                        JSONObject obj = response.getJSONObject("result");
+                        System.out.println(obj);
+                        responseDEtailsOBJ = obj;
+                        openNextAct(context, responseDEtailsOBJ, toAct);
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                ringProgressDialog.dismiss();
+                System.out.println(errorResponse);
+                responseDEtailsOBJ = errorResponse;
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+
+                ringProgressDialog.dismiss();
+                System.out.println(responseString);
+
+            }
+
+        });
+
+    }
+
+
+
+
     private static void openNextAct(Activity context, JSONObject responseDEtailsOBJ,
                                     Class toact) {
         if (responseDEtailsOBJ != null) {

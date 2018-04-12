@@ -129,11 +129,11 @@ public class TravellerMainActivity extends AppCompatActivity {
                       String amount = jsonObject.getString("prodcust_cost");
                       String distence = jsonObject.getString("distence");
 
-                            Traveller movie = new Traveller(product_id,product_name,product_pic, pickup_location,destination_location, departure_date, distence + " miles","$"+amount);
+                            Traveller movie = new Traveller(product_id,sender_id,product_name,product_pic, pickup_location,destination_location, departure_date, distence + " miles","$"+amount);
                             travellerList.add(movie);
 
                         }
-                        mAdapter = new TravelerMainAdapter(travellerList,TravellerMainActivity.this,sender_id);
+                        mAdapter = new TravelerMainAdapter(travellerList,TravellerMainActivity.this);
                         mAdapter.notifyDataSetChanged();
                         recyclerView.setAdapter(mAdapter);
                     }

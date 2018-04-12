@@ -28,7 +28,6 @@ public class TravelerMainAdapter extends ArrayAdapter<Traveller> implements View
 
     private ArrayList<Traveller> dataSet;
     Activity mContext;
-    String sender_id;
 
     // View lookup cache
     private static class ViewHolder {
@@ -50,13 +49,6 @@ public class TravelerMainAdapter extends ArrayAdapter<Traveller> implements View
 
     }
 
-    public TravelerMainAdapter(ArrayList<Traveller> data, Activity context,String sender_id) {
-        super(context, R.layout.item_traveller, data);
-        this.dataSet = data;
-        this.mContext=context;
-        this.sender_id=sender_id;
-
-    }
 
     @Override
     public void onClick(View v) {
@@ -122,13 +114,17 @@ public class TravelerMainAdapter extends ArrayAdapter<Traveller> implements View
         viewHolder.distanceTV.setText(Traveller.getDistance());
         viewHolder.amountTv.setText(Traveller.getCost());
 
-        Picasso.with(mContext).load(Traveller.getProduct_pic()).placeholder(R.drawable.item).into(viewHolder.product_pic);
+        Picasso.with(mContext).load(Traveller.getProduct_pic()).placeholder(R.drawable.no_pic).into(viewHolder.product_pic);
 
 
         viewHolder.details_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mContext.startActivity(new Intent(mContext,BookItemActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+
+                mContext.startActivity(new Intent(mContext,BookItemActivity.class)
+                        .putExtra("sender_id",Traveller.getSender_id())
+                        .putExtra("post_id",Traveller.getId())
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             }
         });
 

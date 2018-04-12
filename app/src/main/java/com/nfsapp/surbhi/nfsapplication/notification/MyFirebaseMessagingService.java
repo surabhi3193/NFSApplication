@@ -95,7 +95,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 System.out.println("===== app is in background=======");
                 // app is in background, show the notification in notification tray
                 Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
-                resultIntent.putExtra("message", message);
+                resultIntent.putExtra("notification_message", message);
 
                 // check for image attachment
                 if (TextUtils.isEmpty(imageUrl)) {

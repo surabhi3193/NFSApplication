@@ -13,10 +13,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nfsapp.surbhi.nfsapplication.R;
+import com.nfsapp.surbhi.nfsapplication.beans.User;
 import com.nfsapp.surbhi.nfsapplication.fragment.AddItemFragment;
 import com.nfsapp.surbhi.nfsapplication.fragment.ItemForSentDetailsFrag;
 import com.nfsapp.surbhi.nfsapplication.fragment.SenderFragment;
 import com.nfsapp.surbhi.nfsapplication.fragment.TravellerListFragment;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,8 @@ public class SenderMainActivity extends AppCompatActivity {
 
     // The ViewPager is responsible for sliding pages (fragments) in and out upon user input
     private ViewPager mViewPager;
+    private ImageView profile_pic;
+    private TextView nameTV;
 
 
     @Override
@@ -38,6 +42,16 @@ public class SenderMainActivity extends AppCompatActivity {
         createViewPager(mViewPager);
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(mViewPager);
+
+        profile_pic = findViewById(R.id.image);
+        nameTV = findViewById(R.id.nameTV);
+
+        final User user = User.getInstance();
+        nameTV.setText(user.getName());
+
+        if (user.getProfile_pic()!=null && user.getProfile_pic().length()>0)
+            Picasso.with(getApplicationContext()).load(user.getProfile_pic()).placeholder(R.drawable.profile_pic).into(profile_pic);
+
         createTabIcons();
 
         ImageView back_btn = findViewById(R.id.back_btn);

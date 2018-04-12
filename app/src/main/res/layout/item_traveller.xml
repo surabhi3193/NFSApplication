@@ -140,7 +140,7 @@
                 android:fontFamily="@font/estre"
                 android:padding="3dp"
                 android:textColor="@color/colorPrimaryDark"
-                android:text="200 $"
+                android:text="$200"
                 android:id="@+id/amountTv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

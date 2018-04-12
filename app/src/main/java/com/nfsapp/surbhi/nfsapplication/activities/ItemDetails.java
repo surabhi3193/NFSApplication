@@ -76,14 +76,9 @@ public class ItemDetails extends AppCompatActivity {
                 String product_weight = obj.getString("product_weight");
                 String product_cost = obj.getString("product_cost");
                 String payment_mode = obj.getString("payment_mode");
-//                String reciever_name = obj.getString("reciever_name");
-//                String reciever_phone = obj.getString("reciever_phone");
-//                String reciever_email = obj.getString("reciever_email");
-//                String product_insurence = obj.getString("product_insurence");
-//                String product_added_date = obj.getString("product_added_date");
 
                 String product_pic = obj.getString("product_pic");
-//                String date = responseObj.getString("date");
+
 
                 productNameTv.setText(product_name);
                 pickupTV.setText(pickup_location);

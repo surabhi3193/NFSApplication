@@ -7,18 +7,34 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.nfsapp.surbhi.nfsapplication.R;
+import com.nfsapp.surbhi.nfsapplication.beans.User;
 import com.nfsapp.surbhi.nfsapplication.constants.Utility;
 import com.nfsapp.surbhi.nfsapplication.fragment.ChatFragment;
 import com.nfsapp.surbhi.nfsapplication.fragment.HomeFragment;
 import com.nfsapp.surbhi.nfsapplication.fragment.NotificationFragment;
 import com.nfsapp.surbhi.nfsapplication.fragment.ProfileFragment;
 import com.nfsapp.surbhi.nfsapplication.fragment.SettingsFragment;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
+
+import static com.nfsapp.surbhi.nfsapplication.other.MySharedPref.getData;
+import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.BASE_URL_NEW;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     ImageView home_img, chat_img, notify_img, settings_img, profile_img;
+    public TextView nameTV;
+    public ImageView profile_pic;
     FragmentManager fm;
     Fragment fragment;
 
@@ -31,16 +47,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fm = getSupportFragmentManager();
         Utility.checkFINELOCATION(this);
 
-
         home_img = findViewById(R.id.home_img);
         chat_img = findViewById(R.id.chat_img);
         notify_img = findViewById(R.id.notify_img);
         settings_img = findViewById(R.id.settings_img);
         profile_img = findViewById(R.id.profile_img);
+        profile_pic = findViewById(R.id.image);
+        nameTV = findViewById(R.id.nameTV);
 
+        checkNotification();
         setFragment("home");
         fragment = new HomeFragment();
-        replaceFragment(fragment, true,"home");
+        replaceFragment(fragment, true, "home");
         home_img.setOnClickListener(this);
         chat_img.setOnClickListener(this);
         notify_img.setOnClickListener(this);
@@ -49,16 +67,81 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    private void checkNotification() {
+        Bundle bundle = getIntent().getExtras();
+        System.err.println("=========== notification msg============ ");
+        if (bundle != null) {
+            String msg = bundle.getString("notification_message", "");
+
+            System.err.println(msg);
+            if (msg.length() > 0) {
+                setFragment("notification");
+                fragment = new NotificationFragment();
+                replaceFragment(fragment, true, "notification");
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkNotification();
+       getUserProfile();
+    }
+
+    public void getUserProfile() {
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        String userid = getData(MainActivity.this, "user_id", "");
+
+        params.put("user_id", userid);
+
+        client.post(BASE_URL_NEW + "user_profile", params, new JsonHttpResponseHandler() {
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+//                ringProgressDialog.dismiss();
+                try {
+                    if (response.getString("status").equals("0")) {
+                        Toast.makeText(MainActivity.this, response.getString("message"), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    final User user = User.getInstance();
+                    user.setId(response.getString("user_id"));
+                    user.setProfile_pic(response.getString("user_pic"));
+                    user.setName(response.getString("full_name"));
+                    user.setLocation(response.getString("user_city"));
+//                    user.setProfile_percent(response.getString("profile_sttaus"));
+                    user.setEmail(response.getString("user_email"));
+                    user.setPhone(response.getString("user_phone"));
+                    user.setAccount_no(response.getString("deposit_account"));
+                    user.setId_image(response.getString("valid_identity"));
+                    nameTV.setText(user.getName());
+
+                    if (user.getProfile_pic()!=null && user.getProfile_pic().length()>0)
+                    Picasso.with(getApplicationContext()).load(user.getProfile_pic()).placeholder(R.drawable.profile_pic).into(profile_pic);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+
+            }
+
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+
+            }
+        });
+    }
+
     @Override
     public void onClick(View view) {
-        String fr=getSupportFragmentManager().findFragmentById(R.id.container).getTag();
+        String fr = getSupportFragmentManager().findFragmentById(R.id.container).getTag();
         switch (view.getId()) {
             case R.id.home_img:
                 if (!fr.equals("home")) {
                     setFragment("home");
                     fragment = new HomeFragment();
                     replaceFragment(fragment, true, "home");
-
                 }
                 break;
             case R.id.chat_img:
@@ -68,7 +151,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     replaceFragment(fragment, true, "chat");
                 }
                 break;
-
             case R.id.notify_img:
                 if (!fr.equals("notification")) {
                     setFragment("notification");
@@ -96,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public void replaceFragment(Fragment fragment, boolean addToBackStack,String tag) {
+    public void replaceFragment(Fragment fragment, boolean addToBackStack, String tag) {
 
         FragmentTransaction transaction = getSupportFragmentManager()
                 .beginTransaction();
@@ -106,11 +188,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         } else {
             getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-
         }
-        transaction.replace(R.id.container, fragment,tag);
+        transaction.replace(R.id.container, fragment, tag);
         transaction.commit();
-
     }
 
     @Override
@@ -118,24 +198,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onBackPressed();
         String fr = "";
         System.err.println("onBackpressed==========");
-             Fragment frag =getSupportFragmentManager().findFragmentById(R.id.container);
+        Fragment frag = getSupportFragmentManager().findFragmentById(R.id.container);
         System.out.println(frag);
-             if (frag!=null)
-             {
+        if (frag != null) {
 
-                 fr=getSupportFragmentManager().findFragmentById(R.id.container).getTag();
-                 System.out.println(fr);
-                setFragment(fr);
+            fr = getSupportFragmentManager().findFragmentById(R.id.container).getTag();
+            System.out.println(fr);
+            setFragment(fr);
 
-             }
-             else
-                 finish();
+        } else
+            finish();
 
     }
 
     private void setFragment(String str) {
-        switch (str)
-        {
+        switch (str) {
             case "home":
                 home_img.setImageResource(R.drawable.home1);
                 chat_img.setImageResource(R.drawable.chat);
@@ -155,7 +232,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case "notification":
-
                 notify_img.setImageResource(R.drawable.notification1);
                 chat_img.setImageResource(R.drawable.chat);
                 home_img.setImageResource(R.drawable.home);
