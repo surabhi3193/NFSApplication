@@ -110,9 +110,10 @@ public class TravellerListFragment extends Fragment {
                             String trevaller_name = jsonObject.getString("trevaller_name");
                             String departure = jsonObject.getString("departure");
                             String arrival = jsonObject.getString("arrival");
+                            String user_pic = jsonObject.getString("user_pic");
 
 
-                            Traveller movie = new Traveller(product_id,"", trevaller_name, "", "Departure : " + departure,
+                            Traveller movie = new Traveller(product_id,"", trevaller_name, user_pic, "Departure : " + departure,
                                     "Arrival : " + arrival, "04/03/2018", "50 KM","");
                             travellerList.add(movie);
 
@@ -121,7 +122,7 @@ public class TravellerListFragment extends Fragment {
                         mAdapter.notifyDataSetChanged();
                         recyclerView.setAdapter(mAdapter);
                     } else {
-                        makeToast(getActivity(), response.getString("message"));
+//                        makeToast(getActivity(), response.getString("message"));
                         return;
                     }
                 } catch (Exception e) {

@@ -5,32 +5,27 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.nfsapp.surbhi.nfsapplication.R;
 import com.nfsapp.surbhi.nfsapplication.constants.Utility;
 import com.nfsapp.surbhi.nfsapplication.notification.Config;
 import com.nfsapp.surbhi.nfsapplication.notification.NotificationUtils;
-import com.nfsapp.surbhi.nfsapplication.other.MySharedPref;
 
 import static com.nfsapp.surbhi.nfsapplication.other.MySharedPref.getData;
-import static com.nfsapp.surbhi.nfsapplication.other.MySharedPref.saveData;
 
 public class SplashScreen extends AppCompatActivity {
     private static final long SPLASH_TIME_OUT = 2000;
-    private BroadcastReceiver mRegistrationBroadcastReceiver;
-    String regId = "";
-
     private static final String TAG = MainActivity.class.getSimpleName();
-
+    String regId = "";
+    private BroadcastReceiver mRegistrationBroadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +36,6 @@ public class SplashScreen extends AppCompatActivity {
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-
                 // checking for type intent filter
                 if (intent.getAction().equals(Config.REGISTRATION_COMPLETE)) {
                     // gcm successfully registered
@@ -57,14 +51,12 @@ public class SplashScreen extends AppCompatActivity {
             }
         };
 
-        String login =getData(getApplicationContext(), "login", "");
+        String login = getData(getApplicationContext(), "login", "");
 
-        if (login.equals("1"))
-        {
+        if (login.equals("1")) {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
             finish();
-        }
-        else {
+        } else {
             Utility.checkSMSPermission(this);
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
@@ -83,7 +75,7 @@ public class SplashScreen extends AppCompatActivity {
 
     private void displayFirebaseRegId() {
         SharedPreferences pref = getApplicationContext().getSharedPreferences(Config.SHARED_PREF, 0);
-         regId = pref.getString("regId", null);
+        regId = pref.getString("regId", null);
 
         Log.e(TAG, "Firebase reg id: " + regId);
 
@@ -117,7 +109,6 @@ public class SplashScreen extends AppCompatActivity {
     }
 
 
-
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case Utility.MY_PERMISSIONS_SMS /*126*/:
@@ -126,7 +117,7 @@ public class SplashScreen extends AppCompatActivity {
                     return;
                 } else {
                     Intent intent = new Intent(SplashScreen.this, EnterLoginActivity.class
-                    ).putExtra("FirebaseId",regId);
+                    ).putExtra("FirebaseId", regId);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent);
                     finish();

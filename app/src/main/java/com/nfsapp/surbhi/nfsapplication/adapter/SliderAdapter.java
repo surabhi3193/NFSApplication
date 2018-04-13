@@ -1,6 +1,9 @@
 package com.nfsapp.surbhi.nfsapplication.adapter;
 
+import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
@@ -9,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.nfsapp.surbhi.nfsapplication.R;
+import com.nfsapp.surbhi.nfsapplication.activities.FullImageActivity;
+import com.nfsapp.surbhi.nfsapplication.activities.sender.SenderMainActivity;
+import com.nfsapp.surbhi.nfsapplication.fragment.AddItemFragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -17,13 +23,25 @@ public class SliderAdapter  extends PagerAdapter {
 
     private ArrayList<Uri> images;
 
+    private int size=0;
     private LayoutInflater inflater;
-    private Context context;
+    private Activity context;
+    private boolean clickable=false;
 
-    public SliderAdapter(Context context, ArrayList<Uri> images) {
+    public SliderAdapter(Activity context, ArrayList<Uri> images) {
         this.context = context;
         this.images=images;
+        this.size=images.size();
         inflater = LayoutInflater.from(context);
+        clickable=true;
+    }
+
+    public SliderAdapter(Activity context, ArrayList<Uri> images,int size) {
+        this.context = context;
+        this.images=images;
+        this.size=size;
+        inflater = LayoutInflater.from(context);
+        clickable=false;
     }
 
 
@@ -34,7 +52,8 @@ public class SliderAdapter  extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return images.size();
+
+        return size;
     }
 
     @Override
@@ -44,6 +63,19 @@ public class SliderAdapter  extends PagerAdapter {
                 .findViewById(R.id.image);
 
         Picasso.with(context).load(images.get(position)).placeholder(R.drawable.no_pic).into(myImage);
+
+        if (clickable) {
+            myImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    context.startActivity(new Intent(context, FullImageActivity.class)
+                            .putParcelableArrayListExtra("imageArray", images)
+                    );
+
+                }
+            });
+        }
         view.addView(myImageLayout, 0);
         return myImageLayout;
     }

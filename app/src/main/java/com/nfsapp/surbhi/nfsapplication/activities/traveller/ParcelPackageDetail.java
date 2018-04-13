@@ -80,7 +80,7 @@ public class ParcelPackageDetail extends AppCompatActivity {
 
                 JSONObject obj = new JSONObject(productDetails);
 
-                 sender_id = obj.getString("user_id");
+                 sender_id = obj.getString("sender_id");
                  product_id = obj.getString("post_id");
                 String product_name = obj.getString("product_name");
                 String pickup_location = obj.getString("pickup_location");

@@ -20,6 +20,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.nfsapp.surbhi.nfsapplication.R;
+import com.nfsapp.surbhi.nfsapplication.activities.ForgotPasswordActivity;
 import com.nfsapp.surbhi.nfsapplication.activities.LoginActivity;
 import com.nfsapp.surbhi.nfsapplication.activities.SignUpActivity;
 import com.nfsapp.surbhi.nfsapplication.other.GifImageView;
@@ -255,11 +256,11 @@ public class Sms extends AppCompatActivity
                         finish();
                     }
                     else {
-//                        user_id = response.getString("bk_userid");
-//                        startActivity(new Intent(Sms.this, ForgotPasswordActivity.class)
-//                                .putExtra("user_id", userid));
-//
-//                        finish();
+                        user_id = response.getString("user_id");
+                        startActivity(new Intent(Sms.this, ForgotPasswordActivity.class)
+                                .putExtra("user_id", userid));
+
+                        finish();
 
                     }
                 } catch (Exception e) {

@@ -101,7 +101,6 @@
 
             <EditText
                 android:cursorVisible="true"
-
                 android:textCursorDrawable="@null"
                 android:backgroundTint="@color/colorPrimaryDark"
                 android:fontFamily="@font/estre"

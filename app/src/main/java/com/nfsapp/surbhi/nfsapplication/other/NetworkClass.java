@@ -30,7 +30,7 @@ import cz.msebera.android.httpclient.Header;
 public class NetworkClass {
 
     public static final String BASE_URL_NEW = "http://18.218.89.83/NFS/index.php/Webservice/";
-    public static final String BASE_IMAGE_URL = "http://18.218.89.83/NFS/uploads/users/";
+    public static final String BASE_IMAGE_URL = "http://18.218.89.83/NFS/uploads/users/temp/";
 
     private static JSONObject responseDEtailsOBJ;
 

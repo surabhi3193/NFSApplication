@@ -94,6 +94,12 @@ public class SignUpActivity extends AppCompatActivity {
                     emailEt.setFocusable(true);
                     return;
                 }
+                if (!email.contains("@"))
+                {
+                    showTOast("Invalid email id");
+                    emailEt.setFocusable(true);
+                    return;
+                }
 
                 if (password.length() == 0)
                 {

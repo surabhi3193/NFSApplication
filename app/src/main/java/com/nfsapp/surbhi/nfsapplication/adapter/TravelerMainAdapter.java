@@ -114,7 +114,9 @@ public class TravelerMainAdapter extends ArrayAdapter<Traveller> implements View
         viewHolder.distanceTV.setText(Traveller.getDistance());
         viewHolder.amountTv.setText(Traveller.getCost());
 
+        if (Traveller.getProduct_pic()!=null && Traveller.getProduct_pic().length()>0)
         Picasso.with(mContext).load(Traveller.getProduct_pic()).placeholder(R.drawable.no_pic).into(viewHolder.product_pic);
+        viewHolder.product_pic.setImageResource(R.drawable.no_pic);
 
 
         viewHolder.details_btn.setOnClickListener(new View.OnClickListener() {
@@ -128,6 +130,7 @@ public class TravelerMainAdapter extends ArrayAdapter<Traveller> implements View
             }
         });
 
+
         viewHolder.view_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -137,5 +140,6 @@ public class TravelerMainAdapter extends ArrayAdapter<Traveller> implements View
             }
         });
         return convertView;
+
     }
 }

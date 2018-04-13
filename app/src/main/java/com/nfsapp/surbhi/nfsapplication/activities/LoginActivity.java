@@ -6,9 +6,11 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
-import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.RequiresApi;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -39,16 +41,24 @@ import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.BASE_URL_NEW;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private int count = 0;
+    private boolean isForgetClicked = false;
+    private TextView create_account, codeTV, forgot_pass, btn_text;
+    private EditText phoneEt, passEt;
+    private RelativeLayout login_btn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         Utility.checkFINELOCATION(LoginActivity.this);
-        RelativeLayout login_btn = findViewById(R.id.login_btn);
-        TextView create_account = findViewById(R.id.create_account);
-        final TextView codeTV = findViewById(R.id.spinner1);
-        final EditText phoneEt = findViewById(R.id.phoneEt);
-        final EditText passEt = findViewById(R.id.passEt);
+        login_btn = findViewById(R.id.login_btn);
+        create_account = findViewById(R.id.create_account);
+        btn_text = findViewById(R.id.btn_text);
+        codeTV = findViewById(R.id.spinner1);
+        forgot_pass = findViewById(R.id.forgot_pass);
+        phoneEt = findViewById(R.id.phoneEt);
+        passEt = findViewById(R.id.passEt);
 
         codeTV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,43 +77,68 @@ public class LoginActivity extends AppCompatActivity {
         login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (count == 0) {
+                    String phone = phoneEt.getText().toString();
+                    String code = codeTV.getText().toString();
+                    if (phone.length() == 0) {
+                        phoneEt.setFocusable(true);
+                        Toast.makeText(getApplicationContext(), "Enter your phone number", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
-                String phone = phoneEt.getText().toString();
-                String password = passEt.getText().toString();
-                String code = codeTV.getText().toString();
+                    if (isForgetClicked) {
+                        forgotPassword(phone, code);
 
-                if (phone.length()==0)
-                {
-                    phoneEt.setFocusable(true);
-                    Toast.makeText(getApplicationContext(),"Enter your phone number",Toast.LENGTH_SHORT).show();
-                    return;
+                    } else {
+                        String password = passEt.getText().toString();
+
+
+                        if (password.length() == 0) {
+                            passEt.setFocusable(true);
+                            Toast.makeText(getApplicationContext(), "Enter password", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        loginUser(code + phone, password);
+                    }
                 }
 
-                if (password.length()==0)
-                {
-                    passEt.setFocusable(true);
-                    Toast.makeText(getApplicationContext(),"Enter password",Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-               loginUser(code+phone,password);
             }
         });
 
         create_account.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this,SignUpActivity.class));
+                startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
             }
         });
 
 
+        forgot_pass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isForgetClicked = true;
+                passEt.setVisibility(View.GONE);
+                forgot_pass.setVisibility(View.GONE);
+                create_account.setVisibility(View.GONE);
+                btn_text.setText("Reset");
+
+            }
+        });
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        finish();
+
+        if (isForgetClicked) {
+            isForgetClicked = false;
+            passEt.setVisibility(View.VISIBLE);
+            forgot_pass.setVisibility(View.VISIBLE);
+            create_account.setVisibility(View.VISIBLE);
+            btn_text.setText("Login");
+        } else
+            finish();
     }
 
 
@@ -112,7 +147,7 @@ public class LoginActivity extends AppCompatActivity {
         final AsyncHttpClient client = new AsyncHttpClient();
         final RequestParams params = new RequestParams();
 
-        final Dialog ringProgressDialog = new Dialog(LoginActivity.this,R.style.Theme_AppCompat_Dialog);
+        final Dialog ringProgressDialog = new Dialog(LoginActivity.this, R.style.Theme_AppCompat_Dialog);
         ringProgressDialog.setContentView(R.layout.loading);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
@@ -122,9 +157,9 @@ public class LoginActivity extends AppCompatActivity {
         @SuppressLint("HardwareIds") String device_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
                 Settings.Secure.ANDROID_ID);
         SharedPreferences pref = getApplicationContext().getSharedPreferences(Config.SHARED_PREF, 0);
-      String  regId = pref.getString("regId", null);
+        String regId = pref.getString("regId", null);
 
-        params.put("user_phone",phone);
+        params.put("user_phone", phone);
         params.put("user_password", password);
         params.put("user_device_type", "1");
         params.put("user_device_token", regId);
@@ -134,21 +169,19 @@ public class LoginActivity extends AppCompatActivity {
         System.err.println(params);
         client.post(BASE_URL_NEW + "login", params, new JsonHttpResponseHandler() {
 
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response)
-            {
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 System.out.println(response);
                 ringProgressDialog.dismiss();
                 try {
 
-                    if (response.getString("status").equals("1"))
-                    {
+                    if (response.getString("status").equals("1")) {
                         saveData(getApplicationContext(), "login", "1");
                         saveData(getApplicationContext(), "user_id", response.getString("user_id"));
-                        final User user =User.getInstance();
-                        GPSTracker gps = new GPSTracker (LoginActivity.this);
-                      double  latitude = gps.getLatitude();
-                     double   longitude= gps.getLongitude();
-                      String city=  getAddressFromLatlng(new LatLng(latitude,longitude),LoginActivity.this,0);
+                        final User user = User.getInstance();
+                        GPSTracker gps = new GPSTracker(LoginActivity.this);
+                        double latitude = gps.getLatitude();
+                        double longitude = gps.getLongitude();
+                        String city = getAddressFromLatlng(new LatLng(latitude, longitude), LoginActivity.this, 0);
 
                         user.setId(response.getString("user_id"));
                         user.setProfile_pic(response.getString("user_pic"));
@@ -162,9 +195,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         finish();
-                    }
-                    else
-                    {
+                    } else {
                         Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_SHORT).show();
                         return;
                     }
@@ -178,6 +209,7 @@ public class LoginActivity extends AppCompatActivity {
                 ringProgressDialog.dismiss();
                 System.out.println(errorResponse);
             }
+
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 ringProgressDialog.dismiss();
@@ -185,4 +217,61 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    private void forgotPassword(final String phone, final String code) {
+
+        final AsyncHttpClient client = new AsyncHttpClient();
+        final RequestParams params = new RequestParams();
+
+        final Dialog ringProgressDialog = new Dialog(LoginActivity.this, R.style.Theme_AppCompat_Dialog);
+        ringProgressDialog.setContentView(R.layout.loading);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        ringProgressDialog.show();
+        GifImageView gifview = ringProgressDialog.findViewById(R.id.loaderGif);
+        gifview.setGifImageResource(R.drawable.loader2);
+
+        params.put("user_phone", code + phone);
+
+
+        client.setConnectTimeout(30000);
+        client.post(BASE_URL_NEW + "forget_password", params, new JsonHttpResponseHandler() {
+
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+
+                ringProgressDialog.dismiss();
+                System.out.println(response);
+                try {
+
+                    if (response.getString("status").equals("1")) {
+                        count++;
+                        login_btn.setBackground(getResources().getDrawable(R.drawable.grey_bg));
+                        String userid = response.getString("user_id");
+                        Toast.makeText(LoginActivity.this, response.getString("message"), Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext(), Sms.class)
+                                .putExtra("phone", phone)
+                                .putExtra("code", code)
+                                .putExtra("password", "")
+                                .putExtra("user_id", userid));
+                    } else {
+                        count = 0;
+                        Toast.makeText(LoginActivity.this, response.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                ringProgressDialog.dismiss();
+            }
+
+        });
+    }
+
+
 }

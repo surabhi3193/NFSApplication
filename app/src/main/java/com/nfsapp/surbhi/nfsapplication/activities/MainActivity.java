@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         notify_img.setOnClickListener(this);
         settings_img.setOnClickListener(this);
         profile_img.setOnClickListener(this);
+        profile_pic.setOnClickListener(this);
 
     }
 
@@ -98,7 +99,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         client.post(BASE_URL_NEW + "user_profile", params, new JsonHttpResponseHandler() {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-//                ringProgressDialog.dismiss();
+
+                System.err.println(response);
+
                 try {
                     if (response.getString("status").equals("0")) {
                         Toast.makeText(MainActivity.this, response.getString("message"), Toast.LENGTH_SHORT).show();
@@ -168,6 +171,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.profile_img:
+                if (!fr.equals("profile")) {
+                    setFragment("profile");
+                    fragment = new ProfileFragment();
+                    replaceFragment(fragment, true, "profile");
+                }
+                break;
+            case R.id.image:
                 if (!fr.equals("profile")) {
                     setFragment("profile");
                     fragment = new ProfileFragment();

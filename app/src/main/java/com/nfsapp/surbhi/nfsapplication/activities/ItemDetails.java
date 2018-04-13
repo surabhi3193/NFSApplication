@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.nfsapp.surbhi.nfsapplication.R;
 import com.nfsapp.surbhi.nfsapplication.adapter.SliderAdapter;
+import com.nfsapp.surbhi.nfsapplication.fragment.AddItemFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;

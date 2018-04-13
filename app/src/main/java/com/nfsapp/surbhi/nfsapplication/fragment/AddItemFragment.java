@@ -26,6 +26,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +44,7 @@ import com.nfsapp.surbhi.nfsapplication.other.GifImageView;
 import com.nfsapp.surbhi.nfsapplication.other.MultiPhotoSelectActivity;
 import com.nfsapp.surbhi.nfsapplication.other.NetworkClass;
 import com.squareup.picasso.Picasso;
+
 import org.json.JSONObject;
 
 import java.io.File;
@@ -69,13 +71,16 @@ public class AddItemFragment extends Fragment {
     private LinearLayout camera_lay;
     private int image_count_before;
     private ViewPager mPager;
+
     private CircleIndicator indicator;
     private Uri idimageUri;
     private ImageView idIV;
-    private TextView pickupEt, destET,dateTV;
+    private TextView pickupEt, destET, dateTV;
     private String p_lat = "0.0", p_lng = "0.0";
     private String d_lat = "0.0", d_lng = "0.0";
 
+    public RelativeLayout sliderLay;
+    public LinearLayout formLay;
     static void makeToast(Context ctx, String s) {
         Toast.makeText(ctx, s, Toast.LENGTH_SHORT).show();
     }
@@ -86,8 +91,11 @@ public class AddItemFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_add_item, null);
         mPager = v.findViewById(R.id.pager);
+
         indicator = v.findViewById(R.id.indicator);
-        Button book_btn  = v.findViewById(R.id.book_btn);
+
+
+        Button book_btn = v.findViewById(R.id.book_btn);
         final EditText p_nameEt = v.findViewById(R.id.p_nameEt);
         final EditText p_descEt = v.findViewById(R.id.p_descEt);
         final EditText weightEt = v.findViewById(R.id.weightEt);
@@ -100,8 +108,13 @@ public class AddItemFragment extends Fragment {
         final EditText rec_mob2 = v.findViewById(R.id.rec_mob2);
         final EditText rec_emailEt = v.findViewById(R.id.rec_emailEt);
         final Spinner weightSpinner = v.findViewById(R.id.weightSpinner);
+
+
         idIV = v.findViewById(R.id.idIV);
-        dateTV =v.findViewById(R.id.dateTVStock);
+        dateTV = v.findViewById(R.id.dateTVStock);
+
+        sliderLay = v.findViewById(R.id.sliderLay);
+        formLay = v.findViewById(R.id.formLay);
 
         TextView idTV = v.findViewById(R.id.uploadIDCardTV);
         final CheckBox costCB = v.findViewById(R.id.costCB);
@@ -110,6 +123,7 @@ public class AddItemFragment extends Fragment {
         CheckBox itemCB = v.findViewById(R.id.itemCB);
 
         final Calendar myCalendar = Calendar.getInstance();
+
 
         final DatePickerDialog.OnDateSetListener datestock = new DatePickerDialog.OnDateSetListener() {
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -124,14 +138,14 @@ public class AddItemFragment extends Fragment {
         dateTV.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                DatePickerDialog d= new DatePickerDialog(getActivity(), datestock, myCalendar
+                DatePickerDialog d = new DatePickerDialog(getActivity(), datestock, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH));
                 d.getDatePicker().setMinDate(System.currentTimeMillis());
                 d.show();
             }
         });
-        
+
         pickupEt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -175,9 +189,7 @@ public class AddItemFragment extends Fragment {
                     p_costEt.setEnabled(true);
                     p_costEt.setCursorVisible(true);
                     p_costEt.setFocusableInTouchMode(true);
-                }
-
-                else {
+                } else {
                     p_costEt.setFocusableInTouchMode(false);
                     p_costEt.setEnabled(false);
                     p_costEt.setCursorVisible(false);
@@ -261,7 +273,12 @@ public class AddItemFragment extends Fragment {
                     return;
                 }
 
-                if (idimageUri==null || idimageUri.getPath().length() == 0) {
+                if (!rec_mail.contains("@")) {
+                    makeToast(getActivity(), "Invalid receiver's email id");
+                    return;
+                }
+
+                if (idimageUri == null || idimageUri.getPath().length() == 0) {
                     makeToast(getActivity(), "Valid id card picture required");
                     return;
 
@@ -279,9 +296,9 @@ public class AddItemFragment extends Fragment {
                     isinsure = "no";
 
 
-                String path =getRealPathFromURI(idimageUri,getActivity());
+                String path = getRealPathFromURI(idimageUri, getActivity());
                 pweight = pweight + " " + weightSpinner.getSelectedItem().toString();
-                postItem(imageArray, pname, pdesc, pweight, cost, pickup, destination,date, payment,path, receiver, rec_mob_1,
+                postItem(imageArray, pname, pdesc, pweight, cost, pickup, destination, date, payment, path, receiver, rec_mob_1,
                         rec_mob_2, rec_mail, p_lat, p_lng, isinsure);
             }
         });
@@ -291,7 +308,7 @@ public class AddItemFragment extends Fragment {
         camera_lay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              imageDialog();
+                imageDialog();
             }
         });
         return v;
@@ -311,15 +328,6 @@ public class AddItemFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-//                Intent pictureActionIntent = null;
-//
-//                pictureActionIntent = new Intent(
-//                        Intent.ACTION_PICK,
-//                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                startActivityForResult(
-//                        pictureActionIntent,
-//                        GALLERY_PICTURE);
-
                 startActivityForResult(new Intent(getActivity().getBaseContext(),
                         MultiPhotoSelectActivity.class), GALLERY_PICTURE);
 
@@ -335,19 +343,16 @@ public class AddItemFragment extends Fragment {
                 boolean per = Utility.checkWriteStoragePermission(getActivity());
                 if (per) {
                     Cursor cursor = loadCursor();
-
-                    //current images in mediaStore
                     image_count_before = cursor.getCount();
-
                     cursor.close();
-
                     Intent cameraIntent = new Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA);
-
-
                     List<ResolveInfo> activities = getActivity().getPackageManager().queryIntentActivities(cameraIntent, 0);
 
                     if (activities.size() > 0)
+                    {
+                        Toast.makeText(getActivity(), getResources().getString(R.string.click_photo), Toast.LENGTH_SHORT).show();
                         startActivityForResult(cameraIntent, CAPTURE_IMAGES_FROM_CAMERA);
+                    }
                     else
                         Toast.makeText(getActivity(), getResources().getString(R.string.no_camera_app), Toast.LENGTH_SHORT).show();
                 }
@@ -413,14 +418,14 @@ public class AddItemFragment extends Fragment {
         params.put("product_send_date", date);
 
 
-        for (int i =0;i<imageArray.size();i++)
-        {
-            String path_product =(imageArray.get(i).getPath());
-            File imageFile = new File(path_product); try {
-            params.put("product_pic"+i, imageFile);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        for (int i = 0; i < imageArray.size(); i++) {
+            String path_product = (imageArray.get(i).getPath());
+            File imageFile = new File(path_product);
+            try {
+                params.put("product_pic" + i, imageFile);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
 
         }
 
@@ -493,7 +498,7 @@ public class AddItemFragment extends Fragment {
                 break;
             case PLACE_PICKER_REQUEST:
 
-                if (resultCode== Activity.RESULT_OK) {
+                if (resultCode == Activity.RESULT_OK) {
 
                     Place place = PlacePicker.getPlace(data, getActivity());
                     LatLng location = place.getLatLng();
@@ -522,16 +527,13 @@ public class AddItemFragment extends Fragment {
                 if (resultCode == 1) {
 
                     ArrayList<String> responseArray = new ArrayList<>();
-                    imageArray=new ArrayList<>();
+                    imageArray = new ArrayList<>();
                     responseArray = data.getStringArrayListExtra("MESSAGE");
-                    if (responseArray.size() > 4)
-                    {
+                    if (responseArray.size() > 4) {
                         Toast.makeText(getActivity().getApplicationContext(), "Maximum 4 pics allowed", Toast.LENGTH_LONG).show();
-                    }
-                    else if (responseArray.size()>0){
+                    } else if (responseArray.size() > 0) {
                         camera_lay.setVisibility(View.GONE);
-                        for (int i = 0; i < responseArray.size(); i++)
-                        {
+                        for (int i = 0; i < responseArray.size(); i++) {
                             Uri uri = Uri.fromFile(new File(responseArray.get(i)));
 
                             Log.e("Uri" + i, uri.toString());
@@ -561,19 +563,16 @@ public class AddItemFragment extends Fragment {
         Cursor cursor = loadCursor();
         String[] paths = getImagePaths(cursor, image_count_before);
 
-        if (paths != null && paths.length <=4)
-        {
+        if (paths != null && paths.length <= 4) {
             List<String> wordList = Arrays.asList(paths);
             camera_lay.setVisibility(View.GONE);
             process(wordList);
             cursor.close();
             return;
-        }
-        else
-            {
+        } else {
             camera_lay.setVisibility(View.VISIBLE);
-            if (paths!=null)
-            makeToast(getActivity(),"Maximum 4 pictures are allowed");
+            if (paths != null)
+                makeToast(getActivity(), "Maximum 4 pictures are allowed");
         }
 
         cursor.close();
@@ -619,9 +618,9 @@ public class AddItemFragment extends Fragment {
         final int[] currentPage = {0};
 
         mPager.setAdapter(new SliderAdapter(getActivity(), imageArray));
+
         mPager.setBackgroundColor(getResources().getColor(R.color.black));
         indicator.setViewPager(mPager);
-
         // Auto start of viewpager
         final Handler handler = new Handler();
         final Runnable Update = new Runnable() {
@@ -640,7 +639,6 @@ public class AddItemFragment extends Fragment {
 //            }
 //        }, 2500, 2500);
     }
-
 
 
 }

@@ -3,37 +3,26 @@ package com.nfsapp.surbhi.nfsapplication.activities.traveller;
 import android.app.Dialog;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.baoyz.widget.PullRefreshLayout;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.nfsapp.surbhi.nfsapplication.R;
-import com.nfsapp.surbhi.nfsapplication.adapter.ItemListAdapter;
 import com.nfsapp.surbhi.nfsapplication.adapter.TravelerMainAdapter;
-import com.nfsapp.surbhi.nfsapplication.adapter.TravellerAdapter;
 import com.nfsapp.surbhi.nfsapplication.beans.Traveller;
 import com.nfsapp.surbhi.nfsapplication.constants.GPSTracker;
-import com.nfsapp.surbhi.nfsapplication.fragment.AddItemFragment;
-import com.nfsapp.surbhi.nfsapplication.fragment.ItemForSentDetailsFrag;
-import com.nfsapp.surbhi.nfsapplication.fragment.TravellerListFragment;
 import com.nfsapp.surbhi.nfsapplication.other.GifImageView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -43,10 +32,9 @@ import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.makeToast;
 
 public class TravellerMainActivity extends AppCompatActivity {
 
-    TravelerMainAdapter mAdapter;
-    private ArrayList<Traveller> travellerList = new ArrayList<>();
+
     ListView recyclerView;
-    double latitude=0.0,longitude=0.0;
+    double latitude = 0.0, longitude = 0.0;
 
 
     @Override
@@ -57,9 +45,9 @@ public class TravellerMainActivity extends AppCompatActivity {
         ImageView back_btn = findViewById(R.id.back_btn);
         TextView header_text = findViewById(R.id.header_text);
 
-        GPSTracker gps = new GPSTracker (this);
-         latitude = gps.getLatitude();
-         longitude= gps.getLongitude();
+        GPSTracker gps = new GPSTracker(this);
+        latitude = gps.getLatitude();
+        longitude = gps.getLongitude();
 
 
         System.out.println("============== current location =========");
@@ -75,15 +63,29 @@ public class TravellerMainActivity extends AppCompatActivity {
             }
         });
 
-         recyclerView = findViewById(R.id.recycler_view);
+        recyclerView = findViewById(R.id.recycler_view);
+        final PullRefreshLayout refreshLayout = findViewById(R.id.refreshLay);
+
+        refreshLayout.setRefreshStyle(PullRefreshLayout.STYLE_RING);
+        refreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        prepareTravellerData();
+                        refreshLayout.setRefreshing(false);
+                    }
+                }, 2000);
+            }
+        });
 
 
         prepareTravellerData();
     }
 
 
-    private void prepareTravellerData()
-    {
+    private void prepareTravellerData() {
         final AsyncHttpClient client = new AsyncHttpClient();
         final RequestParams params = new RequestParams();
 
@@ -111,12 +113,11 @@ public class TravellerMainActivity extends AppCompatActivity {
                 ringProgressDialog.dismiss();
                 try {
 
-                    if (response.getString("status").equals("1"))
-                    {
-                        String sender_id="";
+                    if (response.getString("status").equals("1")) {
+                        ArrayList<Traveller> travellerList = new ArrayList<>();
+                        String sender_id = "";
                         JSONArray jsonArray = response.getJSONArray("post");
-                        for (int i =0;i<jsonArray.length();i++)
-                        {
+                        for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                             String product_id = jsonObject.getString("product_id");
                             String product_name = jsonObject.getString("product_name");
@@ -124,20 +125,20 @@ public class TravellerMainActivity extends AppCompatActivity {
                             String destination_location = jsonObject.getString("destination_location");
                             String product_pic = jsonObject.getString("product_pic");
                             String departure_date = jsonObject.getString("departure_date");
-                             sender_id = jsonObject.getString("sender_id");
+                            sender_id = jsonObject.getString("sender_id");
 
-                      String amount = jsonObject.getString("prodcust_cost");
-                      String distence = jsonObject.getString("distence");
+                            String amount = jsonObject.getString("prodcust_cost");
+                            String distence = jsonObject.getString("distence");
 
-                            Traveller movie = new Traveller(product_id,sender_id,product_name,product_pic, pickup_location,destination_location, departure_date, distence + " miles","$"+amount);
+                            Traveller movie = new Traveller(product_id, sender_id, product_name, product_pic, pickup_location, destination_location, departure_date, distence + " miles", "$" + amount);
                             travellerList.add(movie);
 
                         }
-                        mAdapter = new TravelerMainAdapter(travellerList,TravellerMainActivity.this);
+                        TravelerMainAdapter mAdapter;
+                        mAdapter = new TravelerMainAdapter(travellerList, TravellerMainActivity.this);
                         mAdapter.notifyDataSetChanged();
                         recyclerView.setAdapter(mAdapter);
-                    }
-                    else {
+                    } else {
                         makeToast(TravellerMainActivity.this, response.getString("message"));
                         return;
                     }

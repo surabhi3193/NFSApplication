@@ -13,6 +13,7 @@
     <string name="email">Email</string>
     <string name="phone_no">Mobile Number</string>
     <string name="account_no">Deposit Account</string>
+    <string name="click_photo">Click multiple photos and press back to save</string>
 
 
     <string-array name="type_arrays">

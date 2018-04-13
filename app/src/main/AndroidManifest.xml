@@ -94,7 +94,9 @@
             </intent-filter>
         </service>
         <!-- ./Firebase Notifications -->
-        <activity android:name=".other.MultiPhotoSelectActivity"></activity>
+        <activity android:name=".other.MultiPhotoSelectActivity" />
+        <activity android:name=".activities.ForgotPasswordActivity" />
+        <activity android:name=".activities.FullImageActivity"></activity>
     </application>
 
 </manifest>

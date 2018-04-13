@@ -180,8 +180,6 @@ public class ProfileFragment extends Fragment {
         System.out.println(user.getProfile_pic());
 
         if (user.getProfile_pic() != null && user.getProfile_pic().length() > 3) {
-
-//            pathid=user.getProfile_pic();
             Picasso.with(getActivity()).load(user.getProfile_pic()).placeholder(R.drawable.profile_pic).into(profileIV);
         } else
             profileIV.setImageResource(R.drawable.profile_pic);

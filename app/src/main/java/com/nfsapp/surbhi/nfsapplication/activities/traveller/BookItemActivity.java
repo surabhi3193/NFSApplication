@@ -294,6 +294,12 @@ public class BookItemActivity extends AppCompatActivity {
             makeToast(BookItemActivity.this, "Enter your email");
             return;
         }
+        if (!email.contains("@"))
+        {
+            makeToast(BookItemActivity.this, "Invalid email id");
+            emailEt.setFocusable(true);
+            return;
+        }
 
         if (phone.length() == 0) {
             makeToast(BookItemActivity.this, "Enter your phone");

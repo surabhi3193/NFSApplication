@@ -17,6 +17,7 @@ import com.nfsapp.surbhi.nfsapplication.R;
 import com.nfsapp.surbhi.nfsapplication.activities.ItemDetails;
 import com.nfsapp.surbhi.nfsapplication.activities.sender.TravellerDetails;
 import com.nfsapp.surbhi.nfsapplication.beans.Traveller;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,7 @@ public class TravellerAdapter  extends ArrayAdapter<Traveller> implements View.O
         TextView txtVersion;
         TextView datetV;
         Button details_btn;
+        ImageView image;
     }
     public TravellerAdapter(ArrayList<Traveller> data, Activity context) {
         super(context, R.layout.taveller_list_row, data);
@@ -65,11 +67,12 @@ public class TravellerAdapter  extends ArrayAdapter<Traveller> implements View.O
             viewHolder = new TravellerAdapter.ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.taveller_list_row, parent, false);
-            viewHolder.txtName = (TextView) convertView.findViewById(R.id.title);
-            viewHolder.datetV = (TextView) convertView.findViewById(R.id.datetV);
-            viewHolder.txtType = (TextView) convertView.findViewById(R.id.depart);
-            viewHolder.txtVersion = (TextView) convertView.findViewById(R.id.arrival);
+            viewHolder.txtName =convertView.findViewById(R.id.title);
+            viewHolder.datetV =convertView.findViewById(R.id.datetV);
+            viewHolder.txtType =convertView.findViewById(R.id.depart);
+            viewHolder.txtVersion =convertView.findViewById(R.id.arrival);
             viewHolder.details_btn =convertView.findViewById(R.id.details_btn);
+            viewHolder.image =convertView.findViewById(R.id.image);
             result = convertView;
             convertView.setTag(viewHolder);
         } else {
@@ -92,6 +95,11 @@ public class TravellerAdapter  extends ArrayAdapter<Traveller> implements View.O
         viewHolder.txtName.setText(Traveller.getName());
         viewHolder.txtType.setText(Traveller.getDeparture_airport());
         viewHolder.txtVersion.setText(Traveller.getArrival_airport());
+
+        if (Traveller.getProduct_pic()!=null && Traveller.getProduct_pic().length()>0)
+            Picasso.with(mContext).load(Traveller.getProduct_pic()).placeholder(R.drawable.profile_pic).into(viewHolder.image);
+        viewHolder.image.setImageResource(R.drawable.profile_pic);
+
         viewHolder.details_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
