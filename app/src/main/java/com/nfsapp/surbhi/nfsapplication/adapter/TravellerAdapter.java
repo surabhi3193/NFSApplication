@@ -92,6 +92,7 @@ public class TravellerAdapter  extends ArrayAdapter<Traveller> implements View.O
         viewHolder.details_btn.setTypeface(face);
 
 
+        viewHolder.datetV.setText(Traveller.getDate());
         viewHolder.txtName.setText(Traveller.getName());
         viewHolder.txtType.setText(Traveller.getDeparture_airport());
         viewHolder.txtVersion.setText(Traveller.getArrival_airport());

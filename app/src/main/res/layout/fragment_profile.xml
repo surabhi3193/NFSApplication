@@ -269,12 +269,14 @@
             android:layout_height="50dp"
             android:src="@drawable/cancel"/>
         <ImageView
+            android:focusable="true"
+            android:clickable="true"
             android:layout_centerInParent="true"
             android:layout_below="@+id/camera_btn"
             android:src="@drawable/no_pic"
             android:id="@+id/idIV_main"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             />
     </RelativeLayout>
 

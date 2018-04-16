@@ -26,8 +26,6 @@ public class NFSApp extends MultiDexApplication {
         FontsOverride.setDefaultFont(this, "SERIF", "fonts/estre.ttf");
         FontsOverride.setDefaultFont(this, "SANS_SERIF", "fonts/estre.ttf");
 
-
-
     }
 
     @Override

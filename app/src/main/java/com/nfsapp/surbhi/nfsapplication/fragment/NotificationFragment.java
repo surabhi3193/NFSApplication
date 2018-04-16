@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -44,6 +45,13 @@ public class NotificationFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_notification, null);
 
         listView =v.findViewById(R.id.listview);
+       TextView clear_btn =v.findViewById(R.id.clear_btn);
+       clear_btn.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               clear_notification();
+           }
+       });
         getNotification();
         return v;
     }
@@ -84,7 +92,7 @@ public class NotificationFragment extends Fragment {
                             String sender_id = jsonObject.getString("sender_name");
                             String reciever_id = jsonObject.getString("reciever_id");
                             String noti_message = jsonObject.getString("noti_message");
-                            String noti_date = jsonObject.getString("noti_date");
+                            String noti_date = jsonObject.getString("noti_date").split(" ")[0];
                             String image = jsonObject.getString("sender_pic");
 
                             Notification notification = new Notification(notification_id,image, sender_id, noti_message, noti_date);
@@ -116,4 +124,57 @@ public class NotificationFragment extends Fragment {
             }
         });
     }
+
+
+    private void clear_notification() {
+        final AsyncHttpClient client = new AsyncHttpClient();
+        final RequestParams params = new RequestParams();
+
+        final Dialog ringProgressDialog = new Dialog(getActivity(), R.style.Theme_AppCompat_Dialog);
+        ringProgressDialog.setContentView(R.layout.loading);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        ringProgressDialog.show();
+        GifImageView gifview = ringProgressDialog.findViewById(R.id.loaderGif);
+        gifview.setGifImageResource(R.drawable.loader2);
+
+        String userid = getData(getActivity(), "user_id", "");
+        System.out.println("========== userid========== " + userid);
+
+        params.put("user_id", userid);
+
+        System.out.println("=============  clear notification_list ==============");
+        System.err.println(params);
+        client.post(BASE_URL_NEW + "clear_notification", params, new JsonHttpResponseHandler() {
+
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                System.out.println(response);
+                ringProgressDialog.dismiss();
+                try {
+
+                    if (response.getString("status").equals("1")) {
+               getNotification();
+                    } else {
+                        makeToast(getActivity(), response.getString("message"));
+                        return;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                ringProgressDialog.dismiss();
+                System.out.println(errorResponse);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                ringProgressDialog.dismiss();
+                System.out.println(responseString);
+            }
+        });
+    }
+
 }

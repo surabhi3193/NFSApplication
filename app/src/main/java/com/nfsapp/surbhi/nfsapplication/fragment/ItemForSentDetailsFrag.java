@@ -111,8 +111,10 @@ public class ItemForSentDetailsFrag extends Fragment {
                             String pickup_location = jsonObject.getString("pickup_location");
                             String destination_location = jsonObject.getString("destination_location");
                             String product_pic = jsonObject.getString("product_pic");
+                            String departure_date = jsonObject.getString("departure_date");
 
-                            Traveller movie = new Traveller(product_id,"",product_name,product_pic, pickup_location,destination_location, "04/03/2018", "50 KM","");
+                            Traveller movie = new Traveller(product_id,"",product_name,product_pic,
+                                    pickup_location,destination_location, departure_date, "","");
                             travellerList.add(movie);
 
                         }

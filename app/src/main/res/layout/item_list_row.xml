@@ -53,7 +53,7 @@
                 android:padding="3dp"
                 android:fontFamily="@font/estre"
                 android:textColor="@color/colorPrimaryDark"
-                android:text="Departure "
+                android:text="Departure :  "
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
              />
@@ -81,7 +81,7 @@
                 android:fontFamily="@font/estre"
                 android:padding="3dp"
                 android:textColor="@color/colorPrimaryDark"
-                android:text="Arrival "
+                android:text="Arrival :  "
                 android:layout_width="80dp"
                 android:layout_height="wrap_content" />
 

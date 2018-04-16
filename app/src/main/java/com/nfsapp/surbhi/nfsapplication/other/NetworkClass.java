@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,15 +18,20 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.nfsapp.surbhi.nfsapplication.R;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cz.msebera.android.httpclient.Header;
+
+import static com.nfsapp.surbhi.nfsapplication.other.MySharedPref.saveData;
 
 public class NetworkClass {
 
@@ -171,6 +177,64 @@ public class NetworkClass {
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
 
                 ringProgressDialog.dismiss();
+                System.out.println(responseString);
+
+            }
+
+        });
+
+    }
+
+
+    public static void getAirportList(final Activity activity) {
+
+
+        final AsyncHttpClient client = new AsyncHttpClient();
+        final RequestParams params = new RequestParams();
+
+        client.setTimeout(60 * 1000);
+        client.setConnectTimeout(60 * 1000);
+        client.setResponseTimeout(60 * 1000);
+        System.out.println(params);
+        client.post(BASE_URL_NEW + "airport_list", params, new JsonHttpResponseHandler() {
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                System.out.println(response);
+                try {
+                    String response_fav = response.getString("status");
+                    if (response_fav.equals("1")) {
+                        JSONArray obj = response.getJSONArray("notifications");
+                        List<String> airportList = new ArrayList<>();
+                        for (int i = 0; i<obj.length();i++)
+                        {
+                            JSONObject jsonObject =obj.getJSONObject(i);
+                            String name = jsonObject.getString("airport_name");
+                            String city = jsonObject.getString("airport_city");
+                            String code = jsonObject.getString("airport_code");
+
+                            airportList.add(city+", " + code);
+
+                        }
+                        String list = TextUtils.join("/",airportList);
+
+
+                        saveData(activity,"country_list",list);
+
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                System.out.println(errorResponse);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 System.out.println(responseString);
 
             }

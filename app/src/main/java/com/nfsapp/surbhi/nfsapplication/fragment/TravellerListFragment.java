@@ -111,10 +111,11 @@ public class TravellerListFragment extends Fragment {
                             String departure = jsonObject.getString("departure");
                             String arrival = jsonObject.getString("arrival");
                             String user_pic = jsonObject.getString("user_pic");
+                            String date = jsonObject.getString("departure_date");
 
 
                             Traveller movie = new Traveller(product_id,"", trevaller_name, user_pic, "Departure : " + departure,
-                                    "Arrival : " + arrival, "04/03/2018", "50 KM","");
+                                    "Arrival : " + arrival, date, "","");
                             travellerList.add(movie);
 
                         }

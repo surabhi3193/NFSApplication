@@ -71,7 +71,7 @@ public class ProfileFragment extends Fragment {
     private RelativeLayout imageLay;
     private String p_lat = "0.0", p_lng = "0.0";
     private TextView nametV, locationTv, emailTv, phoneTV, accountTv, uploadtV, logoutTV, cityEt;
-
+     Dialog dialog;
     static void makeToast(Context ctx, String s) {
         Toast.makeText(ctx, s, Toast.LENGTH_SHORT).show();
     }
@@ -147,7 +147,7 @@ public class ProfileFragment extends Fragment {
     private void LogoutAlertDialog() {
         AlertDialog.Builder ab = new AlertDialog.Builder(getActivity(), R.style.Theme_AppCompat_Dialog);
         //ab.setTitle("Are you shore you want to log out");
-        ab.setMessage("Are you sure you want to log out");
+        ab.setMessage("Are you sure you want to logout");
         ab.setNegativeButton("logout", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -190,7 +190,6 @@ public class ProfileFragment extends Fragment {
             uploadtV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
                     Utility.checkWriteStoragePermission(getActivity());
                     imageLay.setVisibility(View.VISIBLE);
                     Picasso.with(getActivity()).load(user.getId_image()).noPlaceholder().into(idIV_main);
@@ -201,6 +200,12 @@ public class ProfileFragment extends Fragment {
             imageLay.setVisibility(View.GONE);
         }
 
+        imageLay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imageLay.setVisibility(View.GONE);
+            }
+        });
     }
 
     private void ShowDialog(final User user) {
@@ -407,12 +412,14 @@ public class ProfileFragment extends Fragment {
         return Uri.parse(path);
     }
 
-    private void imageDialog() {
+    private void imageDialog()
+    {
         Utility.checkReadStoragePermission(getActivity());
-        final Dialog dialog = new Dialog(getActivity(), R.style.Theme_AppCompat_Dialog);
+         dialog = new Dialog(getActivity(), R.style.Theme_AppCompat_Dialog);
         dialog.setContentView(R.layout.upload_image);
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setCanceledOnTouchOutside(true);
         dialog.show();
 
         TextView gallery_btn = dialog.findViewById(R.id.gallery_btn);
@@ -563,7 +570,7 @@ public class ProfileFragment extends Fragment {
             params.put("user_pic", file);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            Toast.makeText(getActivity(), "Image not found", Toast.LENGTH_LONG).show();
+//            Toast.makeText(getActivity(), "Image not found", Toast.LENGTH_LONG).show();
             ringProgressDialog.dismiss();
         }
 
@@ -598,14 +605,14 @@ public class ProfileFragment extends Fragment {
             }
 
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Toast.makeText(getActivity(), "Server Error,Try Again ", Toast.LENGTH_LONG).show();
+//                Toast.makeText(getActivity(), "Server Error,Try Again ", Toast.LENGTH_LONG).show();
                 ringProgressDialog.dismiss();
                 System.out.println(errorResponse);
 
             }
 
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Toast.makeText(getActivity(), "Server Error,Try Again ", Toast.LENGTH_LONG).show();
+//               Toast.makeText(getActivity(), "Server Error,Try Again ", Toast.LENGTH_LONG).show();
                 ringProgressDialog.dismiss();
                 System.out.println(responseString);
             }
@@ -672,5 +679,10 @@ public class ProfileFragment extends Fragment {
     }
 
 
+    public void onBackPressed() {
+        if (dialog!=null)
+            dialog.dismiss();
+
+    }
 
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<ScrollView xmlns:tools="http://schemas.android.com/tools"
     android:scrollbars="none"
     android:fillViewport="true"
     android:gravity="center_horizontal"
@@ -41,18 +41,20 @@
                     android:layout_centerInParent="true"
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    tools:ignore="UseCompoundDrawables">
                     <ImageView
                         android:src="@drawable/cam"
                         android:layout_width="60dp"
-                        android:layout_height="60dp" />
+                        android:layout_height="60dp"
+                        android:contentDescription="@string/todo" />
                     <TextView
                         android:padding="5dp"
                         android:textSize="15sp"
                         android:fontFamily="@font/estre"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Upload Product Photo"/>
+                        android:text="@string/upload_product_photo"/>
                 </LinearLayout>
             </RelativeLayout>
 
@@ -87,11 +89,23 @@
                 />
 
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <android.support.v7.widget.AppCompatSpinner
+                    android:backgroundTint="@color/black"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:id="@+id/weightSpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:entries="@array/Time_in_Am">
+                </android.support.v7.widget.AppCompatSpinner>
+
                 <EditText
+                    android:layout_marginLeft="10dp"
                     android:inputType="number|numberDecimal"
                     android:minWidth="200dp"
                     android:id="@+id/weightEt"
@@ -109,27 +123,11 @@
                     android:fontFamily="@font/estre"
                     android:textSize="15sp"
                     />
-                <android.support.v7.widget.AppCompatSpinner
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@id/weightEt"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:layout_centerInParent="true"
-                    android:background="@drawable/textview_back_of_item"
-                    android:id="@+id/weightSpinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:entries="@array/Time_in_Am">
-
-                </android.support.v7.widget.AppCompatSpinner>
-
-
-            </RelativeLayout>
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/p_costEt"
                 android:enabled="false"
-                android:visibility="visible"
                 android:singleLine="true"
                 android:backgroundTint="@color/colorPrimaryDark"
                 android:textCursorDrawable="@null"
@@ -154,26 +152,28 @@
                 android:layout_height="wrap_content"
                 android:text="Increase shipping cost to attract Traveler’s interest"/>
 
-            <TextView
+            <AutoCompleteTextView
+                android:drawableRight="@drawable/drop"
+                android:imeOptions="actionNext"
                 android:gravity="center_vertical"
                 android:id="@+id/pickupEt"
-                android:visibility="visible"
                 android:singleLine="true"
                 android:backgroundTint="@color/colorPrimaryDark"
                 android:textCursorDrawable="@null"
                 android:layout_marginTop="5dp"
                 android:padding="8dp"
-                android:hint="Pickup Location"
+                android:hint="@string/pickup_location2"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:textColor="@color/colorPrimaryDark"
                 android:fontFamily="@font/estre"
                 android:textSize="15sp"
-                />
+                tools:targetApi="lollipop"
+                android:drawableEnd="@drawable/drop" />
 
-            <TextView
+            <AutoCompleteTextView
+                android:drawableRight="@drawable/drop"
                 android:gravity="center_vertical"
-
                 android:id="@+id/destET"
                 android:visibility="visible"
                 android:singleLine="true"
@@ -181,14 +181,15 @@
                 android:textCursorDrawable="@null"
                 android:layout_marginTop="5dp"
                 android:padding="8dp"
-                android:hint="Destination Location"
+                android:hint="@string/destination_location2"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:imeOptions="actionNext"
+                android:imeOptions="actionDone"
                 android:textColor="@color/colorPrimaryDark"
                 android:fontFamily="@font/estre"
                 android:textSize="15sp"
-                />
+                tools:targetApi="lollipop"
+                android:drawableEnd="@drawable/drop" />
 
             <TextView
                 android:textSize="15sp"
@@ -198,27 +199,37 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
-                android:hint="Pickup Date"
+                android:hint="@string/pickup_date"
                 android:paddingLeft="10dp"
                 android:paddingRight="20dp"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:paddingEnd="20dp"
+                android:paddingStart="10dp"
+                tools:targetApi="jelly_bean" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:background="@color/colorPrimaryDark"/>
 
 
-            <EditText
-                android:id="@+id/paymentEt"
-                android:singleLine="true"
-                android:backgroundTint="@color/colorPrimaryDark"
-                android:textCursorDrawable="@null"
-                android:layout_marginTop="5dp"
-                android:padding="8dp"
-                android:hint="Payment Mode"
+            <android.support.v7.widget.AppCompatSpinner
+                android:prompt="@string/payment_mode"
+                android:paddingRight="15dp"
+                android:paddingLeft="1dp"
+                android:background="@color/background_color"
+                android:id="@+id/payment_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:imeOptions="actionNext"
-                android:textColor="@color/colorPrimaryDark"
-                android:fontFamily="@font/estre"
-                android:textSize="15sp"
-                />
+                tools:ignore="HardcodedText"
+                android:paddingEnd="15dp"
+                android:paddingStart="1dp">
+            </android.support.v7.widget.AppCompatSpinner>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:background="@color/colorPrimaryDark"/>
+
             <TextView
                 android:id="@+id/uploadIDCardTV"
                 android:layout_margin="10dp"
@@ -229,13 +240,16 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorPrimaryDark"
                 android:fontFamily="@font/estre"
-                android:text="Upload valid id card"/>
+                android:text="@string/upload_valid_id_card"
+                tools:targetApi="jelly_bean"
+                android:drawableStart="@drawable/upload" />
 
             <ImageView
                 android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:id="@+id/idIV"/>
+                android:id="@+id/idIV"
+                android:contentDescription="@string/id_image" />
             <TextView
                 android:padding="8dp"
                 android:layout_width="match_parent"
@@ -243,7 +257,8 @@
                 android:textColor="@color/colorPrimary"
                 android:fontFamily="@font/estre"
                 android:textSize="15sp"
-                android:text="Receiver Information"/>
+                android:text="@string/receiver_information"
+                tools:targetApi="jelly_bean" />
 
             <EditText
                 android:id="@+id/rec_nameEt"
@@ -252,14 +267,15 @@
                 android:textCursorDrawable="@null"
                 android:layout_marginTop="5dp"
                 android:padding="8dp"
-                android:hint="Name"
+                android:hint="@string/name"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:imeOptions="actionNext"
                 android:textColor="@color/colorPrimaryDark"
                 android:fontFamily="@font/estre"
                 android:textSize="15sp"
-                />
+                tools:targetApi="lollipop"
+                android:inputType="text" />
 
             <EditText
                 android:id="@+id/rec_mob1"
@@ -269,14 +285,14 @@
                 android:textCursorDrawable="@null"
                 android:layout_marginTop="5dp"
                 android:padding="8dp"
-                android:hint="Mobile No. 1"
+                android:hint="@string/mobile_no_1"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:imeOptions="actionNext"
                 android:textColor="@color/colorPrimaryDark"
                 android:fontFamily="@font/estre"
                 android:textSize="15sp"
-                />
+                tools:targetApi="lollipop" />
             <EditText
                 android:id="@+id/rec_mob2"
                 android:inputType="number"
@@ -285,14 +301,14 @@
                 android:textCursorDrawable="@null"
                 android:layout_marginTop="5dp"
                 android:padding="8dp"
-                android:hint="Mobile No. 2"
+                android:hint="@string/mobile_no_2"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:imeOptions="actionNext"
                 android:textColor="@color/colorPrimaryDark"
                 android:fontFamily="@font/estre"
                 android:textSize="15sp"
-                />
+                tools:targetApi="lollipop" />
 
             <EditText
                 android:id="@+id/rec_emailEt"
@@ -301,14 +317,15 @@
                 android:textCursorDrawable="@null"
                 android:layout_marginTop="5dp"
                 android:padding="8dp"
-                android:hint="Email id"
+                android:hint="@string/email_id"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:imeOptions="actionDone"
                 android:textColor="@color/colorPrimaryDark"
                 android:fontFamily="@font/estre"
                 android:textSize="15sp"
-                />
+                tools:targetApi="lollipop"
+                android:inputType="textEmailAddress" />
 
             <CheckBox
                 android:id="@+id/insureCB"
@@ -317,7 +334,8 @@
                 android:checked="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Secure my trip with insurance"/>
+                android:text="@string/secure_my_trip_with_insurance"
+                tools:targetApi="jelly_bean" />
 
             <CheckBox
                 android:fontFamily="@font/estre"
@@ -326,7 +344,8 @@
                 android:checked="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Terms and Conditions"/>
+                android:text="@string/terms_and_conditions"
+                tools:targetApi="jelly_bean" />
 
 
             <CheckBox
@@ -336,17 +355,19 @@
                 android:checked="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Prohibited Item"/>
+                android:text="@string/prohibited_item"
+                tools:targetApi="jelly_bean" />
 
             <Button
                 android:id="@+id/book_btn"
                 android:fontFamily="@font/estre"
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/white"
-                android:text="Add Item"
+                android:text="@string/add_item"
                 android:background="@drawable/btn"
                 android:layout_width="100dp"
-                android:layout_height="40dp" />
+                android:layout_height="40dp"
+                tools:targetApi="jelly_bean" />
         </LinearLayout>
         <RelativeLayout
             android:visibility="gone"
@@ -360,7 +381,8 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:padding="10dp"
-                android:src="@drawable/back_arrow"/>
+                android:src="@drawable/back_arrow"
+                android:contentDescription="@string/todo" />
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/pager2"

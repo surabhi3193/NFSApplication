@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -24,6 +26,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.nfsapp.surbhi.nfsapplication.R;
+import com.nfsapp.surbhi.nfsapplication.beans.User;
 import com.nfsapp.surbhi.nfsapplication.constants.Utility;
 import com.nfsapp.surbhi.nfsapplication.other.GifImageView;
 import com.nfsapp.surbhi.nfsapplication.other.NetworkClass;
@@ -39,6 +42,7 @@ import cz.msebera.android.httpclient.Header;
 
 import static com.nfsapp.surbhi.nfsapplication.constants.GeocodingLocation.getAddressFromLatlng;
 import static com.nfsapp.surbhi.nfsapplication.other.MySharedPref.getData;
+import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.BASE_IMAGE_URL;
 import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.BASE_URL_NEW;
 import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.getRealPathFromURI;
 import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.makeToast;
@@ -49,15 +53,17 @@ public class BookItemActivity extends AppCompatActivity {
     private static final int PLACE_PICKER_REQUEST_DEST = 2;
     private static final int ID_REQUEST_IMAGE = 3;
     private static final int TICKET_REQUEST_IMAGE = 4;
-    private TextView dateTVdeparture, dateTVarrival,pickupET,destET;
-
+    AutoCompleteTextView destET, pickupET;
+    String name = "", address = "", phone = "", email = "";
+    private TextView dateTVdeparture, dateTVarrival;
     private EditText nameET, addressET, emailEt, phoneEt, flightEt;
     private Uri idimageUri;
     private Uri ticketImageurI;
     private String p_lat = "0.0", p_lng = "0.0";
     private String d_lat = "0.0", d_lng = "0.0";
-    private ImageView idIV,ticketIV;
-    private String sender_id="",post_id="";
+    private ImageView idIV, ticketIV;
+    private String sender_id = "", post_id = "";
+    private boolean cam_open = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,24 +82,44 @@ public class BookItemActivity extends AppCompatActivity {
         nameET = findViewById(R.id.nameET);
         addressET = findViewById(R.id.addressET);
         emailEt = findViewById(R.id.emailEt);
-
         phoneEt = findViewById(R.id.phoneEt);
-
         pickupET = findViewById(R.id.pickupET);
         destET = findViewById(R.id.destET);
         flightEt = findViewById(R.id.flightEt);
 
         idIV = findViewById(R.id.idIV);
         ticketIV = findViewById(R.id.ticketIV);
-
         header_text.setText("Traveller Detail");
 
+        final User user = User.getInstance();
+        name = user.getName();
+        address = user.getLocation();
+        email = user.getEmail();
+        phone = user.getPhone();
+        if (name != null)
+            nameET.setText(name);
+        if (address != null)
+            addressET.setText(address);
+        if (email != null)
+            emailEt.setText(email);
+        if (phone != null)
+            phoneEt.setText(phone);
+        if (user.getId_image()!=null && user.getId_image().equalsIgnoreCase(BASE_IMAGE_URL)) {
+            idIV.setVisibility(View.VISIBLE);
+            Picasso.with(getApplicationContext()).load(user.getId_image()).into(idIV);
+        }
+
+        String airportlist = getData(BookItemActivity.this, "country_list", "");
+        String[] airports = airportlist.split("/");
+
+        ArrayAdapter<String> airportadapter = new ArrayAdapter<String>(BookItemActivity.this, android.R.layout.simple_dropdown_item_1line, airports);
+        pickupET.setAdapter(airportadapter);
+        destET.setAdapter(airportadapter);
         Bundle bundle = getIntent().getExtras();
 
-        if (bundle!=null)
-        {
-            sender_id= bundle.getString("sender_id");
-            post_id= bundle.getString("post_id");
+        if (bundle != null) {
+            sender_id = bundle.getString("sender_id");
+            post_id = bundle.getString("post_id");
         }
 
 
@@ -159,43 +185,46 @@ public class BookItemActivity extends AppCompatActivity {
             }
         });
 
-        pickupET.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                System.out.println("====== pickup clicked======");
-                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+//        pickupET.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                System.out.println("====== pickup clicked======");
+//                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+//
+//                try {
+//                    startActivityForResult(builder.build(BookItemActivity.this), PLACE_PICKER_REQUEST);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
 
-                try {
-                    startActivityForResult(builder.build(BookItemActivity.this), PLACE_PICKER_REQUEST);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        destET.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                System.out.println("====== dest clicked======");
-                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-                try {
-                    startActivityForResult(builder.build(BookItemActivity.this), PLACE_PICKER_REQUEST_DEST);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+//        destET.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                System.out.println("====== dest clicked======");
+//                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+//                try {
+//                    startActivityForResult(builder.build(BookItemActivity.this), PLACE_PICKER_REQUEST_DEST);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
 
 
         idTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                cam_open = true;
                 getIDImage("id");
             }
         });
         ticketTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                cam_open = true;
+
                 getIDImage("ticket");
             }
         });
@@ -252,7 +281,7 @@ public class BookItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
-                BookItem(traveller_name, address,email,phone,pickup,destination,dateDepart,dateArrival,flight,pathid,pathTicket);
+                BookItem(traveller_name, address, email, phone, pickup, destination, dateDepart, dateArrival, flight, pathid, pathTicket);
 
 //                startActivity(new Intent(BookItemActivity.this,TravellerMainActivity.class));
 //                finish();
@@ -294,8 +323,7 @@ public class BookItemActivity extends AppCompatActivity {
             makeToast(BookItemActivity.this, "Enter your email");
             return;
         }
-        if (!email.contains("@"))
-        {
+        if (!email.contains("@")) {
             makeToast(BookItemActivity.this, "Invalid email id");
             emailEt.setFocusable(true);
             return;
@@ -343,14 +371,14 @@ public class BookItemActivity extends AppCompatActivity {
 
         }
 
-        String pathid = getRealPathFromURI(idimageUri,BookItemActivity.this);
-        String pathTicket = getRealPathFromURI(ticketImageurI,BookItemActivity.this);
-        warningBooking(traveller_name, address,email,phone,pickup,destination,dateDepart,dateArrival,flight,pathid,pathTicket);
+        String pathid = getRealPathFromURI(idimageUri, BookItemActivity.this);
+        String pathTicket = getRealPathFromURI(ticketImageurI, BookItemActivity.this);
+        warningBooking(traveller_name, address, email, phone, pickup, destination, dateDepart, dateArrival, flight, pathid, pathTicket);
     }
 
-    private void BookItem(String traveller_name, String address, String email, String phone, String pickup, String destination, 
-                          String dateDepart, String dateArrival, String flight, String pathid, String pathTicket) 
-    
+    private void BookItem(String traveller_name, String address, String email, String phone, String pickup, String destination,
+                          String dateDepart, String dateArrival, String flight, String pathid, String pathTicket)
+
     {
 
         final AsyncHttpClient client = new AsyncHttpClient();
@@ -389,7 +417,7 @@ public class BookItemActivity extends AppCompatActivity {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-   File ticketFile = new File(pathTicket);
+        File ticketFile = new File(pathTicket);
         try {
             System.out.println(idimageUri);
             System.out.println(idfile);
@@ -437,7 +465,6 @@ public class BookItemActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         System.out.println("=========== after clicking image ============");
@@ -474,23 +501,38 @@ public class BookItemActivity extends AppCompatActivity {
                 break;
 
             case ID_REQUEST_IMAGE:
-                if (idimageUri != null && idimageUri.getPath().length() > 0) {
-                    Picasso.with(BookItemActivity.this).load(idimageUri).into(idIV);
-                    idIV.setVisibility(View.VISIBLE);
+                if (resultCode != 0) {
+                    if (idimageUri != null && idimageUri.getPath().length() > 0) {
+                        Picasso.with(BookItemActivity.this).load(idimageUri).into(idIV);
+                        idIV.setVisibility(View.VISIBLE);
+                    } else {
+                        idIV.setVisibility(View.GONE);
+                    }
                 } else {
+                    idimageUri = null;
                     idIV.setVisibility(View.GONE);
                 }
                 break;
 
             case TICKET_REQUEST_IMAGE:
-                if (ticketImageurI != null && ticketImageurI.getPath().length() > 0) {
-                    Picasso.with(BookItemActivity.this).load(ticketImageurI).into(ticketIV);
-                    ticketIV.setVisibility(View.VISIBLE);
+                if (resultCode != 0) {
+                    if (ticketImageurI != null && ticketImageurI.getPath().length() > 0) {
+                        Picasso.with(BookItemActivity.this).load(ticketImageurI).into(ticketIV);
+                        ticketIV.setVisibility(View.VISIBLE);
+                    } else {
+                        ticketIV.setVisibility(View.GONE);
+                    }
                 } else {
+                    ticketImageurI = null;
                     ticketIV.setVisibility(View.GONE);
                 }
                 break;
 
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

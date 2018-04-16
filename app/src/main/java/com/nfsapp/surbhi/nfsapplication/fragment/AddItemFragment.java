@@ -20,6 +20,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -75,9 +77,13 @@ public class AddItemFragment extends Fragment {
     private CircleIndicator indicator;
     private Uri idimageUri;
     private ImageView idIV;
-    private TextView pickupEt, destET, dateTV;
+    private TextView dateTV;
     private String p_lat = "0.0", p_lng = "0.0";
     private String d_lat = "0.0", d_lng = "0.0";
+
+    private AutoCompleteTextView pickupEt,destET;
+
+     Dialog dialog;
 
     public RelativeLayout sliderLay;
     public LinearLayout formLay;
@@ -91,24 +97,22 @@ public class AddItemFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_add_item, null);
         mPager = v.findViewById(R.id.pager);
-
         indicator = v.findViewById(R.id.indicator);
-
-
         Button book_btn = v.findViewById(R.id.book_btn);
         final EditText p_nameEt = v.findViewById(R.id.p_nameEt);
         final EditText p_descEt = v.findViewById(R.id.p_descEt);
         final EditText weightEt = v.findViewById(R.id.weightEt);
         final EditText p_costEt = v.findViewById(R.id.p_costEt);
-        pickupEt = v.findViewById(R.id.pickupEt);
+//        pickupEt = v.findViewById(R.id.pickupEt);
+        pickupEt =v.findViewById(R.id.pickupEt);
         destET = v.findViewById(R.id.destET);
-        final EditText paymentEt = v.findViewById(R.id.paymentEt);
+
         final EditText rec_nameEt = v.findViewById(R.id.rec_nameEt);
         final EditText rec_mob1 = v.findViewById(R.id.rec_mob1);
         final EditText rec_mob2 = v.findViewById(R.id.rec_mob2);
         final EditText rec_emailEt = v.findViewById(R.id.rec_emailEt);
         final Spinner weightSpinner = v.findViewById(R.id.weightSpinner);
-
+        final Spinner payment_spinner = v.findViewById(R.id.payment_spinner);
 
         idIV = v.findViewById(R.id.idIV);
         dateTV = v.findViewById(R.id.dateTVStock);
@@ -120,7 +124,25 @@ public class AddItemFragment extends Fragment {
         final CheckBox costCB = v.findViewById(R.id.costCB);
         final CheckBox insureCB = v.findViewById(R.id.insureCB);
         final CheckBox termsCB = v.findViewById(R.id.termsCB);
-        CheckBox itemCB = v.findViewById(R.id.itemCB);
+        final CheckBox itemCB = v.findViewById(R.id.itemCB);
+
+        String airportlist = getData(getActivity(),"country_list","");
+        String[] airports = airportlist.split("/");
+
+        ArrayAdapter<String> airportadapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, airports);
+        pickupEt.setAdapter(airportadapter);
+        destET.setAdapter(airportadapter);
+
+
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Payment mode");
+        list.add("Debit/Credit Card");
+        list.add("Paypal");
+
+        // country_list
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item,list);
+        payment_spinner.setAdapter(adapter);
+
 
         final Calendar myCalendar = Calendar.getInstance();
 
@@ -146,33 +168,32 @@ public class AddItemFragment extends Fragment {
             }
         });
 
-        pickupEt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                System.out.println("====== pickup clicked======");
-                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+//        pickupEt.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                System.out.println("====== pickup clicked======");
+//                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+//
+//                try {
+//                    startActivityForResult(builder.build(getActivity()), PLACE_PICKER_REQUEST);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
 
-                try {
-                    startActivityForResult(builder.build(getActivity()), PLACE_PICKER_REQUEST);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        destET.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                System.out.println("====== dest clicked======");
-                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-                try {
-                    startActivityForResult(builder.build(getActivity()), PLACE_PICKER_REQUEST_DEST);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
+//        destET.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                System.out.println("====== dest clicked======");
+//                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+//                try {
+//                    startActivityForResult(builder.build(getActivity()), PLACE_PICKER_REQUEST_DEST);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
 
         idTV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -206,12 +227,12 @@ public class AddItemFragment extends Fragment {
                 String pickup = pickupEt.getText().toString();
                 String destination = destET.getText().toString();
                 String date = dateTV.getText().toString();
-                String payment = paymentEt.getText().toString();
+                String payment = payment_spinner.getSelectedItem().toString();
                 String receiver = rec_nameEt.getText().toString();
                 String rec_mob_1 = rec_mob1.getText().toString();
                 rec_mob_2 = rec_mob2.getText().toString();
                 String rec_mail = rec_emailEt.getText().toString();
-                String cost = "200";
+                String cost = "$200";
 
                 if (costCB.isChecked())
                     cost = p_costEt.getText().toString();
@@ -255,7 +276,7 @@ public class AddItemFragment extends Fragment {
                     return;
                 }
 
-                if (payment.length() == 0) {
+                if (payment.length() == 0 || payment.equalsIgnoreCase("payment mode")) {
                     makeToast(getActivity(), "Enter payment mode");
                     return;
                 }
@@ -288,12 +309,20 @@ public class AddItemFragment extends Fragment {
                     return;
 
                 }
+                if (!itemCB.isChecked()) {
+                    makeToast(getActivity(), "Please cheack prohibited items  ");
+                    return;
+
+                }
 
                 String isinsure = "";
+                String isProhibited = "";
                 if (insureCB.isChecked())
                     isinsure = "yes";
                 else
                     isinsure = "no";
+
+
 
 
                 String path = getRealPathFromURI(idimageUri, getActivity());
@@ -316,10 +345,11 @@ public class AddItemFragment extends Fragment {
 
 
     private void imageDialog() {
-        final Dialog dialog = new Dialog(getActivity(), R.style.Theme_AppCompat_Dialog);
+        dialog = new Dialog(getActivity(), R.style.Theme_AppCompat_Dialog);
         dialog.setContentView(R.layout.upload_image);
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setCanceledOnTouchOutside(true);
         dialog.show();
 
         TextView gallery_btn = dialog.findViewById(R.id.gallery_btn);
@@ -350,7 +380,7 @@ public class AddItemFragment extends Fragment {
 
                     if (activities.size() > 0)
                     {
-                        Toast.makeText(getActivity(), getResources().getString(R.string.click_photo), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), getResources().getString(R.string.click_photo), Toast.LENGTH_LONG).show();
                         startActivityForResult(cameraIntent, CAPTURE_IMAGES_FROM_CAMERA);
                     }
                     else
@@ -489,12 +519,19 @@ public class AddItemFragment extends Fragment {
                 break;
 
             case 2:
-                if (idimageUri != null && idimageUri.getPath().length() > 0) {
-                    Picasso.with(getActivity()).load(idimageUri).into(idIV);
-                    idIV.setVisibility(View.VISIBLE);
-                } else {
+                if (resultCode!= 0) {
+                    if (idimageUri != null && idimageUri.getPath().length() > 0) {
+                        Picasso.with(getActivity()).load(idimageUri).into(idIV);
+                        idIV.setVisibility(View.VISIBLE);
+                    } else {
+                        idIV.setVisibility(View.GONE);
+                    }
+                }
+                else {
+                    idimageUri=null;
                     idIV.setVisibility(View.GONE);
                 }
+
                 break;
             case PLACE_PICKER_REQUEST:
 
@@ -506,7 +543,6 @@ public class AddItemFragment extends Fragment {
                     p_lng = String.valueOf(location.longitude);
                     String new_location = getAddressFromLatlng(location, getActivity().getApplicationContext(), 0);
                     pickupEt.setText(new_location);
-
 
                 }
                 break;
@@ -638,6 +674,14 @@ public class AddItemFragment extends Fragment {
 //                handler.post(Update);
 //            }
 //        }, 2500, 2500);
+    }
+    public void onBackPressed() {
+        if (dialog!=null)
+            dialog.dismiss();
+
+        else
+            getActivity().onBackPressed();
+
     }
 
 

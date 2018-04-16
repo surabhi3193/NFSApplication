@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         fm = getSupportFragmentManager();
         Utility.checkFINELOCATION(this);
-
         home_img = findViewById(R.id.home_img);
         chat_img = findViewById(R.id.chat_img);
         notify_img = findViewById(R.id.notify_img);
@@ -54,7 +53,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         profile_img = findViewById(R.id.profile_img);
         profile_pic = findViewById(R.id.image);
         nameTV = findViewById(R.id.nameTV);
-
         checkNotification();
         setFragment("home");
         fragment = new HomeFragment();
@@ -107,7 +105,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Toast.makeText(MainActivity.this, response.getString("message"), Toast.LENGTH_SHORT).show();
                         return;
                     }
-
                     final User user = User.getInstance();
                     user.setId(response.getString("user_id"));
                     user.setProfile_pic(response.getString("user_pic"));

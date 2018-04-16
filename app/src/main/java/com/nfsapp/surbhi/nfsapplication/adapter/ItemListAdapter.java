@@ -78,6 +78,7 @@ public class ItemListAdapter extends ArrayAdapter<Traveller> {
         viewHolder.head_depart.setTypeface(face);
         viewHolder.head_arrival.setTypeface(face);
 
+        viewHolder.date.setText(traveller.getDate());
         viewHolder.txtName.setText(traveller.getName());
         viewHolder.txtType.setText(traveller.getDeparture_airport());
         viewHolder.txtVersion.setText(traveller.getArrival_airport());

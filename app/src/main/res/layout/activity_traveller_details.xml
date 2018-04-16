@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,6 +7,10 @@
     android:background="@color/background_color"
     android:orientation="vertical"
     tools:context=".activities.ItemDetails">
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <include layout="@layout/back_layout" />
 
@@ -16,295 +20,169 @@
         android:layout_width="match_parent"
         android:layout_height="180dp"
         android:scaleType="fitXY" />
-
-    <LinearLayout
-        android:gravity="center"
+    <TableLayout
+        android:stretchColumns="1"
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
+        <TableRow
+            android:layout_marginTop="10dp">
+            <TextView
+                android:textSize="18sp"
+                android:fontFamily="@font/estre"
+                android:padding="3dip"
+                android:text="@string/first_name"
+                android:textColor="@color/colorPrimaryDark" />
+            <TextView
+                android:textSize="18sp"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/nameTV"
+                android:fontFamily="@font/estre"
+                android:padding="3dip"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey" />
+        </TableRow>
 
-    <RelativeLayout
-        android:paddingBottom="10dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <TableRow
+            android:layout_marginTop="10dp">
+            <TextView
+                android:textSize="18sp"
+                android:fontFamily="@font/estre"
+                android:padding="3dip"
+                android:text="@string/departure_city"
+                android:textColor="@color/colorPrimaryDark" />
+            <TextView
+                android:textSize="18sp"
 
-        <TextView
-            android:fontFamily="@font/estre"
-            android:textSize="18sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="First Name"
-            android:textColor="@color/colorPrimaryDark" />
+                android:layout_marginLeft="10dp"
+                android:fontFamily="@font/estre"
+                android:id="@+id/pickupET"
+                android:gravity="start"
+                android:padding="3dip"
+                android:singleLine="true"
+                android:textColor="@color/colorPrimaryDark" />
+        </TableRow>
 
-        <TextView
-            android:layout_centerHorizontal="true"
-            android:fontFamily="@font/estre"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" : "
-            android:textColor="@color/colorPrimaryDark" />
+        <TableRow
+            android:layout_marginTop="10dp">
+            <TextView
+                android:textSize="18sp"
+                android:fontFamily="@font/estre"
+                android:padding="3dip"
+                android:text="@string/departure_date"
+                android:textColor="@color/colorPrimaryDark" />
+            <TextView
+                android:textSize="18sp"
 
-        <TextView
-            android:id="@+id/nameTV"
-            android:maxWidth="150dp"
-            android:fontFamily="@font/estre"
-            android:textSize="18sp"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="John"
-            android:textColor="@color/colorPrimaryDark" />
+                android:fontFamily="@font/estre"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/pickypdateEt"
+                android:gravity="start"
+                android:padding="3dip"
+                android:textColor="@color/black" />
+        </TableRow>
 
+        <TableRow
+            android:layout_marginTop="10dp">
+            <TextView
+                android:textSize="18sp"
 
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:fontFamily="@font/estre"
-            android:textSize="18sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="Departure City"
-            android:textColor="@color/colorPrimaryDark" />
-
-        <TextView
-            android:fontFamily="@font/estre"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text=" : "
-            android:textColor="@color/colorPrimaryDark" />
-
-        <TextView
-            android:id="@+id/pickupET"
-            android:maxWidth="150dp"
-            android:fontFamily="@font/estre"
-            android:textSize="18sp"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="Chicago"
-            android:textColor="@color/colorPrimaryDark" />
-
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:fontFamily="@font/estre"
-            android:textSize="18sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="Departure Date"
-            android:textColor="@color/colorPrimaryDark" />
-
-        <TextView
-            android:fontFamily="@font/estre"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text=" : "
-            android:textColor="@color/colorPrimaryDark" />
-
-        <TextView
-            android:id="@+id/pickypdateEt"
-            android:maxWidth="150dp"
-            android:fontFamily="@font/estre"
-            android:textSize="18sp"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="04/10/2018"
-            android:textColor="@color/colorPrimaryDark" />
+                android:fontFamily="@font/estre"
+                android:padding="3dip"
+                android:text="@string/arrival_city"
+                android:textColor="@color/colorPrimaryDark" />
+            <TextView
+                android:enabled="false"
+                android:fontFamily="@font/estre"
+                android:layout_marginLeft="10dp"
+                android:textSize="18sp"
+                android:id="@+id/destTV"
+                android:gravity="start"
+                android:padding="3dip"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey" />
+        </TableRow>
 
 
-    </RelativeLayout>
+        <TableRow
+            android:layout_marginTop="10dp">
+            <TextView
+                android:textSize="18sp"
+                android:fontFamily="@font/estre"
+                android:padding="3dip"
+                android:text="@string/arrival_date"
+                android:textColor="@color/colorPrimaryDark" />
+            <TextView
+                android:textSize="18sp"
 
-    <RelativeLayout
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+                android:layout_marginLeft="10dp"
+                android:fontFamily="@font/estre"
+                android:id="@+id/destDateTV"
+                android:gravity="start"
+                android:padding="3dip"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey" />
+        </TableRow>
 
-        <TextView
-            android:fontFamily="@font/estre"
-            android:textSize="18sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="Arrival City"
-            android:textColor="@color/colorPrimaryDark" />
+        <TableRow
+            android:layout_marginTop="10dp">
+            <TextView
+                android:textSize="18sp"
 
-        <TextView
-            android:fontFamily="@font/estre"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text=" : "
-            android:textColor="@color/colorPrimaryDark" />
-
-        <TextView
-android:id="@+id/destTV"
-            android:maxWidth="150dp"
-            android:fontFamily="@font/estre"
-            android:textSize="18sp"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="Bangalore"
-            android:textColor="@color/colorPrimaryDark" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:fontFamily="@font/estre"
-            android:textSize="18sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="Arrival Date"
-            android:textColor="@color/colorPrimaryDark" />
-
-        <TextView
-            android:fontFamily="@font/estre"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text=" : "
-            android:textColor="@color/colorPrimaryDark" />
-
-        <TextView
-            android:id="@+id/destDateTV"
-            android:maxWidth="150dp"
-            android:fontFamily="@font/estre"
-            android:textSize="18sp"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="04/12/2018"
-            android:textColor="@color/colorPrimaryDark" />
-
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:fontFamily="@font/estre"
-            android:textSize="18sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="Flight Number"
-            android:textColor="@color/colorPrimaryDark" />
-
-        <TextView
-            android:fontFamily="@font/estre"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text=" : "
-            android:textColor="@color/colorPrimaryDark" />
-
-        <TextView
-            android:id="@+id/flightTV"
-            android:maxWidth="150dp"
-            android:fontFamily="@font/estre"
-            android:textSize="18sp"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="BA2491A"
-            android:textColor="@color/colorPrimaryDark" />
-
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:fontFamily="@font/estre"
-            android:textSize="18sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="Notes"
-            android:textColor="@color/colorPrimaryDark" />
-
-        <TextView
-            android:fontFamily="@font/estre"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text=" : "
-            android:textColor="@color/colorPrimaryDark" />
-
-        <TextView
-            android:maxWidth="150dp"
-            android:fontFamily="@font/estre"
-            android:textSize="18sp"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="If any"
-            android:textColor="@color/colorPrimaryDark" />
-
-
-    </RelativeLayout>
-    </LinearLayout>
+                android:fontFamily="@font/estre"
+                android:padding="3dip"
+                android:text="@string/flight_number"
+                android:textColor="@color/colorPrimaryDark" />
+            <TextView
+                android:textSize="18sp"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="@font/estre"
+                android:id="@+id/flightTV"
+                android:gravity="start"
+                android:padding="3dip"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey" />
+        </TableRow>
+        <TableRow
+            android:layout_marginTop="10dp">
+            <TextView
+                android:textSize="18sp"
+                android:fontFamily="@font/estre"
+                android:padding="3dip"
+                android:text="@string/notes"
+                android:textColor="@color/colorPrimaryDark" />
+            <TextView
+                android:textSize="18sp"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="@font/estre"
+                android:gravity="start"
+                android:text="@string/if_any"
+                android:padding="3dip"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey" />
+        </TableRow>
+    </TableLayout>
 </LinearLayout>
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/imageLay"
+        android:background="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+       android:id="@+id/image_back"
+        android:layout_margin="10dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/back_arrow"
+        android:padding="15dp"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/image_full"/>
+    </RelativeLayout>
+
+</RelativeLayout>

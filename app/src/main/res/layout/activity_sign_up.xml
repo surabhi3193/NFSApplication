@@ -147,9 +147,8 @@
             android:layout_height="40dp" >
 
             <TextView
+                android:layout_centerVertical="true"
                 android:fontFamily="@font/estre"
-
-                android:layout_centerInParent="true"
                 android:text="Signup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -157,6 +156,7 @@
                 android:id="@+id/textView" />
 
             <ImageView
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:layout_width="20dp"
                 android:layout_height="20dp"

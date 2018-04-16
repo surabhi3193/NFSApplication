@@ -98,6 +98,7 @@
                 android:layout_height="40dp" >
 
                 <TextView
+                    android:layout_centerVertical="true"
                     android:fontFamily="@font/estre"
                     android:layout_centerInParent="true"
                     android:text="Login"
@@ -139,7 +140,7 @@
                     android:id="@+id/forgot_pass"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@color/colorPrimary"
                     android:text="Forgot Password ?"/>
             </RelativeLayout>
         </LinearLayout>

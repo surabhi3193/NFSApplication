@@ -129,15 +129,15 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-
-        if (isForgetClicked) {
+        if (isForgetClicked)
+        {
             isForgetClicked = false;
             passEt.setVisibility(View.VISIBLE);
             forgot_pass.setVisibility(View.VISIBLE);
             create_account.setVisibility(View.VISIBLE);
             btn_text.setText("Login");
-        } else
+        }
+        else
             finish();
     }
 

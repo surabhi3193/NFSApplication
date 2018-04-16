@@ -22,6 +22,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import static com.nfsapp.surbhi.nfsapplication.other.MySharedPref.getData;
+import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.BASE_IMAGE_URL;
 import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.getPostDetails;
 
 public class TravelerMainAdapter extends ArrayAdapter<Traveller> implements View.OnClickListener{
@@ -114,8 +115,13 @@ public class TravelerMainAdapter extends ArrayAdapter<Traveller> implements View
         viewHolder.distanceTV.setText(Traveller.getDistance());
         viewHolder.amountTv.setText(Traveller.getCost());
 
-        if (Traveller.getProduct_pic()!=null && Traveller.getProduct_pic().length()>0)
-        Picasso.with(mContext).load(Traveller.getProduct_pic()).placeholder(R.drawable.no_pic).into(viewHolder.product_pic);
+        if (Traveller.getProduct_pic()!=null && Traveller.getProduct_pic().length()>0&& !Traveller.getProduct_pic().equals(BASE_IMAGE_URL))
+        {
+            System.out.println("=========== image in traveller activity=====");
+            System.out.println(Traveller.getProduct_pic());
+            Picasso.with(mContext).load(Traveller.getProduct_pic()).placeholder(R.drawable.no_pic).into(viewHolder.product_pic);
+        }
+        else
         viewHolder.product_pic.setImageResource(R.drawable.no_pic);
 
 

@@ -83,8 +83,6 @@ public class TravellerMainActivity extends AppCompatActivity {
 
         prepareTravellerData();
     }
-
-
     private void prepareTravellerData() {
         final AsyncHttpClient client = new AsyncHttpClient();
         final RequestParams params = new RequestParams();
@@ -126,13 +124,10 @@ public class TravellerMainActivity extends AppCompatActivity {
                             String product_pic = jsonObject.getString("product_pic");
                             String departure_date = jsonObject.getString("departure_date");
                             sender_id = jsonObject.getString("sender_id");
-
                             String amount = jsonObject.getString("prodcust_cost");
                             String distence = jsonObject.getString("distence");
-
-                            Traveller movie = new Traveller(product_id, sender_id, product_name, product_pic, pickup_location, destination_location, departure_date, distence + " miles", "$" + amount);
+                            Traveller movie = new Traveller(product_id, sender_id, product_name, product_pic, pickup_location, destination_location, departure_date, distence + " miles",  amount);
                             travellerList.add(movie);
-
                         }
                         TravelerMainAdapter mAdapter;
                         mAdapter = new TravelerMainAdapter(travellerList, TravellerMainActivity.this);
@@ -145,7 +140,6 @@ public class TravellerMainActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
 
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {

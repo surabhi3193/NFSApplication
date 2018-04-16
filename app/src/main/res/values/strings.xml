@@ -10,10 +10,50 @@
     <string name="date_of_birth">Date of Birth</string>
     <string name="full_name">Full Name</string>
     <string name="location">City</string>
-    <string name="email">Email</string>
+
     <string name="phone_no">Mobile Number</string>
     <string name="account_no">Deposit Account</string>
-    <string name="click_photo">Click multiple photos and press back to save</string>
+    <string name="click_photo">Click multiple photos (max. 4) and press back to save</string>
+    <string name="todo">TODO</string>
+    <string name="upload_product_photo">Upload Product Photo</string>
+
+    <string name="destination_location">Destination Location :</string>
+    <string name="pickup_date">Pickup Date</string>
+    <string name="product_name">Product Name :</string>
+    <string name="product_description">Product Description :</string>
+    <string name="product_weight">Product Weight :</string>
+    <string name="money_to_be_earned">Money to be Earned :</string>
+    <string name="pickup_location">Pickup Location :</string>
+    <string name="payment_mode">Payment Mode :</string>
+    <string name="add_item">Add Item</string>
+    <string name="prohibited_item">Prohibited Item</string>
+    <string name="terms_and_conditions">Terms and Conditions</string>
+    <string name="secure_my_trip_with_insurance">Secure my trip with insurance</string>
+    <string name="email_id">Email id</string>
+    <string name="mobile_no_2">Mobile No. 2</string>
+    <string name="mobile_no_1">Mobile No. 1</string>
+    <string name="name">Name</string>
+    <string name="receiver_information">Receiver Information</string>
+    <string name="upload_valid_id_card">Upload valid id card</string>
+    <string name="id_image">id image</string>
+    <string name="full_name_as_shown_on_id">Full Name (As shown on ID)</string>
+    <string name="address">Address</string>
+    <string name="email">Email</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="travelling_from_departure_airport">Travelling From (Departure Airport)</string>
+    <string name="departure_date">Departure Date :</string>
+    <string name="travelling_to_arrival_airport">Travelling To (Arrival AIrport)</string>
+    <string name="arrival_date">Arrival Date :</string>
+    <string name="flight_number">Flight Number</string>
+    <string name="deposit_amount">Deposit Amount</string>
+    <string name="book_now">Book Now</string>
+    <string name="first_name">First Name :</string>
+    <string name="departure_city">Departure City :</string>
+    <string name="arrival_city">Arrival City :</string>
+    <string name="notes">Notes :</string>
+    <string name="if_any">If any</string>
+    <string name="pickup_location2">Pickup Location </string>
+    <string name="destination_location2">Destination Location</string>
 
 
     <string-array name="type_arrays">
@@ -28,5 +68,14 @@
 
         <item>Kg</item>
         <item>Lbs</item>
+    </string-array>
+
+    <string-array name="payment_array">
+
+        <item>Payment Mode</item>
+        <item>Debit/Credit Card</item>
+        <item>Paypal</item>
+        <item>Cash on Delivery</item>
+        <item>Others</item>
     </string-array>
 </resources>
