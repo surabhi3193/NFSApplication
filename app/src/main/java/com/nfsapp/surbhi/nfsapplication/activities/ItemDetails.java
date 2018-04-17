@@ -1,6 +1,7 @@
 package com.nfsapp.surbhi.nfsapplication.activities;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
@@ -10,10 +11,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.transition.Fade;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nfsapp.surbhi.nfsapplication.R;
+import com.nfsapp.surbhi.nfsapplication.activities.sender.RequestList;
 import com.nfsapp.surbhi.nfsapplication.adapter.SliderAdapter;
 import com.nfsapp.surbhi.nfsapplication.fragment.AddItemFragment;
 
@@ -30,6 +33,7 @@ public class ItemDetails extends AppCompatActivity {
 
     private ViewPager mPager;
     private CircleIndicator indicator;
+    private String product_id="";
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -47,11 +51,19 @@ public class ItemDetails extends AppCompatActivity {
      TextView descTV =findViewById(R.id.descTV);
      TextView weightTV =findViewById(R.id.weightTV);
      TextView priceTV =findViewById(R.id.priceTV);
-
-
-
-        setupWindowAnimations();
+     TextView total_countTV =findViewById(R.id.total_countTV);
+     Button request_btn =findViewById(R.id.request_btn);
         ImageView image = findViewById(R.id.back_btn);
+        request_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(ItemDetails.this, RequestList.class)
+                        .putExtra("product_id",product_id));
+            }
+        });
+
+
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,7 +91,8 @@ public class ItemDetails extends AppCompatActivity {
                 String payment_mode = obj.getString("payment_mode");
 
                 String product_pic = obj.getString("product_pic");
-
+                String trevaller_count = obj.getString("trevaller_count");
+                product_id = obj.getString("post_id");
 
                 productNameTv.setText(product_name);
                 pickupTV.setText(pickup_location);
@@ -89,6 +102,7 @@ public class ItemDetails extends AppCompatActivity {
                 weightTV.setText(product_weight);
                 descTV.setText(product_desc);
                 paymentTV.setText(payment_mode);
+                total_countTV.setText(trevaller_count +" Booking requests");
 
                 String[] uris = product_pic.split(",");
 
@@ -103,14 +117,6 @@ public class ItemDetails extends AppCompatActivity {
             }
         }
 
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private void setupWindowAnimations() {
-        Fade fade = new Fade();
-        fade.setDuration(1000);
-        getWindow().setEnterTransition(fade);
     }
 
     private void init(final ArrayList<Uri> imageArray) {
@@ -130,12 +136,5 @@ public class ItemDetails extends AppCompatActivity {
                 mPager.setCurrentItem(currentPage[0]++, true);
             }
         };
-//        Timer swipeTimer = new Timer();
-//        swipeTimer.schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//                handler.post(Update);
-//            }
-//        }, 2500, 2500);
     }
 }

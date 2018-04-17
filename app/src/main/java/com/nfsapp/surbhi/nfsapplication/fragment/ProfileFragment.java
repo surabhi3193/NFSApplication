@@ -154,7 +154,6 @@ public class ProfileFragment extends Fragment {
 
 
                 logoutUser();
-
                 dialog.dismiss();
             }
         });
@@ -207,7 +206,6 @@ public class ProfileFragment extends Fragment {
             }
         });
     }
-
     private void ShowDialog(final User user) {
 
         AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());

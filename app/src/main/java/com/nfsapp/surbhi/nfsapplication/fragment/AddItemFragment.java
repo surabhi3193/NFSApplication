@@ -327,7 +327,7 @@ public class AddItemFragment extends Fragment {
 
                 String path = getRealPathFromURI(idimageUri, getActivity());
                 pweight = pweight + " " + weightSpinner.getSelectedItem().toString();
-                postItem(imageArray, pname, pdesc, pweight, cost, pickup, destination, date, payment, path, receiver, rec_mob_1,
+                postItem(imageArray, pname, pdesc, pweight,"$"+cost, pickup, destination, date, payment, path, receiver, rec_mob_1,
                         rec_mob_2, rec_mail, p_lat, p_lng, isinsure);
             }
         });
@@ -442,8 +442,6 @@ public class AddItemFragment extends Fragment {
         params.put("reciever_phone", rec_mob_1);
         params.put("reciever_email", recMail);
         params.put("product_insurence", isinsure);
-        params.put("pickup_latitude", p_lat);
-        params.put("pickup_logitude", p_lng);
         params.put("destination_location", destination);
         params.put("product_send_date", date);
 

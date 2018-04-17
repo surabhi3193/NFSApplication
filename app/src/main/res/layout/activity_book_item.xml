@@ -110,7 +110,7 @@
                 android:fontFamily="@font/estre"
                 android:gravity="center_vertical"
                 android:hint="@string/travelling_from_departure_airport"
-                android:imeOptions="actionNext"
+                android:imeOptions="actionDone"
                 android:padding="8dp"
                 android:singleLine="true"
                 android:textColor="@color/colorPrimaryDark"

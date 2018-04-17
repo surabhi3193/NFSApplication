@@ -26,296 +26,167 @@
         android:layout_height="18dp"
         android:layout_alignParentBottom="true"/>
     </RelativeLayout>
-    <LinearLayout
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:paddingBottom="10dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
+        <TableLayout
+            android:stretchColumns="1"
+            android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <TableRow
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:textSize="18sp"
+                    android:fontFamily="@font/estre"
+                    android:padding="3dip"
+                    android:text="@string/product_name"
+                    android:textColor="@color/colorPrimaryDark" />
+                <TextView
+                    android:textSize="18sp"
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/productNameTv"
+                    android:fontFamily="@font/estre"
+                    android:padding="3dip"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey" />
+            </TableRow>
 
-            <TextView
-                android:fontFamily="@font/estre"
-                android:textSize="18sp"
-                android:layout_width="160dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:text="Product Name"
-                android:textColor="@color/colorPrimaryDark" />
+            <TableRow
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:textSize="18sp"
+                    android:fontFamily="@font/estre"
+                    android:padding="3dip"
+                    android:text="@string/product_description"
+                    android:textColor="@color/colorPrimaryDark" />
+                <TextView
+                    android:textSize="18sp"
 
-            <TextView
-                android:fontFamily="@font/estre"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:text=" : "
-                android:textColor="@color/colorPrimaryDark" />
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/estre"
+                    android:id="@+id/descTV"
+                    android:gravity="start"
+                    android:padding="3dip"
+                    android:singleLine="true"
+                    android:textColor="@color/colorPrimaryDark" />
+            </TableRow>
 
-            <TextView
-                android:id="@+id/productNameTv"
-                android:maxWidth="150dp"
-                android:fontFamily="@font/estre"
-                android:textSize="18sp"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="Laptop Hp"
-                android:textColor="@color/colorPrimaryDark" />
+            <TableRow
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:textSize="18sp"
+                    android:fontFamily="@font/estre"
+                    android:padding="3dip"
+                    android:text="@string/product_weight"
+                    android:textColor="@color/colorPrimaryDark" />
+                <TextView
+                    android:textSize="18sp"
 
+                    android:fontFamily="@font/estre"
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/weightTV"
+                    android:gravity="start"
+                    android:padding="3dip"
+                    android:textColor="@color/black" />
+            </TableRow>
 
-        </RelativeLayout>
+            <TableRow
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:textSize="18sp"
 
-
-        <RelativeLayout
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:fontFamily="@font/estre"
-                android:textSize="17sp"
-                android:layout_width="160dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:text="Product Description"
-                android:textColor="@color/colorPrimaryDark" />
-
-            <TextView
-                android:fontFamily="@font/estre"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:text=" : "
-                android:textColor="@color/colorPrimaryDark" />
-
-            <TextView
-                android:id="@+id/descTV"
-                android:maxWidth="150dp"
-                android:fontFamily="@font/estre"
-                android:textSize="18sp"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="Laptop Hp White Colour"
-                android:textColor="@color/colorPrimaryDark" />
-
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:fontFamily="@font/estre"
-                android:textSize="18sp"
-                android:layout_width="160dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:text="Product Weight"
-                android:textColor="@color/colorPrimaryDark" />
-
-            <TextView
-                android:fontFamily="@font/estre"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:text=" : "
-                android:textColor="@color/colorPrimaryDark" />
-
-            <TextView
-                android:id="@+id/weightTV"
-                android:maxWidth="150dp"
-                android:fontFamily="@font/estre"
-                android:textSize="18sp"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="2 Kg"
-                android:textColor="@color/colorPrimaryDark" />
+                    android:fontFamily="@font/estre"
+                    android:padding="3dip"
+                    android:text="@string/shipping_cost"
+                    android:textColor="@color/colorPrimaryDark" />
+                <TextView
+                    android:enabled="false"
+                    android:fontFamily="@font/estre"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="18sp"
+                    android:id="@+id/priceTV"
+                    android:gravity="start"
+                    android:padding="3dip"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey" />
+            </TableRow>
 
 
-        </RelativeLayout>
+            <TableRow
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:textSize="18sp"
+                    android:fontFamily="@font/estre"
+                    android:padding="3dip"
+                    android:text="@string/destination_location"
+                    android:textColor="@color/colorPrimaryDark" />
+                <TextView
+                    android:textSize="18sp"
 
-        <RelativeLayout
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/estre"
+                    android:id="@+id/destinationTV"
+                    android:gravity="start"
+                    android:padding="3dip"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey" />
+            </TableRow>
 
-            <TextView
-                android:fontFamily="@font/estre"
-                android:textSize="18sp"
-                android:layout_width="160dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:text="Shipping Cost"
-                android:textColor="@color/colorPrimaryDark" />
+            <TableRow
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:textSize="18sp"
 
-            <TextView
-                android:fontFamily="@font/estre"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:text=" : "
-                android:textColor="@color/colorPrimaryDark" />
+                    android:fontFamily="@font/estre"
+                    android:padding="3dip"
+                    android:text="@string/pickup_location"
+                    android:textColor="@color/colorPrimaryDark" />
+                <TextView
+                    android:textSize="18sp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/estre"
+                    android:id="@+id/pickupTV"
+                    android:gravity="start"
+                    android:padding="3dip"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey" />
+            </TableRow>
+            <TableRow
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:textSize="18sp"
+                    android:fontFamily="@font/estre"
+                    android:padding="3dip"
+                    android:text="@string/payment_mode"
+                    android:textColor="@color/colorPrimaryDark" />
+                <TextView
+                    android:textSize="18sp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/estre"
+                    android:gravity="start"
+                    android:id="@+id/paymentTV"
+                    android:padding="3dip"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey" />
+            </TableRow>
+        </TableLayout>
 
-            <TextView
-                android:id="@+id/priceTV"
-                android:maxWidth="150dp"
-                android:fontFamily="@font/estre"
-                android:textSize="18sp"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="200 $"
-                android:textColor="@color/colorPrimaryDark" />
-
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:fontFamily="@font/estre"
-                android:textSize="18sp"
-                android:layout_width="160dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:text="Destination City"
-                android:textColor="@color/colorPrimaryDark" />
-
-            <TextView
-                android:fontFamily="@font/estre"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:text=" : "
-                android:textColor="@color/colorPrimaryDark" />
-
-            <TextView
-                android:id="@+id/destinationTV"
-                android:maxWidth="150dp"
-                android:fontFamily="@font/estre"
-                android:textSize="18sp"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="Naperville"
-                android:textColor="@color/colorPrimaryDark" />
-
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:fontFamily="@font/estre"
-                android:textSize="18sp"
-                android:layout_width="160dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:text="Pickup City"
-                android:textColor="@color/colorPrimaryDark" />
-
-            <TextView
-                android:fontFamily="@font/estre"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:text=" : "
-                android:textColor="@color/colorPrimaryDark" />
-
-            <TextView
-                android:id="@+id/pickupTV"
-                android:maxWidth="150dp"
-                android:fontFamily="@font/estre"
-                android:textSize="18sp"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="Chicago"
-                android:textColor="@color/colorPrimaryDark" />
-
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:fontFamily="@font/estre"
-                android:textSize="18sp"
-                android:layout_width="160dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:text="Payment Mode"
-                android:textColor="@color/colorPrimaryDark" />
-
-            <TextView
-                android:fontFamily="@font/estre"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:text=" : "
-                android:textColor="@color/colorPrimaryDark" />
-
-            <TextView
-                android:id="@+id/paymentTV"
-                android:maxWidth="150dp"
-                android:fontFamily="@font/estre"
-                android:textSize="18sp"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="Paypal"
-                android:textColor="@color/colorPrimaryDark" />
-
-        </RelativeLayout>
-    </LinearLayout>
+    <TextView
+        android:id="@+id/total_countTV"
+        android:layout_margin="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/Red"
+        android:fontFamily="@font/estre"
+        android:textSize="15sp"/>
+    <Button
+        android:id="@+id/request_btn"
+        android:fontFamily="@font/estre"
+        android:layout_gravity="center_horizontal"
+        android:text="View Request"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:background="@drawable/blue_btn"
+        />
 </LinearLayout>

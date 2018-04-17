@@ -86,9 +86,10 @@ public class TravelerMainAdapter extends ArrayAdapter<Traveller> implements View
 
             viewHolder.product_pic = convertView.findViewById(R.id.productIV);
             viewHolder.details_btn = convertView.findViewById(R.id.details_btn);
-
             convertView.setTag(viewHolder);
-        } else {
+        }
+
+        else {
             viewHolder = (ViewHolder) convertView.getTag();
             result=convertView;
         }
@@ -115,36 +116,50 @@ public class TravelerMainAdapter extends ArrayAdapter<Traveller> implements View
         viewHolder.distanceTV.setText(Traveller.getDistance());
         viewHolder.amountTv.setText(Traveller.getCost());
 
+        System.out.println("=========== image in traveller activity=====");
+        System.out.println(Traveller.getProduct_pic());
         if (Traveller.getProduct_pic()!=null && Traveller.getProduct_pic().length()>0&& !Traveller.getProduct_pic().equals(BASE_IMAGE_URL))
         {
-            System.out.println("=========== image in traveller activity=====");
-            System.out.println(Traveller.getProduct_pic());
+
             Picasso.with(mContext).load(Traveller.getProduct_pic()).placeholder(R.drawable.no_pic).into(viewHolder.product_pic);
         }
         else
         viewHolder.product_pic.setImageResource(R.drawable.no_pic);
 
 
-        viewHolder.details_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        String trevaller_status = Traveller.getStatus();
+        System.out.println("====== traveller status====");
+        System.out.println(trevaller_status);
+        if (trevaller_status.equalsIgnoreCase("1")) {
+            viewHolder.details_btn.setText("Applied");
+            viewHolder.details_btn.setBackgroundResource(R.drawable.green_rect);
+            viewHolder.view_btn.setVisibility(View.GONE);
+        }
+        else {
+            viewHolder.details_btn.setBackgroundResource(R.drawable.btn);
 
-                mContext.startActivity(new Intent(mContext,BookItemActivity.class)
-                        .putExtra("sender_id",Traveller.getSender_id())
-                        .putExtra("post_id",Traveller.getId())
-                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-            }
-        });
+            viewHolder.details_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    mContext.startActivity(new Intent(mContext,BookItemActivity.class)
+                            .putExtra("sender_id",Traveller.getSender_id())
+                            .putExtra("post_id",Traveller.getId())
+                            .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                }
+            });
 
 
-        viewHolder.view_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String  user_id = getData(mContext.getApplicationContext(), "user_id", "");
-                getPostDetails(mContext, user_id, Traveller.getId(), ParcelPackageDetail.class);
+            viewHolder.view_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String  user_id = getData(mContext.getApplicationContext(), "user_id", "");
+                    getPostDetails(mContext, user_id, Traveller.getId(), ParcelPackageDetail.class);
 
-            }
-        });
+                }
+            });
+        }
+
         return convertView;
 
     }

@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
 
+import com.nfsapp.surbhi.nfsapplication.R;
+
 public class GPSTracker extends Service implements LocationListener {
 
     private Context context;
@@ -77,7 +79,7 @@ public class GPSTracker extends Service implements LocationListener {
         return location;
     }
     public void showSettingsAlert(){
-        alertDialog = new AlertDialog.Builder(GPSTracker.this);
+        alertDialog = new AlertDialog.Builder(GPSTracker.this, R.style.Theme_AppCompat_Dialog);
 
         // Setting Dialog Title
         alertDialog.setTitle("GPS is settings");

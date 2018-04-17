@@ -54,6 +54,8 @@
     <string name="if_any">If any</string>
     <string name="pickup_location2">Pickup Location </string>
     <string name="destination_location2">Destination Location</string>
+    <string name="shipping_cost">Shipping Cost :</string>
+    <string name="booking_req"> Booking requests</string>
 
 
     <string-array name="type_arrays">

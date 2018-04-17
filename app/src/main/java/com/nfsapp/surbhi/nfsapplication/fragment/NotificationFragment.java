@@ -75,6 +75,7 @@ public class NotificationFragment extends Fragment {
 
         System.out.println("============= notification_list ==============");
         System.err.println(params);
+        client.setConnectTimeout(60*1000);
         client.post(BASE_URL_NEW + "notification_list", params, new JsonHttpResponseHandler() {
 
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -156,6 +157,7 @@ public class NotificationFragment extends Fragment {
                getNotification();
                     } else {
                         makeToast(getActivity(), response.getString("message"));
+                        listView.setVisibility(View.GONE);
                         return;
                     }
                 } catch (Exception e) {

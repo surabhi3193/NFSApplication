@@ -1,9 +1,9 @@
-package com.nfsapp.surbhi.nfsapplication.activities.traveller;
+package com.nfsapp.surbhi.nfsapplication.activities.sender;
 
 import android.app.Dialog;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -15,6 +15,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.nfsapp.surbhi.nfsapplication.R;
 import com.nfsapp.surbhi.nfsapplication.adapter.TravelerMainAdapter;
+import com.nfsapp.surbhi.nfsapplication.adapter.TravellerAdapter;
 import com.nfsapp.surbhi.nfsapplication.beans.Traveller;
 import com.nfsapp.surbhi.nfsapplication.constants.GPSTracker;
 import com.nfsapp.surbhi.nfsapplication.other.GifImageView;
@@ -30,11 +31,11 @@ import static com.nfsapp.surbhi.nfsapplication.other.MySharedPref.getData;
 import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.BASE_URL_NEW;
 import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.makeToast;
 
-public class TravellerMainActivity extends AppCompatActivity {
-
+public class RequestList extends AppCompatActivity {
 
     ListView recyclerView;
     double latitude = 0.0, longitude = 0.0;
+    private String product_id="";
 
 
     @Override
@@ -54,7 +55,7 @@ public class TravellerMainActivity extends AppCompatActivity {
         System.out.println(latitude);
         System.out.println(longitude);
 
-        header_text.setText("Available packages for pickup");
+        header_text.setText("All Booking Requests");
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,6 +67,10 @@ public class TravellerMainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view);
         final PullRefreshLayout refreshLayout = findViewById(R.id.refreshLay);
 
+        Bundle bundle = getIntent().getExtras();
+        if (bundle!=null)
+            product_id=bundle.getString("product_id","");
+
         refreshLayout.setRefreshStyle(PullRefreshLayout.STYLE_RING);
         refreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
@@ -73,7 +78,7 @@ public class TravellerMainActivity extends AppCompatActivity {
                 refreshLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        prepareTravellerData();
+                        prepareTravellerData(product_id);
                         refreshLayout.setRefreshing(false);
                     }
                 }, 2000);
@@ -81,13 +86,14 @@ public class TravellerMainActivity extends AppCompatActivity {
         });
 
 
-        prepareTravellerData();
+        prepareTravellerData(product_id);
     }
-    private void prepareTravellerData() {
+
+    private void prepareTravellerData(final String product_id) {
         final AsyncHttpClient client = new AsyncHttpClient();
         final RequestParams params = new RequestParams();
 
-        final Dialog ringProgressDialog = new Dialog(TravellerMainActivity.this, R.style.Theme_AppCompat_Dialog);
+        final Dialog ringProgressDialog = new Dialog(RequestList.this, R.style.Theme_AppCompat_Dialog);
         ringProgressDialog.setContentView(R.layout.loading);
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
@@ -95,18 +101,16 @@ public class TravellerMainActivity extends AppCompatActivity {
         GifImageView gifview = ringProgressDialog.findViewById(R.id.loaderGif);
         gifview.setGifImageResource(R.drawable.loader2);
 
-        String userid = getData(TravellerMainActivity.this, "user_id", "");
+        String userid = getData(RequestList.this, "user_id", "");
         System.out.println("========== userid========== " + userid);
 
         params.put("user_id", userid);
-        params.put("latitude", latitude);
-        params.put("longitude", longitude);
-
-        System.out.println("============= get item  api ==============");
+        params.put("product_id", product_id);
         System.err.println(params);
-client.setConnectTimeout(60*1000);
-client.setResponseTimeout(60*1000);
-        client.post(BASE_URL_NEW + "trevaller_post_list", params, new JsonHttpResponseHandler() {
+        client.setConnectTimeout(60 * 1000);
+        client.setResponseTimeout(60 * 1000);
+
+        client.post(BASE_URL_NEW + "post_invitation_list", params, new JsonHttpResponseHandler() {
 
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 System.out.println(response);
@@ -116,29 +120,28 @@ client.setResponseTimeout(60*1000);
                     if (response.getString("status").equals("1")) {
                         ArrayList<Traveller> travellerList = new ArrayList<>();
                         String sender_id = "";
-                        String trevaller_status="";
-                        JSONArray jsonArray = response.getJSONArray("post");
+                        JSONArray jsonArray = response.getJSONArray("invitations");
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
-                            String product_id = jsonObject.getString("product_id");
-                            String product_name = jsonObject.getString("product_name");
-                            String pickup_location = jsonObject.getString("pickup_location");
-                            String destination_location = jsonObject.getString("destination_location");
-                            String product_pic = jsonObject.getString("product_pic");
+                            String trevaller_id = jsonObject.getString("trevaller_id");
+                            String trevaller_name = jsonObject.getString("trevaller_name");
+                            String departure = jsonObject.getString("departure");
+                            String arrival = jsonObject.getString("arrival");
+                            String user_pic = jsonObject.getString("user_pic");
                             String departure_date = jsonObject.getString("departure_date");
-                            sender_id = jsonObject.getString("sender_id");
-                            String amount = jsonObject.getString("prodcust_cost");
-                            String distence = jsonObject.getString("distence");
-                             trevaller_status = jsonObject.getString("trevaller_status");
-                            Traveller movie = new Traveller(product_id, sender_id, product_name, product_pic, pickup_location, destination_location, departure_date, distence + " miles",  amount,trevaller_status);
+
+
+                            Traveller movie = new Traveller(trevaller_id, "", trevaller_name, user_pic,
+                                    "Departure : " + departure, "Arrival : " +arrival, departure_date, "", "","");
                             travellerList.add(movie);
+
                         }
-                        TravelerMainAdapter mAdapter;
-                        mAdapter = new TravelerMainAdapter(travellerList, TravellerMainActivity.this);
+
+                        TravellerAdapter mAdapter = new TravellerAdapter(travellerList, RequestList.this,"invitations");
                         mAdapter.notifyDataSetChanged();
                         recyclerView.setAdapter(mAdapter);
                     } else {
-                        makeToast(TravellerMainActivity.this, response.getString("message"));
+                        makeToast(RequestList.this, response.getString("message"));
                         return;
                     }
                 } catch (Exception e) {
@@ -159,4 +162,9 @@ client.setResponseTimeout(60*1000);
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

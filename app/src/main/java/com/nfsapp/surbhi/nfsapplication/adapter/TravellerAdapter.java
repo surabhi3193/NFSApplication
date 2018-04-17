@@ -29,6 +29,7 @@ public class TravellerAdapter  extends ArrayAdapter<Traveller> implements View.O
 
     private ArrayList<Traveller> dataSet;
     Activity mContext;
+    String act_name;
 
     // View lookup cache
     private static class ViewHolder {
@@ -39,10 +40,11 @@ public class TravellerAdapter  extends ArrayAdapter<Traveller> implements View.O
         Button details_btn;
         ImageView image;
     }
-    public TravellerAdapter(ArrayList<Traveller> data, Activity context) {
+    public TravellerAdapter(ArrayList<Traveller> data, Activity context,String act_name) {
         super(context, R.layout.taveller_list_row, data);
         this.dataSet = data;
         this.mContext = context;
+        this.act_name = act_name;
 
     }
 
@@ -97,8 +99,12 @@ public class TravellerAdapter  extends ArrayAdapter<Traveller> implements View.O
         viewHolder.txtType.setText(Traveller.getDeparture_airport());
         viewHolder.txtVersion.setText(Traveller.getArrival_airport());
 
+        System.out.println("====== traveller image====");
+        System.out.println(Traveller.getProduct_pic());
+
         if (Traveller.getProduct_pic()!=null && Traveller.getProduct_pic().length()>0)
             Picasso.with(mContext).load(Traveller.getProduct_pic()).placeholder(R.drawable.profile_pic).into(viewHolder.image);
+        else
         viewHolder.image.setImageResource(R.drawable.profile_pic);
 
         viewHolder.details_btn.setOnClickListener(new View.OnClickListener() {
@@ -107,9 +113,8 @@ public class TravellerAdapter  extends ArrayAdapter<Traveller> implements View.O
 
                 System.out.println("======= traveller id ========");
                 System.out.println(Traveller.getId());
+//                if (act_name.equalsIgnoreCase("traveller"))
                 getTraveller(mContext, Traveller.getId(), TravellerDetails.class);
-                //getTraveller
-//                mContext.startActivity(new Intent(mContext,TravellerDetails.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
 
             }
         });

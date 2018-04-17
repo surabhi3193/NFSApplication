@@ -22,7 +22,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.nfsapp.surbhi.nfsapplication.R;
 import com.nfsapp.surbhi.nfsapplication.adapter.ItemListAdapter;
-import com.nfsapp.surbhi.nfsapplication.adapter.TravellerAdapter;
+
 import com.nfsapp.surbhi.nfsapplication.beans.Traveller;
 import com.nfsapp.surbhi.nfsapplication.other.GifImageView;
 
@@ -42,9 +42,7 @@ import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.makeToast;
 
 public class ItemForSentDetailsFrag extends Fragment {
 
-    ItemListAdapter mAdapter;
-    private ArrayList<Traveller> travellerList = new ArrayList<>();
-    ListView recyclerView;
+   private ListView recyclerView;
 
 
     @Override
@@ -102,6 +100,7 @@ public class ItemForSentDetailsFrag extends Fragment {
 
                     if (response.getString("status").equals("1"))
                     {
+                         ArrayList<Traveller> travellerList = new ArrayList<>();
                         JSONArray jsonArray = response.getJSONArray("post");
                         for (int i =0;i<jsonArray.length();i++)
                         {
@@ -114,11 +113,11 @@ public class ItemForSentDetailsFrag extends Fragment {
                             String departure_date = jsonObject.getString("departure_date");
 
                             Traveller movie = new Traveller(product_id,"",product_name,product_pic,
-                                    pickup_location,destination_location, departure_date, "","");
+                                    pickup_location,destination_location, departure_date, "","","");
                             travellerList.add(movie);
 
                         }
-                        mAdapter = new ItemListAdapter(travellerList,getActivity());
+                        ItemListAdapter mAdapter = new ItemListAdapter(travellerList,getActivity());
                         mAdapter.notifyDataSetChanged();
                         recyclerView.setAdapter(mAdapter);
                     }

@@ -35,7 +35,7 @@ import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.BASE_URL_NEW;
 
 public class TravellerListFragment extends Fragment {
 
-    TravellerAdapter mAdapter;
+
 
     ListView recyclerView;
 
@@ -113,13 +113,12 @@ public class TravellerListFragment extends Fragment {
                             String user_pic = jsonObject.getString("user_pic");
                             String date = jsonObject.getString("departure_date");
 
-
                             Traveller movie = new Traveller(product_id,"", trevaller_name, user_pic, "Departure : " + departure,
-                                    "Arrival : " + arrival, date, "","");
+                                    "Arrival : " + arrival, date, "","","");
                             travellerList.add(movie);
 
                         }
-                        mAdapter = new TravellerAdapter(travellerList, getActivity());
+                        TravellerAdapter  mAdapter = new TravellerAdapter(travellerList, getActivity(),"traveller");
                         mAdapter.notifyDataSetChanged();
                         recyclerView.setAdapter(mAdapter);
                     } else {

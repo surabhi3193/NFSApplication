@@ -2,8 +2,9 @@
 <resources>
     <color name="colorPrimary">#287bbf</color>
     <color name="colorPrimaryDark">#5b5b5b</color>
-    <color name="colorAccent">#5b5b5b</color>
+    <color name="colorAccent">#287BBF</color>
     <color name="background_color">#e6f4ff</color>
+    <color name="coloumn_colour">#8ecdff</color>
 
 
     <color name="toolbar_black">#333333</color>

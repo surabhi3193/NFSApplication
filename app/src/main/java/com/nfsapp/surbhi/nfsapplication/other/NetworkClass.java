@@ -212,7 +212,7 @@ public class NetworkClass {
                             String city = jsonObject.getString("airport_city");
                             String code = jsonObject.getString("airport_code");
 
-                            airportList.add(city+", " + code);
+                            airportList.add(city+"," + code);
 
                         }
                         String list = TextUtils.join("/",airportList);
