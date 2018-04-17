@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -28,11 +29,11 @@
 
 
             <EditText
+                android:background="@drawable/edit_text"
                 android:id="@+id/nameET"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"
-                android:backgroundTint="@color/colorPrimaryDark"
                 android:fontFamily="@font/estre"
                 android:hint="@string/full_name_as_shown_on_id"
                 android:imeOptions="actionNext"
@@ -50,7 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
-                android:backgroundTint="@color/colorPrimaryDark"
+                android:background="@drawable/edit_text"
                 android:fontFamily="@font/estre"
                 android:hint="@string/address"
                 android:imeOptions="actionNext"
@@ -68,7 +69,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
-                android:backgroundTint="@color/colorPrimaryDark"
+                android:background="@drawable/edit_text"
                 android:fontFamily="@font/estre"
                 android:hint="@string/email"
                 android:imeOptions="actionNext"
@@ -87,7 +88,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
-                android:backgroundTint="@color/colorPrimaryDark"
+                android:background="@drawable/edit_text"
                 android:fontFamily="@font/estre"
                 android:hint="@string/phone_number"
                 android:imeOptions="actionNext"
@@ -102,6 +103,7 @@
                 tools:targetApi="lollipop" />
 
             <AutoCompleteTextView
+                android:background="@drawable/edit_text"
                 android:drawableRight="@drawable/drop"
                 android:id="@+id/pickupET"
                 android:layout_width="match_parent"
@@ -116,9 +118,11 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textCursorDrawable="@null"
                 android:textSize="15sp"
+                android:drawableEnd="@drawable/drop"
                 tools:targetApi="jelly_bean" />
 
             <TextView
+                android:background="@drawable/edit_text"
                 android:drawableEnd="@drawable/drop"
                 android:id="@+id/dateTVdepature"
                 android:layout_width="match_parent"
@@ -137,6 +141,7 @@
 
 
             <AutoCompleteTextView
+                android:background="@drawable/edit_text"
                 android:drawableRight="@drawable/drop"
                 android:id="@+id/destET"
                 android:layout_width="match_parent"
@@ -155,6 +160,7 @@
                 android:drawableEnd="@drawable/drop" />
 
             <TextView
+                android:background="@drawable/edit_text"
                 android:drawableRight="@drawable/drop"
                 android:id="@+id/dateTVarrival"
                 android:layout_width="match_parent"
@@ -168,6 +174,7 @@
                 android:textSize="15sp"
                 tools:targetApi="jelly_bean"
                 android:paddingStart="10dp"
+                android:drawableEnd="@drawable/drop"
                 android:paddingEnd="10dp" />
 
             <EditText
@@ -175,7 +182,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
-                android:backgroundTint="@color/colorPrimaryDark"
+                android:background="@drawable/edit_text"
                 android:fontFamily="@font/estre"
                 android:hint="@string/flight_number"
                 android:imeOptions="actionDone"
@@ -191,7 +198,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
-                android:backgroundTint="@color/colorPrimaryDark"
+                android:background="@drawable/edit_text"
                 android:fontFamily="@font/estre"
                 android:hint="@string/deposit_amount"
                 android:imeOptions="actionDone"
@@ -212,9 +219,11 @@
                 android:drawablePadding="5dp"
                 android:fontFamily="@font/estre"
                 android:padding="8dp"
-                android:text="Upload valid id card"
+                android:drawableStart="@drawable/upload"
                 android:textColor="@color/colorPrimaryDark"
-                android:visibility="visible" />
+                android:text="@string/upload_valid_id_card"
+                android:visibility="visible"
+                tools:targetApi="jelly_bean" />
 
             <ImageView
                 android:id="@+id/idIV"
@@ -230,8 +239,10 @@
                 android:drawablePadding="5dp"
                 android:fontFamily="@font/estre"
                 android:padding="8dp"
-                android:text="Upload traveller's valid travelling ticket"
-                android:textColor="@color/colorPrimaryDark" />
+                android:drawableStart="@drawable/upload"
+                android:text="@string/upload_traveller_s_valid_travelling_ticket"
+                android:textColor="@color/colorPrimaryDark"
+                tools:targetApi="jelly_bean" />
 
             <ImageView
                 android:id="@+id/ticketIV"
@@ -247,8 +258,9 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/btn"
                 android:fontFamily="@font/estre"
-                android:text="Book Item"
-                android:textColor="@color/white" />
+                android:text="@string/book_item"
+                android:textColor="@color/white"
+                tools:targetApi="jelly_bean" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -56,6 +56,9 @@
     <string name="destination_location2">Destination Location</string>
     <string name="shipping_cost">Shipping Cost :</string>
     <string name="booking_req"> Booking requests</string>
+    <string name="book_item">Book Item</string>
+    <string name="upload_traveller_s_valid_travelling_ticket">Upload traveller\'s valid travelling ticket</string>
+    <string name="upload_valid_id_card">Upload valid id card</string>
 
 
     <string-array name="type_arrays">
