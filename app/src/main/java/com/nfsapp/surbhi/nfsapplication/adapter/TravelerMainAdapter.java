@@ -1,9 +1,7 @@
 package com.nfsapp.surbhi.nfsapplication.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nfsapp.surbhi.nfsapplication.R;
-import com.nfsapp.surbhi.nfsapplication.activities.ItemDetails;
 import com.nfsapp.surbhi.nfsapplication.activities.traveller.BookItemActivity;
 import com.nfsapp.surbhi.nfsapplication.activities.traveller.ParcelPackageDetail;
 import com.nfsapp.surbhi.nfsapplication.beans.Traveller;
@@ -95,19 +92,19 @@ public class TravelerMainAdapter extends ArrayAdapter<Traveller> implements View
         }
 
         lastPosition = position;
-       Typeface face = Typeface.createFromAsset(mContext.getAssets(),
-                "fonts/estre.ttf");
-
-        viewHolder.txtName.setTypeface(face);
-        viewHolder.txtDeparture.setTypeface(face);
-        viewHolder.tctArrival.setTypeface(face);
-        viewHolder.view_btn.setTypeface(face);
-        viewHolder.date.setTypeface(face);
-        viewHolder.head_depart.setTypeface(face);
-        viewHolder.head_arrival.setTypeface(face);
-        viewHolder.head_amount.setTypeface(face);
-        viewHolder.distanceTV.setTypeface(face);
-        viewHolder.amountTv.setTypeface(face);
+//       Typeface face = Typeface.createFromAsset(mContext.getAssets(),
+//                "fonts/asap.ttf");
+//
+//        viewHolder.txtName.setTypeface(face);
+//        viewHolder.txtDeparture.setTypeface(face);
+//        viewHolder.tctArrival.setTypeface(face);
+//        viewHolder.view_btn.setTypeface(face);
+//        viewHolder.date.setTypeface(face);
+//        viewHolder.head_depart.setTypeface(face);
+//        viewHolder.head_arrival.setTypeface(face);
+//        viewHolder.head_amount.setTypeface(face);
+//        viewHolder.distanceTV.setTypeface(face);
+//        viewHolder.amountTv.setTypeface(face);
 
         viewHolder.txtName.setText(Traveller.getName());
         viewHolder.txtDeparture.setText(Traveller.getDeparture_airport());
@@ -145,16 +142,16 @@ public class TravelerMainAdapter extends ArrayAdapter<Traveller> implements View
                     mContext.startActivity(new Intent(mContext,BookItemActivity.class)
                             .putExtra("sender_id",Traveller.getSender_id())
                             .putExtra("post_id",Traveller.getId())
+                            .putExtra("pickup",Traveller.getDeparture_airport())
+                            .putExtra("destination",Traveller.getArrival_airport())
                             .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                 }
             });
-
-
             viewHolder.view_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     String  user_id = getData(mContext.getApplicationContext(), "user_id", "");
-                    getPostDetails(mContext, user_id, Traveller.getId(), ParcelPackageDetail.class);
+                    getPostDetails(mContext, user_id, Traveller.getId(), ParcelPackageDetail.class,"TravellerMain");
 
                 }
             });

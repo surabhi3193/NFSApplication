@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/loaderGif"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/textview_back_of_item"
+    android:orientation="vertical"
+    android:padding="15dp">
+
+   <WebView
+       android:id="@+id/webView"
+       android:layout_width="350dp"
+       android:layout_height="400dp">
+
+   </WebView>
+
+    <TextView
+        android:id="@+id/ok_btn"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/asap"
+        android:gravity="center"
+        android:paddingLeft="7dp"
+        android:paddingTop="7dp"
+        android:text="Ok"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp" />
+
+</LinearLayout>

@@ -1,15 +1,13 @@
 package com.nfsapp.surbhi.nfsapplication.activities;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.transition.Fade;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,13 +16,11 @@ import android.widget.TextView;
 import com.nfsapp.surbhi.nfsapplication.R;
 import com.nfsapp.surbhi.nfsapplication.activities.sender.RequestList;
 import com.nfsapp.surbhi.nfsapplication.adapter.SliderAdapter;
-import com.nfsapp.surbhi.nfsapplication.fragment.AddItemFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import me.relex.circleindicator.CircleIndicator;
 
@@ -81,7 +77,8 @@ public class ItemDetails extends AppCompatActivity {
                 String productDetails = bundle.getString("productDetails");
 
                 JSONObject obj = new JSONObject(productDetails);
-
+                System.out.println("========== details post======");
+                System.out.println(obj);
                 String product_name = obj.getString("product_name");
                 String pickup_location = obj.getString("pickup_location");
                 String destination_location = obj.getString("destination_location");
@@ -91,6 +88,7 @@ public class ItemDetails extends AppCompatActivity {
                 String payment_mode = obj.getString("payment_mode");
 
                 String product_pic = obj.getString("product_pic");
+                String booking_status = obj.getString("booking_status");
                 String trevaller_count = obj.getString("trevaller_count");
                 product_id = obj.getString("post_id");
 
@@ -102,8 +100,17 @@ public class ItemDetails extends AppCompatActivity {
                 weightTV.setText(product_weight);
                 descTV.setText(product_desc);
                 paymentTV.setText(payment_mode);
-                total_countTV.setText(trevaller_count +" Booking requests");
 
+                if (booking_status.equalsIgnoreCase("2"))
+                {
+                    total_countTV.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.booked,0);
+                    total_countTV.setText("Booked");
+                    total_countTV.setTextColor(getResources().getColor(R.color.book_green));
+                }
+                else {
+                    total_countTV.setCompoundDrawablesWithIntrinsicBounds(R.drawable.request,0,0,0);
+                    total_countTV.setText(trevaller_count + " Booking requests");
+                }
                 String[] uris = product_pic.split(",");
 
                 ArrayList<Uri> imageArray = new ArrayList<>();

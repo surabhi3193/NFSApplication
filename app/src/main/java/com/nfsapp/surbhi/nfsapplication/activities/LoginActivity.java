@@ -2,7 +2,6 @@ package com.nfsapp.surbhi.nfsapplication.activities;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
@@ -167,6 +166,7 @@ public class LoginActivity extends AppCompatActivity {
 
         System.out.println("============= signin api ==============");
         System.err.println(params);
+        client.setConnectTimeout(10*6000);
         client.post(BASE_URL_NEW + "login", params, new JsonHttpResponseHandler() {
 
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {

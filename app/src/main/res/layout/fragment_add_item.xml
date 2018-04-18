@@ -1,28 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:tools="http://schemas.android.com/tools"
-    android:scrollbars="none"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color"
     android:fillViewport="true"
     android:gravity="center_horizontal"
-    android:background="@color/background_color"
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:scrollbars="none">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <LinearLayout
-            android:padding="15dp"
-            android:visibility="visible"
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/formLay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/background_color"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:background="@color/background_color"
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:padding="15dp"
+            android:visibility="visible">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="150dp">
+
                 <android.support.v4.view.ViewPager
                     android:id="@+id/pager"
                     android:layout_width="fill_parent"
@@ -33,363 +36,381 @@
                     android:id="@+id/indicator"
                     android:layout_width="match_parent"
                     android:layout_height="18dp"
-                    android:layout_alignParentBottom="true"/>
+                    android:layout_alignParentBottom="true" />
+
                 <LinearLayout
-                    android:visibility="visible"
                     android:id="@+id/camera_lay"
-                    android:gravity="center"
-                    android:layout_centerInParent="true"
-                    android:orientation="vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="visible"
                     tools:ignore="UseCompoundDrawables">
+
                     <ImageView
-                        android:src="@drawable/cam"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:contentDescription="@string/todo" />
+                        android:contentDescription="@string/todo"
+                        android:src="@drawable/cam" />
+
                     <TextView
-                        android:padding="5dp"
-                        android:textSize="15sp"
-                        android:fontFamily="@font/estre"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/upload_product_photo"/>
+                        android:fontFamily="@font/asap"
+                        android:padding="5dp"
+                        android:text="@string/upload_product_photo"
+                        android:textSize="15sp" />
                 </LinearLayout>
             </RelativeLayout>
 
             <EditText
-                android:background="@drawable/edit_text"
                 android:id="@+id/p_nameEt"
-                android:singleLine="true"
-                android:textCursorDrawable="@null"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
                 android:layout_marginTop="10dp"
-                android:padding="8dp"
-                android:hint="Product Name"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:imeOptions="actionNext"
-                android:textColor="@color/colorPrimaryDark"
-                android:fontFamily="@font/estre"
-                android:textSize="15sp"
-                />
-            <EditText
                 android:background="@drawable/edit_text"
-
-                android:id="@+id/p_descEt"
-                android:textCursorDrawable="@null"
-                android:layout_marginTop="5dp"
+                android:fontFamily="@font/asap"
+                android:hint="Product Name"
+                android:imeOptions="actionNext"
                 android:padding="8dp"
-                android:hint="Product Description"
+                android:singleLine="true"
+                android:textColor="@color/colorPrimaryDark"
+                android:textCursorDrawable="@null"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/p_descEt"
+
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/edit_text"
+                android:fontFamily="@font/asap"
+                android:hint="Product Description"
                 android:imeOptions="actionNext"
+                android:padding="8dp"
                 android:textColor="@color/colorPrimaryDark"
-                android:fontFamily="@font/estre"
-                android:textSize="15sp"
-                />
+                android:textCursorDrawable="@null"
+                android:textSize="15sp" />
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <android.support.v7.widget.AppCompatSpinner
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/edit_text"
-                    android:layout_gravity="center_vertical"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
+                <Spinner
+                    android:layout_width="80dp"
                     android:id="@+id/weightSpinner"
-                    android:layout_width="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:layout_height="50dp"
-                    android:entries="@array/Time_in_Am">
-                </android.support.v7.widget.AppCompatSpinner>
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/spinner_bg"
+                    android:entries="@array/Time_in_Am"
+                    android:gravity="center_vertical"
+                    android:spinnerMode="dropdown"/>
 
                 <EditText
+                    android:id="@+id/weightEt"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_text"
+                    android:fontFamily="@font/asap"
+                    android:hint="Product Weight"
+                    android:imeOptions="actionNext"
                     android:inputType="number|numberDecimal"
                     android:minWidth="200dp"
-                    android:id="@+id/weightEt"
-                    android:singleLine="true"
-                    android:background="@drawable/edit_text"
-                    android:textCursorDrawable="@null"
-                    android:layout_marginTop="5dp"
                     android:padding="8dp"
-                    android:hint="Product Weight"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:imeOptions="actionNext"
+                    android:singleLine="true"
                     android:textColor="@color/colorPrimaryDark"
-                    android:fontFamily="@font/estre"
-                    android:textSize="15sp"
-                    />
+                    android:textCursorDrawable="@null"
+                    android:textSize="15sp" />
             </LinearLayout>
 
             <EditText
 
                 android:id="@+id/p_costEt"
-                android:enabled="false"
-                android:singleLine="true"
-                android:background="@drawable/edit_text"
-                android:textCursorDrawable="@null"
-                android:layout_marginTop="5dp"
-                android:padding="8dp"
-                android:hint="Shipping Cost  : $200"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/edit_text"
+                android:enabled="false"
+                android:fontFamily="@font/asap"
+                android:hint="Shipping Cost  : $200"
                 android:imeOptions="actionNext"
+                android:inputType="number"
+                android:padding="8dp"
+                android:singleLine="true"
                 android:textColor="@color/colorPrimaryDark"
-                android:fontFamily="@font/estre"
-                android:textSize="15sp"
-                android:inputType="number" />
+                android:textCursorDrawable="@null"
+                android:textSize="15sp" />
 
             <CheckBox
-                android:layout_marginTop="10dp"
                 android:id="@+id/costCB"
-                android:fontFamily="@font/estre"
-                android:textSize="13sp"
-                android:textColor="@color/colorPrimaryDark"
-                android:checked="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Increase shipping cost to attract Traveler’s interest"/>
+                android:layout_marginTop="10dp"
+                android:checked="false"
+                android:fontFamily="@font/asap"
+                android:text="Increase shipping cost to attract Traveler’s interest"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="13sp" />
 
             <AutoCompleteTextView
-                android:drawableRight="@drawable/drop"
-                android:imeOptions="actionNext"
-                android:gravity="center_vertical"
                 android:id="@+id/pickupEt"
-                android:singleLine="true"
-                android:background="@drawable/edit_text"
-                android:textCursorDrawable="@null"
-                android:layout_marginTop="5dp"
-                android:padding="8dp"
-                android:hint="@string/pickup_location2"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/edit_text"
+                android:drawableEnd="@drawable/drop"
+                android:drawableRight="@drawable/drop"
+                android:fontFamily="@font/asap"
+                android:gravity="center_vertical"
+                android:hint="@string/pickup_location2"
+                android:imeOptions="actionNext"
+                android:padding="8dp"
+                android:singleLine="true"
                 android:textColor="@color/colorPrimaryDark"
-                android:fontFamily="@font/estre"
+                android:textCursorDrawable="@null"
                 android:textSize="15sp"
-                tools:targetApi="lollipop"
-                android:drawableEnd="@drawable/drop" />
+                tools:targetApi="lollipop" />
 
             <AutoCompleteTextView
-                android:drawableRight="@drawable/drop"
-                android:gravity="center_vertical"
                 android:id="@+id/destET"
-                android:visibility="visible"
-                android:singleLine="true"
-                android:background="@drawable/edit_text"
-                android:textCursorDrawable="@null"
-                android:layout_marginTop="5dp"
-                android:padding="8dp"
-                android:hint="@string/destination_location2"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/edit_text"
+                android:drawableEnd="@drawable/drop"
+                android:drawableRight="@drawable/drop"
+                android:fontFamily="@font/asap"
+                android:gravity="center_vertical"
+                android:hint="@string/destination_location2"
                 android:imeOptions="actionDone"
+                android:padding="8dp"
+                android:singleLine="true"
                 android:textColor="@color/colorPrimaryDark"
-                android:fontFamily="@font/estre"
+                android:textCursorDrawable="@null"
                 android:textSize="15sp"
-                tools:targetApi="lollipop"
-                android:drawableEnd="@drawable/drop" />
+                android:visibility="visible"
+                tools:targetApi="lollipop" />
 
             <TextView
-                android:background="@drawable/edit_text"
-                android:textSize="15sp"
-                android:fontFamily="@font/estre"
                 android:id="@+id/dateTVStock"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"
+                android:background="@drawable/edit_text"
+                android:fontFamily="@font/asap"
                 android:gravity="center_vertical"
                 android:hint="@string/pickup_date"
+                android:paddingEnd="20dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="20dp"
-                android:textColor="@color/black"
-                android:paddingEnd="20dp"
                 android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textSize="15sp"
                 tools:targetApi="jelly_bean" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.2dp"
-                android:background="@color/colorPrimaryDark"/>
+                android:background="@color/colorPrimaryDark" />
 
 
             <android.support.v7.widget.AppCompatSpinner
-                android:prompt="@string/payment_mode"
-                android:paddingRight="15dp"
-                android:paddingLeft="1dp"
-                android:background="@drawable/edit_text"
                 android:id="@+id/payment_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                tools:ignore="HardcodedText"
+                android:background="@drawable/edit_text"
                 android:paddingEnd="15dp"
-                android:paddingStart="1dp">
-            </android.support.v7.widget.AppCompatSpinner>
+                android:paddingLeft="1dp"
+                android:paddingRight="15dp"
+                android:paddingStart="1dp"
+                android:prompt="@string/payment_mode"
+                tools:ignore="HardcodedText"></android.support.v7.widget.AppCompatSpinner>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.2dp"
-                android:background="@color/colorPrimaryDark"/>
+                android:background="@color/colorPrimaryDark" />
 
             <TextView
                 android:id="@+id/uploadIDCardTV"
-                android:layout_margin="10dp"
-                android:drawablePadding="5dp"
-                android:drawableLeft="@drawable/upload"
-                android:padding="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimaryDark"
-                android:fontFamily="@font/estre"
+                android:layout_margin="10dp"
+                android:drawableLeft="@drawable/upload"
+                android:drawablePadding="5dp"
+                android:drawableStart="@drawable/upload"
+                android:fontFamily="@font/asap"
+                android:padding="8dp"
                 android:text="@string/upload_valid_id_card"
-                tools:targetApi="jelly_bean"
-                android:drawableStart="@drawable/upload" />
+                android:textColor="@color/colorPrimaryDark"
+                tools:targetApi="jelly_bean" />
 
             <ImageView
-                android:visibility="gone"
+                android:id="@+id/idIV"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:id="@+id/idIV"
-                android:contentDescription="@string/id_image" />
+                android:contentDescription="@string/id_image"
+                android:visibility="gone" />
+
             <TextView
-                android:padding="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimary"
-                android:fontFamily="@font/estre"
-                android:textSize="15sp"
+                android:fontFamily="@font/asap"
+                android:padding="8dp"
                 android:text="@string/receiver_information"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15sp"
                 tools:targetApi="jelly_bean" />
 
             <EditText
-                android:background="@drawable/edit_text"
                 android:id="@+id/rec_nameEt"
-                android:singleLine="true"
-                android:textCursorDrawable="@null"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
                 android:layout_marginTop="5dp"
-                android:padding="8dp"
+                android:background="@drawable/edit_text"
+                android:fontFamily="@font/asap"
                 android:hint="@string/name"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
                 android:imeOptions="actionNext"
+                android:inputType="text"
+                android:padding="8dp"
+                android:singleLine="true"
                 android:textColor="@color/colorPrimaryDark"
-                android:fontFamily="@font/estre"
+                android:textCursorDrawable="@null"
                 android:textSize="15sp"
-                tools:targetApi="lollipop"
-                android:inputType="text" />
+                tools:targetApi="lollipop" />
 
             <EditText
-                android:background="@drawable/edit_text"
-
                 android:id="@+id/rec_mob1"
-                android:inputType="number"
-                android:singleLine="true"
-                android:textCursorDrawable="@null"
+
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
                 android:layout_marginTop="5dp"
-                android:padding="8dp"
+                android:background="@drawable/edit_text"
+                android:fontFamily="@font/asap"
                 android:hint="@string/mobile_no_1"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
                 android:imeOptions="actionNext"
-                android:textColor="@color/colorPrimaryDark"
-                android:fontFamily="@font/estre"
-                android:textSize="15sp"
-                tools:targetApi="lollipop" />
-            <EditText
-                android:background="@drawable/edit_text"
-
-                android:id="@+id/rec_mob2"
                 android:inputType="number"
-                android:singleLine="true"
-                android:textCursorDrawable="@null"
-                android:layout_marginTop="5dp"
                 android:padding="8dp"
-                android:hint="@string/mobile_no_2"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:imeOptions="actionNext"
+                android:singleLine="true"
                 android:textColor="@color/colorPrimaryDark"
-                android:fontFamily="@font/estre"
+                android:textCursorDrawable="@null"
                 android:textSize="15sp"
                 tools:targetApi="lollipop" />
 
             <EditText
-                android:background="@drawable/edit_text"
+                android:id="@+id/rec_mob2"
 
-                android:id="@+id/rec_emailEt"
-                android:singleLine="true"
-                android:textCursorDrawable="@null"
-                android:layout_marginTop="5dp"
-                android:padding="8dp"
-                android:hint="@string/email_id"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:imeOptions="actionDone"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/edit_text"
+                android:fontFamily="@font/asap"
+                android:hint="@string/mobile_no_2"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:padding="8dp"
+                android:singleLine="true"
                 android:textColor="@color/colorPrimaryDark"
-                android:fontFamily="@font/estre"
+                android:textCursorDrawable="@null"
                 android:textSize="15sp"
-                tools:targetApi="lollipop"
-                android:inputType="textEmailAddress" />
+                tools:targetApi="lollipop" />
+
+            <EditText
+                android:id="@+id/rec_emailEt"
+
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/edit_text"
+                android:fontFamily="@font/asap"
+                android:hint="@string/email_id"
+                android:imeOptions="actionDone"
+                android:inputType="textEmailAddress"
+                android:padding="8dp"
+                android:singleLine="true"
+                android:textColor="@color/colorPrimaryDark"
+                android:textCursorDrawable="@null"
+                android:textSize="15sp"
+                tools:targetApi="lollipop" />
 
             <CheckBox
                 android:id="@+id/insureCB"
-                android:fontFamily="@font/estre"
-                android:textColor="@color/colorPrimaryDark"
-                android:checked="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:checked="false"
+                android:fontFamily="@font/asap"
                 android:text="@string/secure_my_trip_with_insurance"
+                android:textColor="@color/colorPrimaryDark"
                 tools:targetApi="jelly_bean" />
 
             <CheckBox
-                android:fontFamily="@font/estre"
                 android:id="@+id/termsCB"
-                android:textColor="@color/colorPrimaryDark"
-                android:checked="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:checked="false"
+                android:fontFamily="@font/asap"
                 android:text="@string/terms_and_conditions"
-                tools:targetApi="jelly_bean" />
-
-
-            <CheckBox
-                android:fontFamily="@font/estre"
-                android:id="@+id/itemCB"
                 android:textColor="@color/colorPrimaryDark"
-                android:checked="false"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/prohibited_item"
                 tools:targetApi="jelly_bean" />
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <CheckBox
+        android:id="@+id/itemCB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:fontFamily="@font/asap"
+        android:textColor="@color/colorPrimaryDark"
+        tools:targetApi="jelly_bean" />
+
+    <TextView
+        android:id="@+id/prohibitedTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="@string/prohibited_item"
+        android:textColor="@color/colorPrimaryDark"
+        />
+
+
+</LinearLayout>
 
             <Button
                 android:id="@+id/book_btn"
-                android:fontFamily="@font/estre"
-                android:layout_marginBottom="10dp"
-                android:textColor="@color/white"
-                android:text="@string/add_item"
-                android:background="@drawable/btn"
                 android:layout_width="100dp"
                 android:layout_height="40dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/btn"
+                android:fontFamily="@font/asap"
+                android:text="@string/add_item"
+                android:textColor="@color/white"
                 tools:targetApi="jelly_bean" />
         </LinearLayout>
+
         <RelativeLayout
-            android:visibility="gone"
             android:id="@+id/sliderLay"
-            android:background="@color/black"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/black"
+            android:visibility="gone">
+
             <ImageView
-                android:layout_margin="10dp"
                 android:id="@+id/back_btn"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:layout_margin="10dp"
+                android:contentDescription="@string/todo"
                 android:padding="10dp"
-                android:src="@drawable/back_arrow"
-                android:contentDescription="@string/todo" />
+                android:src="@drawable/back_arrow" />
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/pager2"
@@ -401,7 +422,7 @@
                 android:id="@+id/indicator2"
                 android:layout_width="match_parent"
                 android:layout_height="18dp"
-                android:layout_alignParentBottom="true"/>
+                android:layout_alignParentBottom="true" />
         </RelativeLayout>
     </RelativeLayout>
 </ScrollView>

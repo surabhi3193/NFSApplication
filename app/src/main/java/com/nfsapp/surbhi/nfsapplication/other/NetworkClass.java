@@ -31,6 +31,7 @@ import java.util.regex.Pattern;
 
 import cz.msebera.android.httpclient.Header;
 
+import static com.nfsapp.surbhi.nfsapplication.other.MySharedPref.getData;
 import static com.nfsapp.surbhi.nfsapplication.other.MySharedPref.saveData;
 
 public class NetworkClass {
@@ -52,7 +53,8 @@ public class NetworkClass {
 
     }
 
-    public static void getPostDetails(final Activity context, String user_id, final String post_id, final Class toAct) {
+    public static void getPostDetails(final Activity context, String user_id, final String post_id,
+                                      final Class toAct,final String act_from) {
 
 
         final AsyncHttpClient client = new AsyncHttpClient();
@@ -72,7 +74,6 @@ public class NetworkClass {
         params.put("user_id", user_id);
         params.put("post_id", post_id);
 
-        System.out.println("========== details post api =======");
         client.setTimeout(60 * 1000);
         client.setConnectTimeout(60 * 1000);
         client.setResponseTimeout(60 * 1000);
@@ -89,7 +90,7 @@ public class NetworkClass {
                         JSONObject obj = response.getJSONObject("post");
                         System.out.println(obj);
                         responseDEtailsOBJ = obj;
-                        openNextAct(context, responseDEtailsOBJ, toAct);
+                        openNextAct(context, responseDEtailsOBJ, toAct,act_from);
                     }
 
 
@@ -120,7 +121,7 @@ public class NetworkClass {
     }
 
 
-    public static void getTraveller(final Activity context, String traveller_id,final Class toAct) {
+    public static void getTraveller(final Activity context, String traveller_id,final Class toAct,final String act_from) {
 
 
         final AsyncHttpClient client = new AsyncHttpClient();
@@ -157,7 +158,7 @@ public class NetworkClass {
                         JSONObject obj = response.getJSONObject("result");
                         System.out.println(obj);
                         responseDEtailsOBJ = obj;
-                        openNextAct(context, responseDEtailsOBJ, toAct);
+                        openNextAct(context, responseDEtailsOBJ, toAct,act_from);
                     }
 
 
@@ -245,12 +246,84 @@ public class NetworkClass {
 
 
 
+    public static void confirmBooking(final Activity context, String trevaller_id,
+                                      final String product_id,final String booking_status) {
+
+
+        final AsyncHttpClient client = new AsyncHttpClient();
+        final RequestParams params = new RequestParams();
+
+        final Dialog ringProgressDialog = new Dialog(context, R.style.Theme_AppCompat_Dialog);
+        ringProgressDialog.setContentView(R.layout.loading);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        ringProgressDialog.show();
+        GifImageView gifview = ringProgressDialog.findViewById(R.id.loaderGif);
+        gifview.setGifImageResource(R.drawable.loader2);
+
+        String sender_id = getData(context,"user_id","");
+        params.put("trevaller_id", trevaller_id);
+        params.put("sender_id", sender_id);
+        params.put("product_id", product_id);
+        params.put("booking_status", booking_status);
+
+        System.out.println("========== confirm_booking api =======");
+        client.setTimeout(60 * 1000);
+        client.setConnectTimeout(60 * 1000);
+        client.setResponseTimeout(60 * 1000);
+        System.out.println(params);
+        client.post(BASE_URL_NEW + "confirm_booking", params, new JsonHttpResponseHandler() {
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+
+                responseDEtailsOBJ = response;
+                ringProgressDialog.dismiss();
+                System.out.println(response);
+                try {
+                    String response_fav = response.getString("status");
+                    if (response_fav.equals("1"))
+                    {
+                   makeToast(context,response.getString("message"));
+                   context.finish();
+                   return;
+                    }
+
+                    if (response_fav.equals("0"))
+                    {
+                   makeToast(context,response.getString("message"));
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                ringProgressDialog.dismiss();
+                System.out.println(errorResponse);
+                responseDEtailsOBJ = errorResponse;
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+
+                ringProgressDialog.dismiss();
+                System.out.println(responseString);
+
+            }
+
+        });
+
+    }
 
     private static void openNextAct(Activity context, JSONObject responseDEtailsOBJ,
-                                    Class toact) {
+                                    Class toact,String act_from) {
         if (responseDEtailsOBJ != null) {
             Bundle bundle = new Bundle();
             bundle.putString("productDetails", responseDEtailsOBJ.toString());
+            bundle.putString("act_name",act_from);
             context.startActivity(new Intent(context.getApplicationContext(), toact)
                     .putExtras(bundle));
         }

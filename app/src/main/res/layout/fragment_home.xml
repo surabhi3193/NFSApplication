@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <RelativeLayout
@@ -15,6 +16,7 @@
             android:layout_height="200dp"
             android:scaleType="fitXY" />
         <ImageView
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:background="@color/dark_trans"/>
@@ -28,19 +30,20 @@
             android:layout_below="@+id/main_activity_gif_vie"/>
 
         <TextView
-            android:layout_marginBottom="5dp"
             android:id="@+id/dummy_text"
-            android:layout_above="@+id/btn_lay"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:fontFamily="@font/estre"
-            android:textColor="@color/colorPrimaryDark"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:layout_below="@id/logo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/dummy_text"/>
+            android:layout_above="@+id/btn_lay"
+            android:layout_below="@id/logo"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/asap"
+            android:gravity="center"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="@string/dummy_text"
+            android:textColor="@color/colorPrimaryDark"
+            app:fontFamily="@font/aclonica" />
 
         <LinearLayout
             android:id="@+id/btn_lay"
@@ -53,7 +56,7 @@
 
             <Button
                 android:text="Sender"
-                android:fontFamily="@font/estre"
+                android:fontFamily="@font/asap"
                 android:textColor="@color/white"
                 android:id="@+id/sender_btn"
                 android:layout_width="0dp"
@@ -67,7 +70,7 @@
 
             <Button
                 android:text="Traveller"
-                android:fontFamily="@font/estre"
+                android:fontFamily="@font/asap"
                 android:textColor="@color/white"
                 android:id="@+id/receiver_btn"
                 android:layout_width="0dp"

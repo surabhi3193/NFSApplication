@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,7 +10,6 @@
     tools:context=".activities.ItemDetails">
 
     <include layout="@layout/back_layout" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="180dp">
@@ -33,17 +33,19 @@
             android:layout_height="wrap_content">
             <TableRow
                 android:layout_marginTop="10dp">
+
                 <TextView
-                    android:textSize="18sp"
-                    android:fontFamily="@font/estre"
+                    android:fontFamily="@font/asap"
                     android:padding="3dip"
                     android:text="@string/product_name"
-                    android:textColor="@color/colorPrimaryDark" />
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18sp"
+                    app:fontFamily="@font/asap" />
                 <TextView
                     android:textSize="18sp"
                     android:layout_marginLeft="10dp"
                     android:id="@+id/productNameTv"
-                    android:fontFamily="@font/estre"
+                    android:fontFamily="@font/asap"
                     android:padding="3dip"
                     android:singleLine="true"
                     android:textColor="@color/black"
@@ -54,7 +56,7 @@
                 android:layout_marginTop="10dp">
                 <TextView
                     android:textSize="18sp"
-                    android:fontFamily="@font/estre"
+                    android:fontFamily="@font/asap"
                     android:padding="3dip"
                     android:text="@string/product_description"
                     android:textColor="@color/colorPrimaryDark" />
@@ -62,7 +64,7 @@
                     android:textSize="18sp"
 
                     android:layout_marginLeft="10dp"
-                    android:fontFamily="@font/estre"
+                    android:fontFamily="@font/asap"
                     android:id="@+id/descTV"
                     android:gravity="start"
                     android:padding="3dip"
@@ -74,14 +76,14 @@
                 android:layout_marginTop="10dp">
                 <TextView
                     android:textSize="18sp"
-                    android:fontFamily="@font/estre"
+                    android:fontFamily="@font/asap"
                     android:padding="3dip"
                     android:text="@string/product_weight"
                     android:textColor="@color/colorPrimaryDark" />
                 <TextView
                     android:textSize="18sp"
 
-                    android:fontFamily="@font/estre"
+                    android:fontFamily="@font/asap"
                     android:layout_marginLeft="10dp"
                     android:id="@+id/weightTV"
                     android:gravity="start"
@@ -94,13 +96,13 @@
                 <TextView
                     android:textSize="18sp"
 
-                    android:fontFamily="@font/estre"
+                    android:fontFamily="@font/asap"
                     android:padding="3dip"
                     android:text="@string/shipping_cost"
                     android:textColor="@color/colorPrimaryDark" />
                 <TextView
                     android:enabled="false"
-                    android:fontFamily="@font/estre"
+                    android:fontFamily="@font/asap"
                     android:layout_marginLeft="10dp"
                     android:textSize="18sp"
                     android:id="@+id/priceTV"
@@ -115,7 +117,7 @@
                 android:layout_marginTop="10dp">
                 <TextView
                     android:textSize="18sp"
-                    android:fontFamily="@font/estre"
+                    android:fontFamily="@font/asap"
                     android:padding="3dip"
                     android:text="@string/destination_location"
                     android:textColor="@color/colorPrimaryDark" />
@@ -123,7 +125,7 @@
                     android:textSize="18sp"
 
                     android:layout_marginLeft="10dp"
-                    android:fontFamily="@font/estre"
+                    android:fontFamily="@font/asap"
                     android:id="@+id/destinationTV"
                     android:gravity="start"
                     android:padding="3dip"
@@ -136,14 +138,14 @@
                 <TextView
                     android:textSize="18sp"
 
-                    android:fontFamily="@font/estre"
+                    android:fontFamily="@font/asap"
                     android:padding="3dip"
                     android:text="@string/pickup_location"
                     android:textColor="@color/colorPrimaryDark" />
                 <TextView
                     android:textSize="18sp"
                     android:layout_marginLeft="10dp"
-                    android:fontFamily="@font/estre"
+                    android:fontFamily="@font/asap"
                     android:id="@+id/pickupTV"
                     android:gravity="start"
                     android:padding="3dip"
@@ -154,14 +156,14 @@
                 android:layout_marginTop="10dp">
                 <TextView
                     android:textSize="18sp"
-                    android:fontFamily="@font/estre"
+                    android:fontFamily="@font/asap"
                     android:padding="3dip"
                     android:text="@string/payment_mode"
                     android:textColor="@color/colorPrimaryDark" />
                 <TextView
                     android:textSize="18sp"
                     android:layout_marginLeft="10dp"
-                    android:fontFamily="@font/estre"
+                    android:fontFamily="@font/asap"
                     android:gravity="start"
                     android:id="@+id/paymentTV"
                     android:padding="3dip"
@@ -171,16 +173,18 @@
         </TableLayout>
 
     <TextView
+        android:drawablePadding="10dp"
+        android:fontFamily="@font/asap"
         android:id="@+id/total_countTV"
         android:layout_margin="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/Red"
-        android:fontFamily="@font/estre"
-        android:textSize="15sp"/>
+        android:textSize="18sp"
+        android:textStyle="bold"/>
     <Button
         android:id="@+id/request_btn"
-        android:fontFamily="@font/estre"
+        android:fontFamily="@font/asap"
         android:layout_gravity="center_horizontal"
         android:text="View Request"
         android:textAllCaps="false"

@@ -33,7 +33,7 @@
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:text="John "
-                android:fontFamily="@font/estre"
+                android:fontFamily="@font/asap"
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
                 android:id="@+id/head_depart"
                 android:textSize="15sp"
                 android:padding="3dp"
-                android:fontFamily="@font/estre"
+                android:fontFamily="@font/asap"
                 android:textColor="@color/colorPrimaryDark"
                 android:text="Departure :  "
                 android:layout_width="80dp"
@@ -61,7 +61,7 @@
             <TextView
                 android:textSize="15sp"
                 android:padding="3dp"
-                android:fontFamily="@font/estre"
+                android:fontFamily="@font/asap"
                 android:textColor="@color/colorPrimaryDark"
                 android:text="Delhi"
                 android:id="@+id/depart"
@@ -78,7 +78,7 @@
             <TextView
                 android:id="@+id/head_arrival"
                 android:textSize="15sp"
-                android:fontFamily="@font/estre"
+                android:fontFamily="@font/asap"
                 android:padding="3dp"
                 android:textColor="@color/colorPrimaryDark"
                 android:text="Arrival :  "
@@ -87,7 +87,7 @@
 
             <TextView
                 android:textSize="15sp"
-                android:fontFamily="@font/estre"
+                android:fontFamily="@font/asap"
                 android:padding="3dp"
                 android:textColor="@color/colorPrimaryDark"
                 android:text="Agra"
@@ -112,7 +112,7 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:text="04/03/2018"
-            android:fontFamily="@font/estre"
+            android:fontFamily="@font/asap"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"

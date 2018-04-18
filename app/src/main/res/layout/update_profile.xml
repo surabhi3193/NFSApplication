@@ -16,7 +16,7 @@ android:padding="10dp"
             android:layout_gravity="center"
             android:textStyle="bold"
             android:textSize="15sp"
-            android:fontFamily="@font/estre"
+            android:fontFamily="@font/asap"
             android:text="Update Profile"
             android:textColor="@color/colorPrimary"
             android:layout_width="wrap_content"
@@ -36,14 +36,14 @@ android:padding="10dp"
             <TableRow
                 android:layout_marginTop="10dp">
                 <TextView
-                    android:fontFamily="@font/estre"
+                    android:fontFamily="@font/asap"
                     android:padding="3dip"
                     android:text="@string/full_name"
                     android:textColor="@color/colorPrimary" />
                 <EditText
                     android:layout_marginLeft="10dp"
                     android:id="@+id/fullnameET"
-                    android:fontFamily="@font/estre"
+                    android:fontFamily="@font/asap"
                     android:background="@drawable/edit_text_style"
                     android:hint="@string/full_name"
                     android:imeOptions="actionNext"
@@ -57,14 +57,14 @@ android:padding="10dp"
             <TableRow
                 android:layout_marginTop="10dp">
                 <TextView
-                    android:fontFamily="@font/estre"
+                    android:fontFamily="@font/asap"
                     android:padding="3dip"
                     android:text="@string/location"
                     android:textColor="@color/colorPrimary" />
                 <TextView
                     android:layout_marginLeft="10dp"
 
-                    android:fontFamily="@font/estre"
+                    android:fontFamily="@font/asap"
                     android:id="@+id/cityEt"
                     android:background="@drawable/edit_text_style"
                     android:gravity="start"
@@ -80,13 +80,13 @@ android:padding="10dp"
             <TableRow
                 android:layout_marginTop="10dp">
                 <TextView
-                    android:fontFamily="@font/estre"
+                    android:fontFamily="@font/asap"
 
                     android:padding="3dip"
                     android:text="@string/email"
                     android:textColor="@color/colorPrimary" />
                 <EditText
-                    android:fontFamily="@font/estre"
+                    android:fontFamily="@font/asap"
                     android:layout_marginLeft="10dp"
 
                     android:id="@+id/EmailEt"
@@ -105,14 +105,14 @@ android:padding="10dp"
             <TableRow
                 android:layout_marginTop="10dp">
                 <TextView
-                    android:fontFamily="@font/estre"
+                    android:fontFamily="@font/asap"
 
                     android:padding="3dip"
                     android:text="@string/phone_no"
                     android:textColor="@color/colorPrimary" />
                 <EditText
                     android:enabled="false"
-                    android:fontFamily="@font/estre"
+                    android:fontFamily="@font/asap"
                     android:layout_marginLeft="10dp"
 
                     android:id="@+id/phoneNumberEditText"
@@ -133,14 +133,14 @@ android:padding="10dp"
             <TableRow
                 android:layout_marginTop="10dp">
                 <TextView
-                    android:fontFamily="@font/estre"
+                    android:fontFamily="@font/asap"
 
                     android:padding="3dip"
                     android:text="@string/account_no"
                     android:textColor="@color/colorPrimary" />
                 <EditText
                     android:layout_marginLeft="10dp"
-                    android:fontFamily="@font/estre"
+                    android:fontFamily="@font/asap"
                     android:id="@+id/accountEt"
                     android:background="@drawable/edit_text_style"
                     android:gravity="start"
@@ -163,7 +163,7 @@ android:padding="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorPrimary"
-            android:fontFamily="@font/estre"
+            android:fontFamily="@font/asap"
             android:text="Upload valid id card"/>
 
         <ImageView

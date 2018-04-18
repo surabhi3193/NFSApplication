@@ -21,10 +21,10 @@ public class NFSApp extends MultiDexApplication {
         MultiDex.install(this);
         instance = this;
 
-        FontsOverride.setDefaultFont(this, "DEFAULT", "fonts/estre.ttf");
-        FontsOverride.setDefaultFont(this, "MONOSPACE", "fonts/estre.ttf");
-        FontsOverride.setDefaultFont(this, "SERIF", "fonts/estre.ttf");
-        FontsOverride.setDefaultFont(this, "SANS_SERIF", "fonts/estre.ttf");
+//        FontsOverride.setDefaultFont(this, "DEFAULT", "fonts/asap.ttf");
+//        FontsOverride.setDefaultFont(this, "MONOSPACE", "fonts/asap.ttf");
+//        FontsOverride.setDefaultFont(this, "SERIF", "fonts/asap.ttf");
+//        FontsOverride.setDefaultFont(this, "SANS_SERIF", "fonts/asap.ttf");
 
     }
 

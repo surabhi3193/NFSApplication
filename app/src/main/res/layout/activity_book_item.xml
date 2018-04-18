@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/estre"
+                android:fontFamily="@font/asap"
                 android:hint="@string/full_name_as_shown_on_id"
                 android:imeOptions="actionNext"
                 android:padding="8dp"
@@ -52,7 +52,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/edit_text"
-                android:fontFamily="@font/estre"
+                android:fontFamily="@font/asap"
                 android:hint="@string/address"
                 android:imeOptions="actionNext"
                 android:padding="8dp"
@@ -70,7 +70,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/edit_text"
-                android:fontFamily="@font/estre"
+                android:fontFamily="@font/asap"
                 android:hint="@string/email"
                 android:imeOptions="actionNext"
                 android:padding="8dp"
@@ -89,7 +89,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/edit_text"
-                android:fontFamily="@font/estre"
+                android:fontFamily="@font/asap"
                 android:hint="@string/phone_number"
                 android:imeOptions="actionNext"
                 android:inputType="number"
@@ -102,14 +102,13 @@
                 tools:ignore="TextFields"
                 tools:targetApi="lollipop" />
 
-            <AutoCompleteTextView
+            <TextView
                 android:background="@drawable/edit_text"
-                android:drawableRight="@drawable/drop"
                 android:id="@+id/pickupET"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
-                android:fontFamily="@font/estre"
+                android:fontFamily="@font/asap"
                 android:gravity="center_vertical"
                 android:hint="@string/travelling_from_departure_airport"
                 android:imeOptions="actionDone"
@@ -118,7 +117,6 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textCursorDrawable="@null"
                 android:textSize="15sp"
-                android:drawableEnd="@drawable/drop"
                 tools:targetApi="jelly_bean" />
 
             <TextView
@@ -128,7 +126,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/estre"
+                android:fontFamily="@font/asap"
                 android:gravity="center_vertical"
                 android:hint="@string/departure_date"
                 android:paddingLeft="10dp"
@@ -140,14 +138,13 @@
                 android:drawableRight="@drawable/drop" />
 
 
-            <AutoCompleteTextView
+            <TextView
                 android:background="@drawable/edit_text"
-                android:drawableRight="@drawable/drop"
                 android:id="@+id/destET"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
-                android:fontFamily="@font/estre"
+                android:fontFamily="@font/asap"
                 android:gravity="center_vertical"
                 android:hint="@string/travelling_to_arrival_airport"
                 android:imeOptions="actionDone"
@@ -156,8 +153,7 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textCursorDrawable="@null"
                 android:textSize="15sp"
-                tools:targetApi="jelly_bean"
-                android:drawableEnd="@drawable/drop" />
+                tools:targetApi="jelly_bean" />
 
             <TextView
                 android:background="@drawable/edit_text"
@@ -166,7 +162,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/estre"
+                android:fontFamily="@font/asap"
                 android:gravity="center_vertical"
                 android:hint="@string/arrival_date"
                 android:paddingLeft="10dp"
@@ -183,7 +179,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/edit_text"
-                android:fontFamily="@font/estre"
+                android:fontFamily="@font/asap"
                 android:hint="@string/flight_number"
                 android:imeOptions="actionDone"
                 android:padding="8dp"
@@ -199,7 +195,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/edit_text"
-                android:fontFamily="@font/estre"
+                android:fontFamily="@font/asap"
                 android:hint="@string/deposit_amount"
                 android:imeOptions="actionDone"
                 android:inputType="number"
@@ -217,7 +213,7 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/upload"
                 android:drawablePadding="5dp"
-                android:fontFamily="@font/estre"
+                android:fontFamily="@font/asap"
                 android:padding="8dp"
                 android:drawableStart="@drawable/upload"
                 android:textColor="@color/colorPrimaryDark"
@@ -237,7 +233,7 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/upload"
                 android:drawablePadding="5dp"
-                android:fontFamily="@font/estre"
+                android:fontFamily="@font/asap"
                 android:padding="8dp"
                 android:drawableStart="@drawable/upload"
                 android:text="@string/upload_traveller_s_valid_travelling_ticket"
@@ -257,7 +253,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/btn"
-                android:fontFamily="@font/estre"
+                android:fontFamily="@font/asap"
                 android:text="@string/book_item"
                 android:textColor="@color/white"
                 tools:targetApi="jelly_bean" />

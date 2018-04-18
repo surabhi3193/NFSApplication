@@ -1,10 +1,6 @@
 package com.nfsapp.surbhi.nfsapplication.adapter;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Typeface;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,15 +10,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nfsapp.surbhi.nfsapplication.R;
-import com.nfsapp.surbhi.nfsapplication.activities.ItemDetails;
 import com.nfsapp.surbhi.nfsapplication.activities.sender.TravellerDetails;
 import com.nfsapp.surbhi.nfsapplication.beans.Traveller;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.getPostDetails;
 import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.getTraveller;
 
 public class TravellerAdapter  extends ArrayAdapter<Traveller> implements View.OnClickListener {
@@ -84,14 +77,14 @@ public class TravellerAdapter  extends ArrayAdapter<Traveller> implements View.O
 
         lastPosition = position;
 
-        Typeface face = Typeface.createFromAsset(mContext.getAssets(),
-                "fonts/estre.ttf");
-
-        viewHolder.txtName.setTypeface(face);
-        viewHolder.txtType.setTypeface(face);
-        viewHolder.txtVersion.setTypeface(face);
-        viewHolder.datetV.setTypeface(face);
-        viewHolder.details_btn.setTypeface(face);
+//        Typeface face = Typeface.createFromAsset(mContext.getAssets(),
+//                "fonts/asap.ttf");
+//
+//        viewHolder.txtName.setTypeface(face);
+//        viewHolder.txtType.setTypeface(face);
+//        viewHolder.txtVersion.setTypeface(face);
+//        viewHolder.datetV.setTypeface(face);
+//        viewHolder.details_btn.setTypeface(face);
 
 
         viewHolder.datetV.setText(Traveller.getDate());
@@ -107,14 +100,19 @@ public class TravellerAdapter  extends ArrayAdapter<Traveller> implements View.O
         else
         viewHolder.image.setImageResource(R.drawable.profile_pic);
 
+        if (Traveller.getStatus()!=null && Traveller.getStatus().equalsIgnoreCase("2")) {
+            act_name="traveller";
+            viewHolder.details_btn.setText("Accepted");
+            viewHolder.details_btn.setBackgroundResource(R.drawable.green_rect);
+        }
+
         viewHolder.details_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 System.out.println("======= traveller id ========");
                 System.out.println(Traveller.getId());
-//                if (act_name.equalsIgnoreCase("traveller"))
-                getTraveller(mContext, Traveller.getId(), TravellerDetails.class);
+                getTraveller(mContext, Traveller.getId(), TravellerDetails.class,act_name);
 
             }
         });

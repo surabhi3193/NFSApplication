@@ -109,7 +109,7 @@ public class Utility {
             alertBuilder.setPositiveButton(android.R.string.yes, new OnClickListener() {
                 @TargetApi(16)
                 public void onClick(DialogInterface dialog, int which) {
-                    ActivityCompat.requestPermissions((Activity) context, new String[]{"android.permission.RECEIVE_SMS"}, Utility.MY_PERMISSIONS_SMS);
+                    ActivityCompat.requestPermissions((Activity) context, new String[]{"android.permission.RECEIVE_SMS"},MY_PERMISSIONS_SMS);
                 }
             });
             alertBuilder.create().show();
@@ -131,7 +131,7 @@ public class Utility {
             Builder alertBuilder = new Builder(context);
             alertBuilder.setCancelable(true);
             alertBuilder.setTitle("Permission necessary");
-            alertBuilder.setMessage("SMS permission is necessary");
+            alertBuilder.setMessage("Location permission is necessary");
             alertBuilder.setPositiveButton(android.R.string.yes, new OnClickListener() {
                 @TargetApi(16)
                 public void onClick(DialogInterface dialog, int which) {
@@ -157,7 +157,7 @@ public class Utility {
             Builder alertBuilder = new Builder(context);
             alertBuilder.setCancelable(true);
             alertBuilder.setTitle("Permission necessary");
-            alertBuilder.setMessage("SMS permission is necessary");
+            alertBuilder.setMessage("Location permission is necessary");
             alertBuilder.setPositiveButton(android.R.string.yes, new OnClickListener() {
                 @TargetApi(16)
                 public void onClick(DialogInterface dialog, int which) {
@@ -165,6 +165,8 @@ public class Utility {
                             Utility.MY_COARSE_LOCATION);
                 }
             });
+
+
             alertBuilder.create().show();
         } else {
             ActivityCompat.requestPermissions((Activity) context, new String[]{"android.permission.ACCESS_COARSE_LOCATION"}, MY_COARSE_LOCATION);

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#287bbf</color>
+    <color name="colorPrimary">#3367d6</color>
     <color name="colorPrimaryDark">#5b5b5b</color>
     <color name="colorAccent">#287BBF</color>
     <color name="background_color">#e6f4ff</color>
     <color name="coloumn_colour">#8ecdff</color>
+    <color name="bright_bg">#3367d6</color>
 
 
     <color name="toolbar_black">#333333</color>
@@ -76,7 +77,7 @@
     <color name="DeepPink">#FF1493</color>
     <color name="Fuchsia">#FF00FF</color>
     <color name="Magenta">#FF00FF</color>
-    <color name="Red">#FF0000</color>
+    <color name="Red">#D80003</color>
     <color name="Red_shade">#ff3232</color>
     <color name="OldLace">#FDF5E6</color>
     <color name="LightGoldenrodYellow">#FAFAD2</color>
@@ -238,6 +239,7 @@
     <color name="aqua">#00FFFF</color>
 
     <color name="teal">#008080</color>
+    <color name="book_green">#00b043</color>
     <color name="green">#008000</color>
     <color name="blue">#0000FF</color>
     <color name="navy">#000080</color>

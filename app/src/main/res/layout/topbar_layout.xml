@@ -17,6 +17,7 @@
             android:src="@drawable/profile_pic"/>
 
         <TextView
+            android:fontFamily="@font/asap"
             android:id="@+id/nameTV"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/image"

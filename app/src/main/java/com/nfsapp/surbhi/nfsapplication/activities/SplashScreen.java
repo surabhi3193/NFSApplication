@@ -55,23 +55,26 @@ public class SplashScreen extends AppCompatActivity {
 
         String login = getData(getApplicationContext(), "login", "");
 
-        if (login.equals("1")) {
+        if (login.equals("1"))
+        {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
             finish();
         } else {
-            Utility.checkSMSPermission(this);
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Intent intent = new Intent(SplashScreen.this, EnterLoginActivity.class
-                    ).putExtra("FirebaseId", regId);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    startActivity(intent);
-                    finish();
+          boolean per =  Utility.checkSMSPermission(this);
 
-                }
-            }, SPLASH_TIME_OUT);
+              Handler handler = new Handler();
+              handler.postDelayed(new Runnable() {
+                  @Override
+                  public void run() {
+                      Intent intent = new Intent(SplashScreen.this, EnterLoginActivity.class
+                      ).putExtra("FirebaseId", regId);
+                      intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                      startActivity(intent);
+                      finish();
+
+                  }
+              }, SPLASH_TIME_OUT);
+
         }
     }
 
@@ -111,9 +114,9 @@ public class SplashScreen extends AppCompatActivity {
     }
 
 
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+  /*  public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
-            case Utility.MY_PERMISSIONS_SMS /*126*/:
+            case Utility.MY_PERMISSIONS_SMS *//*126*//*:
                 if (grantResults.length <= 0 || grantResults[0] != 0) {
                     Toast.makeText(this, " Allow Permission To Continue", Toast.LENGTH_SHORT).show();
                     return;
@@ -128,5 +131,5 @@ public class SplashScreen extends AppCompatActivity {
             default:
                 return;
         }
-    }
+    }*/
 }

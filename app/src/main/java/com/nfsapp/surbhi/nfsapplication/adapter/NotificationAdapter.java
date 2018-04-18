@@ -1,24 +1,18 @@
 package com.nfsapp.surbhi.nfsapplication.adapter;
 
 import android.app.Activity;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nfsapp.surbhi.nfsapplication.R;
-import com.nfsapp.surbhi.nfsapplication.activities.ItemDetails;
 import com.nfsapp.surbhi.nfsapplication.beans.Notification;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-
-import static com.nfsapp.surbhi.nfsapplication.other.MySharedPref.getData;
-import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.getPostDetails;
 
 public class NotificationAdapter extends ArrayAdapter<Notification> {
 
@@ -60,12 +54,12 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
             result = convertView;
         }
         lastPosition = position;
-        Typeface face = Typeface.createFromAsset(mContext.getAssets(),
-                "fonts/estre.ttf");
-
-        viewHolder.sender_nameTV.setTypeface(face);
-        viewHolder.msgTV.setTypeface(face);
-        viewHolder.dateTV.setTypeface(face);
+//        Typeface face = Typeface.createFromAsset(mContext.getAssets(),
+//                "fonts/asap.ttf");
+//
+//        viewHolder.sender_nameTV.setTypeface(face);
+//        viewHolder.msgTV.setTypeface(face);
+//        viewHolder.dateTV.setTypeface(face);
 
         viewHolder.sender_nameTV.setText(Notification.getName());
         viewHolder.msgTV.setText(Notification.getMsg());

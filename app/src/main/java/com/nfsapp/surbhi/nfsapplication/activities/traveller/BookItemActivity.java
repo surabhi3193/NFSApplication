@@ -1,6 +1,5 @@
 package com.nfsapp.surbhi.nfsapplication.activities.traveller;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
@@ -11,17 +10,12 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlacePicker;
-import com.google.android.gms.maps.model.LatLng;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -40,7 +34,6 @@ import java.util.Calendar;
 
 import cz.msebera.android.httpclient.Header;
 
-import static com.nfsapp.surbhi.nfsapplication.constants.GeocodingLocation.getAddressFromLatlng;
 import static com.nfsapp.surbhi.nfsapplication.other.MySharedPref.getData;
 import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.BASE_IMAGE_URL;
 import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.BASE_URL_NEW;
@@ -49,18 +42,14 @@ import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.makeToast;
 
 public class BookItemActivity extends AppCompatActivity {
 
-    private static final int PLACE_PICKER_REQUEST = 1;
-    private static final int PLACE_PICKER_REQUEST_DEST = 2;
     private static final int ID_REQUEST_IMAGE = 3;
     private static final int TICKET_REQUEST_IMAGE = 4;
-    AutoCompleteTextView destET, pickupET;
+    TextView destET, pickupET;
     String name = "", address = "", phone = "", email = "";
     private TextView dateTVdeparture, dateTVarrival;
     private EditText nameET, addressET, emailEt, phoneEt, flightEt;
     private Uri idimageUri;
     private Uri ticketImageurI;
-    private String p_lat = "0.0", p_lng = "0.0";
-    private String d_lat = "0.0", d_lng = "0.0";
     private ImageView idIV, ticketIV;
     private String sender_id = "", post_id = "";
     private boolean cam_open = false;
@@ -69,14 +58,11 @@ public class BookItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_item);
-
         Utility.checkCameraPermission(BookItemActivity.this);
         ImageView back_btn = findViewById(R.id.back_btn);
         TextView header_text = findViewById(R.id.header_text);
-
         TextView idTV = findViewById(R.id.uploadIDCardTV);
         TextView ticketTV = findViewById(R.id.uploadTicketTV);
-
         dateTVdeparture = findViewById(R.id.dateTVdepature);
         dateTVarrival = findViewById(R.id.dateTVarrival);
         nameET = findViewById(R.id.nameET);
@@ -86,11 +72,9 @@ public class BookItemActivity extends AppCompatActivity {
         pickupET = findViewById(R.id.pickupET);
         destET = findViewById(R.id.destET);
         flightEt = findViewById(R.id.flightEt);
-
         idIV = findViewById(R.id.idIV);
         ticketIV = findViewById(R.id.ticketIV);
         header_text.setText("Traveller Detail");
-
         final User user = User.getInstance();
         name = user.getName();
         address = user.getLocation();
@@ -109,17 +93,17 @@ public class BookItemActivity extends AppCompatActivity {
             Picasso.with(getApplicationContext()).load(user.getId_image()).into(idIV);
         }
 
-        String airportlist = getData(BookItemActivity.this, "country_list", "");
-        String[] airports = airportlist.split("/");
 
-        ArrayAdapter<String> airportadapter = new ArrayAdapter<String>(BookItemActivity.this, android.R.layout.simple_dropdown_item_1line, airports);
-        pickupET.setAdapter(airportadapter);
-        destET.setAdapter(airportadapter);
         Bundle bundle = getIntent().getExtras();
 
         if (bundle != null) {
             sender_id = bundle.getString("sender_id");
             post_id = bundle.getString("post_id");
+          String  pickup = bundle.getString("pickup");
+        String    destination = bundle.getString("destination");
+        pickupET.setText(pickup);
+        destET.setText(destination);
+
         }
 
 
@@ -184,34 +168,6 @@ public class BookItemActivity extends AppCompatActivity {
                 d.show();
             }
         });
-
-//        pickupET.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                System.out.println("====== pickup clicked======");
-//                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-//
-//                try {
-//                    startActivityForResult(builder.build(BookItemActivity.this), PLACE_PICKER_REQUEST);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
-
-//        destET.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                System.out.println("====== dest clicked======");
-//                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-//                try {
-//                    startActivityForResult(builder.build(BookItemActivity.this), PLACE_PICKER_REQUEST_DEST);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
-
 
         idTV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -283,8 +239,6 @@ public class BookItemActivity extends AppCompatActivity {
                 dialog.dismiss();
                 BookItem(traveller_name, address, email, phone, pickup, destination, dateDepart, dateArrival, flight, pathid, pathTicket);
 
-//                startActivity(new Intent(BookItemActivity.this,TravellerMainActivity.class));
-//                finish();
             }
         });
 
@@ -297,7 +251,6 @@ public class BookItemActivity extends AppCompatActivity {
     }
 
     private void getDataFromIds() {
-
         String rec_mob_2 = "";
         String traveller_name = nameET.getText().toString();
         String address = addressET.getText().toString();
@@ -405,7 +358,6 @@ public class BookItemActivity extends AppCompatActivity {
         params.put("trevaller_flight_no", flight);
         params.put("product_id", post_id);
         params.put("product_sender_id", sender_id);
-
         params.put("departure_date", dateDepart);
         params.put("arrival_date", dateArrival);
 
@@ -425,7 +377,6 @@ public class BookItemActivity extends AppCompatActivity {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
 
         System.out.println("============= book item  api ==============");
         System.err.println(params);
@@ -463,42 +414,12 @@ public class BookItemActivity extends AppCompatActivity {
             }
         });
     }
-
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         System.out.println("=========== after clicking image ============");
         System.out.println(requestCode);
         System.out.println(resultCode);
         switch (requestCode) {
-
-
-            case PLACE_PICKER_REQUEST:
-
-                if (resultCode == Activity.RESULT_OK) {
-
-                    Place place = PlacePicker.getPlace(data, BookItemActivity.this);
-                    LatLng location = place.getLatLng();
-                    p_lat = String.valueOf(location.latitude);
-                    p_lng = String.valueOf(location.longitude);
-                    String new_location = getAddressFromLatlng(location, BookItemActivity.this.getApplicationContext(), 0);
-                    pickupET.setText(new_location);
-
-
-                }
-                break;
-
-            case PLACE_PICKER_REQUEST_DEST:
-
-                if (resultCode == Activity.RESULT_OK) {
-                    Place place = PlacePicker.getPlace(data, BookItemActivity.this);
-                    LatLng location = place.getLatLng();
-                    d_lat = String.valueOf(location.latitude);
-                    d_lng = String.valueOf(location.longitude);
-                    String new_location = getAddressFromLatlng(location, BookItemActivity.this.getApplicationContext(), 0);
-                    destET.setText(new_location);
-                }
-                break;
 
             case ID_REQUEST_IMAGE:
                 if (resultCode != 0) {

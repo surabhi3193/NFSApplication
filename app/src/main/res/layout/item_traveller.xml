@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/trans_text_bg"
         android:textColor="@color/white"
-        android:fontFamily="@font/estre"
+        android:fontFamily="@font/asap"
         android:text="View"
         android:fontFeatureSettings="18sp"/>
 
@@ -51,7 +51,7 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:text="Name : "
-            android:fontFamily="@font/estre"
+            android:fontFamily="@font/asap"
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
                 android:id="@+id/head_depart"
                 android:textSize="15sp"
                 android:padding="3dp"
-                android:fontFamily="@font/estre"
+                android:fontFamily="@font/asap"
                 android:textColor="@color/colorPrimaryDark"
                 android:text="Departure : "
                 android:layout_width="80dp"
@@ -80,7 +80,7 @@
             <TextView
                 android:textSize="15sp"
                 android:padding="3dp"
-                android:fontFamily="@font/estre"
+                android:fontFamily="@font/asap"
                 android:textColor="@color/colorPrimaryDark"
                 android:text=""
                 android:id="@+id/depart"
@@ -97,7 +97,7 @@
             <TextView
                 android:id="@+id/head_arrival"
                 android:textSize="15sp"
-                android:fontFamily="@font/estre"
+                android:fontFamily="@font/asap"
                 android:padding="3dp"
                 android:textColor="@color/colorPrimaryDark"
                 android:text="Arrival : "
@@ -107,7 +107,7 @@
             <TextView
 
                 android:textSize="15sp"
-                android:fontFamily="@font/estre"
+                android:fontFamily="@font/asap"
                 android:padding="3dp"
                 android:textColor="@color/colorPrimaryDark"
                 android:id="@+id/arrival"
@@ -125,7 +125,7 @@
             <TextView
                 android:id="@+id/head_amount"
                 android:textSize="15sp"
-                android:fontFamily="@font/estre"
+                android:fontFamily="@font/asap"
                 android:padding="3dp"
                 android:textColor="@color/colorPrimaryDark"
                 android:text="Amount : "
@@ -135,7 +135,7 @@
 
             <TextView
                 android:textSize="15sp"
-                android:fontFamily="@font/estre"
+                android:fontFamily="@font/asap"
                 android:padding="3dp"
                 android:textColor="@color/colorPrimaryDark"
                 android:text="$200"
@@ -159,7 +159,7 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:text="04/03/2018"
-            android:fontFamily="@font/estre"
+            android:fontFamily="@font/asap"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -184,7 +184,7 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:text="1 Miles"
-            android:fontFamily="@font/estre"
+            android:fontFamily="@font/asap"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

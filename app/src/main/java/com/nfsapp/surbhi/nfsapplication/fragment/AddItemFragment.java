@@ -3,6 +3,7 @@ package com.nfsapp.surbhi.nfsapplication.fragment;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +21,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -94,7 +97,6 @@ public class AddItemFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Utility.checkCameraPermission(getActivity());
-
         View v = inflater.inflate(R.layout.fragment_add_item, null);
         mPager = v.findViewById(R.id.pager);
         indicator = v.findViewById(R.id.indicator);
@@ -107,6 +109,7 @@ public class AddItemFragment extends Fragment {
         pickupEt =v.findViewById(R.id.pickupEt);
         destET = v.findViewById(R.id.destET);
 
+        final TextView prohibitedTV = v.findViewById(R.id.prohibitedTV);
         final EditText rec_nameEt = v.findViewById(R.id.rec_nameEt);
         final EditText rec_mob1 = v.findViewById(R.id.rec_mob1);
         final EditText rec_mob2 = v.findViewById(R.id.rec_mob2);
@@ -128,6 +131,15 @@ public class AddItemFragment extends Fragment {
 
         String airportlist = getData(getActivity(),"country_list","");
         String[] airports = airportlist.split("/");
+
+        // Creating adapter for spinner
+        List<String> weightlist = new ArrayList<>();
+        weightlist.add("Kg");
+        weightlist.add("Lbs");
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(),R.layout.spinner_item,weightlist);
+
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        weightSpinner.setAdapter(dataAdapter);
 
         ArrayAdapter<String> airportadapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, airports);
         pickupEt.setAdapter(airportadapter);
@@ -167,33 +179,6 @@ public class AddItemFragment extends Fragment {
                 d.show();
             }
         });
-
-//        pickupEt.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                System.out.println("====== pickup clicked======");
-//                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-//
-//                try {
-//                    startActivityForResult(builder.build(getActivity()), PLACE_PICKER_REQUEST);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
-
-//        destET.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                System.out.println("====== dest clicked======");
-//                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-//                try {
-//                    startActivityForResult(builder.build(getActivity()), PLACE_PICKER_REQUEST_DEST);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
 
         idTV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -340,6 +325,14 @@ public class AddItemFragment extends Fragment {
                 imageDialog();
             }
         });
+
+
+        prohibitedTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                prohibitedList();
+            }
+        });
         return v;
     }
 
@@ -358,10 +351,12 @@ public class AddItemFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                startActivityForResult(new Intent(getActivity().getBaseContext(),
-                        MultiPhotoSelectActivity.class), GALLERY_PICTURE);
+                boolean per = Utility.checkReadStoragePermission(getActivity());
+                 if (per) {
+                     startActivityForResult(new Intent(getActivity().getBaseContext(),
+                             MultiPhotoSelectActivity.class), GALLERY_PICTURE);
 
-
+                 }
                 dialog.dismiss();
             }
         });
@@ -680,6 +675,46 @@ public class AddItemFragment extends Fragment {
         else
             getActivity().onBackPressed();
 
+    }
+
+
+
+    private void prohibitedList() {
+        final Dialog dialog = new Dialog(getActivity(), R.style.Theme_AppCompat_Dialog);
+        dialog.setContentView(R.layout.prohibited_items);
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.show();
+
+        TextView ok_btn = dialog.findViewById(R.id.ok_btn);
+        WebView webView = dialog.findViewById(R.id.webView);
+        String url = "file:///android_asset/nfs.html";
+        webView.loadUrl(url);
+        webView.requestFocus();
+
+
+        final ProgressDialog progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Loading");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        webView.setWebViewClient(new WebViewClient() {
+            public void onPageFinished(WebView view, String url) {
+                try {
+                    progressDialog.dismiss();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+        ok_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+
+            }
+        });
     }
 
 

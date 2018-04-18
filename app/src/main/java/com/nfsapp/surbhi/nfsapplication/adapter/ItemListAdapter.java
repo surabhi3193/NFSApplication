@@ -1,9 +1,6 @@
 package com.nfsapp.surbhi.nfsapplication.adapter;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +13,6 @@ import com.nfsapp.surbhi.nfsapplication.R;
 import com.nfsapp.surbhi.nfsapplication.activities.ItemDetails;
 import com.nfsapp.surbhi.nfsapplication.beans.Traveller;
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -68,15 +62,15 @@ public class ItemListAdapter extends ArrayAdapter<Traveller> {
             result = convertView;
         }
         lastPosition = position;
-        Typeface face = Typeface.createFromAsset(mContext.getAssets(),
-                "fonts/estre.ttf");
-
-        viewHolder.txtName.setTypeface(face);
-        viewHolder.txtType.setTypeface(face);
-        viewHolder.txtVersion.setTypeface(face);
-        viewHolder.date.setTypeface(face);
-        viewHolder.head_depart.setTypeface(face);
-        viewHolder.head_arrival.setTypeface(face);
+//        Typeface face = Typeface.createFromAsset(mContext.getAssets(),
+//                "fonts/asap.ttf");
+//
+//        viewHolder.txtName.setTypeface(face);
+//        viewHolder.txtType.setTypeface(face);
+//        viewHolder.txtVersion.setTypeface(face);
+//        viewHolder.date.setTypeface(face);
+//        viewHolder.head_depart.setTypeface(face);
+//        viewHolder.head_arrival.setTypeface(face);
 
         viewHolder.date.setText(traveller.getDate());
         viewHolder.txtName.setText(traveller.getName());
@@ -90,7 +84,7 @@ public class ItemListAdapter extends ArrayAdapter<Traveller> {
 
                   String  user_id = getData(mContext.getApplicationContext(), "user_id", "");
 
-                    getPostDetails(mContext, user_id, traveller.getId(), ItemDetails.class);
+                    getPostDetails(mContext, user_id, traveller.getId(), ItemDetails.class,"itemForSent");
             }
         });
         return convertView;

@@ -34,7 +34,7 @@
     <string name="mobile_no_1">Mobile No. 1</string>
     <string name="name">Name</string>
     <string name="receiver_information">Receiver Information</string>
-    <string name="upload_valid_id_card">Upload valid id card</string>
+
     <string name="id_image">id image</string>
     <string name="full_name_as_shown_on_id">Full Name (As shown on ID)</string>
     <string name="address">Address</string>
@@ -59,6 +59,8 @@
     <string name="book_item">Book Item</string>
     <string name="upload_traveller_s_valid_travelling_ticket">Upload traveller\'s valid travelling ticket</string>
     <string name="upload_valid_id_card">Upload valid id card</string>
+    <string name="accept">Accept</string>
+    <string name="reject">Reject</string>
 
 
     <string-array name="type_arrays">

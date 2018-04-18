@@ -2,8 +2,8 @@ package com.nfsapp.surbhi.nfsapplication.activities.sender;
 
 import android.app.Dialog;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -14,7 +14,6 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.nfsapp.surbhi.nfsapplication.R;
-import com.nfsapp.surbhi.nfsapplication.adapter.TravelerMainAdapter;
 import com.nfsapp.surbhi.nfsapplication.adapter.TravellerAdapter;
 import com.nfsapp.surbhi.nfsapplication.beans.Traveller;
 import com.nfsapp.surbhi.nfsapplication.constants.GPSTracker;
@@ -28,6 +27,7 @@ import java.util.ArrayList;
 import cz.msebera.android.httpclient.Header;
 
 import static com.nfsapp.surbhi.nfsapplication.other.MySharedPref.getData;
+import static com.nfsapp.surbhi.nfsapplication.other.MySharedPref.saveData;
 import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.BASE_URL_NEW;
 import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.makeToast;
 
@@ -35,7 +35,7 @@ public class RequestList extends AppCompatActivity {
 
     ListView recyclerView;
     double latitude = 0.0, longitude = 0.0;
-    private String product_id="";
+    private String product_id = "";
 
 
     @Override
@@ -68,8 +68,8 @@ public class RequestList extends AppCompatActivity {
         final PullRefreshLayout refreshLayout = findViewById(R.id.refreshLay);
 
         Bundle bundle = getIntent().getExtras();
-        if (bundle!=null)
-            product_id=bundle.getString("product_id","");
+        if (bundle != null)
+            product_id = bundle.getString("product_id", "");
 
         refreshLayout.setRefreshStyle(PullRefreshLayout.STYLE_RING);
         refreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
@@ -116,9 +116,10 @@ public class RequestList extends AppCompatActivity {
                 System.out.println(response);
                 ringProgressDialog.dismiss();
                 try {
-
-                    if (response.getString("status").equals("1")) {
-                        ArrayList<Traveller> travellerList = new ArrayList<>();
+                    ArrayList<Traveller> travellerList = new ArrayList<>();
+                    TravellerAdapter mAdapter ;
+                    if (response.getString("status").equals("1"))
+                    {
                         String sender_id = "";
                         JSONArray jsonArray = response.getJSONArray("invitations");
                         for (int i = 0; i < jsonArray.length(); i++) {
@@ -129,19 +130,24 @@ public class RequestList extends AppCompatActivity {
                             String arrival = jsonObject.getString("arrival");
                             String user_pic = jsonObject.getString("user_pic");
                             String departure_date = jsonObject.getString("departure_date");
+                            String booking_status = jsonObject.getString("booking_status");
 
-
+                            saveData(getApplicationContext(), "product_id", product_id);
                             Traveller movie = new Traveller(trevaller_id, "", trevaller_name, user_pic,
-                                    "Departure : " + departure, "Arrival : " +arrival, departure_date, "", "","");
+                                    "Departure : " + departure, "Arrival : "
+                                    + arrival, departure_date, "", "", booking_status);
                             travellerList.add(movie);
 
                         }
 
-                        TravellerAdapter mAdapter = new TravellerAdapter(travellerList, RequestList.this,"invitations");
+                         mAdapter = new TravellerAdapter(travellerList, RequestList.this, "invitations");
                         mAdapter.notifyDataSetChanged();
                         recyclerView.setAdapter(mAdapter);
-                    } else {
+                    }
+                    else {
                         makeToast(RequestList.this, response.getString("message"));
+                        travellerList.clear();
+                        recyclerView.setVisibility(View.GONE);
                         return;
                     }
                 } catch (Exception e) {
@@ -166,5 +172,11 @@ public class RequestList extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        prepareTravellerData(product_id);
     }
 }

@@ -2,17 +2,16 @@ package com.nfsapp.surbhi.nfsapplication.activities.traveller;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nfsapp.surbhi.nfsapplication.R;
-import com.nfsapp.surbhi.nfsapplication.activities.ItemDetails;
 import com.nfsapp.surbhi.nfsapplication.adapter.SliderAdapter;
 
 import org.json.JSONException;
@@ -41,8 +40,8 @@ public class ParcelPackageDetail extends AppCompatActivity {
 
 
         TextView productNameTv =findViewById(R.id.productNameTv);
-        TextView destinationTV =findViewById(R.id.destinationTV);
-        TextView pickupTV =findViewById(R.id.pickupTV);
+        final TextView destinationTV =findViewById(R.id.destinationTV);
+        final TextView pickupTV =findViewById(R.id.pickupTV);
 
         TextView paymentTV =findViewById(R.id.paymentTV);
         TextView descTV =findViewById(R.id.descTV);
@@ -62,9 +61,15 @@ public class ParcelPackageDetail extends AppCompatActivity {
         book_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                String pickup = pickupTV.getText().toString();
+                String dest = destinationTV.getText().toString();
+
               startActivity(new Intent(ParcelPackageDetail.this,BookItemActivity.class)
                       .putExtra("sender_id",sender_id)
                       .putExtra("post_id",product_id)
+                      .putExtra("pickup",pickup)
+                      .putExtra("destination",dest)
               );
             }
         });

@@ -19,7 +19,7 @@
 
         <TextView
             android:id="@+id/header_text"
-            android:fontFamily="@font/estre"
+            android:fontFamily="@font/asap"
             android:gravity="center"
             android:textSize="18sp"
             android:textColor="@color/white"

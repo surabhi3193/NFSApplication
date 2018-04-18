@@ -1,6 +1,8 @@
 package com.nfsapp.surbhi.nfsapplication.activities;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -200,6 +202,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         transaction.commit();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -214,7 +217,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setFragment(fr);
 
         } else
-            finish();
+            finishAffinity();
 
     }
 
