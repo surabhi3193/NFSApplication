@@ -134,6 +134,7 @@ public class TravelerMainAdapter extends ArrayAdapter<Traveller> implements View
         }
         else {
             viewHolder.details_btn.setBackgroundResource(R.drawable.btn);
+            viewHolder.details_btn.setText("Book Now");
 
             viewHolder.details_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -152,7 +153,6 @@ public class TravelerMainAdapter extends ArrayAdapter<Traveller> implements View
                 public void onClick(View view) {
                     String  user_id = getData(mContext.getApplicationContext(), "user_id", "");
                     getPostDetails(mContext, user_id, Traveller.getId(), ParcelPackageDetail.class,"TravellerMain");
-
                 }
             });
         }

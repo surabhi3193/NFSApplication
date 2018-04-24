@@ -183,7 +183,8 @@ public class AddItemFragment extends Fragment {
         idTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Utility.checkWriteStoragePermission(getActivity());
+              boolean per =  Utility.checkWriteStoragePermission(getActivity());
+              if (per)
                 getIDImage();
             }
         });
@@ -295,7 +296,7 @@ public class AddItemFragment extends Fragment {
 
                 }
                 if (!itemCB.isChecked()) {
-                    makeToast(getActivity(), "Please cheack prohibited items  ");
+                    makeToast(getActivity(), "Please check prohibited items  ");
                     return;
 
                 }
@@ -307,12 +308,9 @@ public class AddItemFragment extends Fragment {
                 else
                     isinsure = "no";
 
-
-
-
                 String path = getRealPathFromURI(idimageUri, getActivity());
                 pweight = pweight + " " + weightSpinner.getSelectedItem().toString();
-                postItem(imageArray, pname, pdesc, pweight,"$"+cost, pickup, destination, date, payment, path, receiver, rec_mob_1,
+                postItem(imageArray, pname, pdesc, pweight,cost, pickup, destination, date, payment, path, receiver, rec_mob_1,
                         rec_mob_2, rec_mail, p_lat, p_lng, isinsure);
             }
         });
@@ -421,6 +419,7 @@ public class AddItemFragment extends Fragment {
         ringProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         ringProgressDialog.show();
         GifImageView gifview = ringProgressDialog.findViewById(R.id.loaderGif);
+        final TextView progressper = ringProgressDialog.findViewById(R.id.progressper);
         gifview.setGifImageResource(R.drawable.loader2);
 
         String userid = getData(getActivity(), "user_id", "");
@@ -466,7 +465,9 @@ public class AddItemFragment extends Fragment {
 
         System.out.println("============= post item  api ==============");
         System.err.println(params);
-        client.post(BASE_URL_NEW + "add_post", params, new JsonHttpResponseHandler() {
+        client.setConnectTimeout(120*1000);
+        client.post(BASE_URL_NEW + "add_post", params, new JsonHttpResponseHandler()
+        {
 
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 System.out.println(response);
@@ -498,9 +499,21 @@ public class AddItemFragment extends Fragment {
                 ringProgressDialog.dismiss();
                 System.out.println(responseString);
             }
+
+            @Override
+            public void onProgress(long bytesWritten, long totalSize) {
+                super.onProgress(bytesWritten, totalSize);
+                Log.e("progress", "pos: " + bytesWritten + " len: " + totalSize);
+                int per =0;
+                per=(int)((bytesWritten*100)/totalSize);
+                System.err.println(per);
+                progressper.setText(per-2 + "%");
+                if (per==100)
+                    progressper.setText("Done");
+                // Progress 379443 from 2720368 (14%)
+            }
         });
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         System.out.println("=========== after clicking image ============");

@@ -1,6 +1,7 @@
 package com.nfsapp.surbhi.nfsapplication.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,6 @@ import com.nfsapp.surbhi.nfsapplication.beans.Traveller;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-
-import static com.nfsapp.surbhi.nfsapplication.other.MySharedPref.getData;
-import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.getPostDetails;
 
 public class ItemListAdapter extends ArrayAdapter<Traveller> {
 
@@ -81,11 +79,8 @@ public class ItemListAdapter extends ArrayAdapter<Traveller> {
             @Override
             public void onClick(View view) {
 
-
-                  String  user_id = getData(mContext.getApplicationContext(), "user_id", "");
-
-                    getPostDetails(mContext, user_id, traveller.getId(), ItemDetails.class,"itemForSent");
-            }
+                mContext.startActivity(new Intent(mContext,ItemDetails.class).putExtra("post_id",traveller.getId()));
+                }
         });
         return convertView;
     }

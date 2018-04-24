@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -344,6 +345,7 @@ public class BookItemActivity extends AppCompatActivity {
         ringProgressDialog.show();
         GifImageView gifview = ringProgressDialog.findViewById(R.id.loaderGif);
         gifview.setGifImageResource(R.drawable.loader2);
+        final TextView progressper = ringProgressDialog.findViewById(R.id.progressper);
 
         String userid = getData(BookItemActivity.this, "user_id", "");
         System.out.println("========== userid========== " + userid);
@@ -411,6 +413,19 @@ public class BookItemActivity extends AppCompatActivity {
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 ringProgressDialog.dismiss();
                 System.out.println(responseString);
+            }
+
+            @Override
+            public void onProgress(long bytesWritten, long totalSize) {
+                super.onProgress(bytesWritten, totalSize);
+                Log.e("progress", "pos: " + bytesWritten + " len: " + totalSize);
+                int per =0;
+                per=(int)((bytesWritten*100)/totalSize);
+                System.err.println(per);
+                progressper.setText(per-2 + "%");
+                if (per==100)
+                    progressper.setText("Done");
+                // Progress 379443 from 2720368 (14%)
             }
         });
     }

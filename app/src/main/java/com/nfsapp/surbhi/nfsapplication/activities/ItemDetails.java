@@ -13,6 +13,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.nfsapp.surbhi.nfsapplication.R;
 import com.nfsapp.surbhi.nfsapplication.activities.sender.RequestList;
 import com.nfsapp.surbhi.nfsapplication.adapter.SliderAdapter;
@@ -22,40 +25,47 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import cz.msebera.android.httpclient.Header;
 import me.relex.circleindicator.CircleIndicator;
+
+import static com.nfsapp.surbhi.nfsapplication.other.MySharedPref.getData;
+import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.BASE_URL_NEW;
 
 public class ItemDetails extends AppCompatActivity {
 
 
+    JSONObject responseDEtailsOBJ;
+    TextView productNameTv, destinationTV, pickupTV, paymentTV, descTV, weightTV, priceTV, total_countTV;
     private ViewPager mPager;
     private CircleIndicator indicator;
-    private String product_id="";
+    private String product_id = "";
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_details);
 
         mPager = findViewById(R.id.pager);
-        indicator =findViewById(R.id.indicator);
-     TextView productNameTv =findViewById(R.id.productNameTv);
-     TextView destinationTV =findViewById(R.id.destinationTV);
-     TextView pickupTV =findViewById(R.id.pickupTV);
-
-     TextView paymentTV =findViewById(R.id.paymentTV);
-     TextView descTV =findViewById(R.id.descTV);
-     TextView weightTV =findViewById(R.id.weightTV);
-     TextView priceTV =findViewById(R.id.priceTV);
-     TextView total_countTV =findViewById(R.id.total_countTV);
-     Button request_btn =findViewById(R.id.request_btn);
+        indicator = findViewById(R.id.indicator);
+        productNameTv = findViewById(R.id.productNameTv);
+        destinationTV = findViewById(R.id.destinationTV);
+        pickupTV = findViewById(R.id.pickupTV);
+        paymentTV = findViewById(R.id.paymentTV);
+        descTV = findViewById(R.id.descTV);
+        weightTV = findViewById(R.id.weightTV);
+        priceTV = findViewById(R.id.priceTV);
+        total_countTV = findViewById(R.id.total_countTV);
+        Button request_btn = findViewById(R.id.request_btn);
         ImageView image = findViewById(R.id.back_btn);
         request_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 startActivity(new Intent(ItemDetails.this, RequestList.class)
-                        .putExtra("product_id",product_id));
+                        .putExtra("product_id", product_id));
+
             }
         });
 
@@ -70,58 +80,8 @@ public class ItemDetails extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
 
-        if (bundle!=null)
-        {
-            try {
-
-                String productDetails = bundle.getString("productDetails");
-
-                JSONObject obj = new JSONObject(productDetails);
-                System.out.println("========== details post======");
-                System.out.println(obj);
-                String product_name = obj.getString("product_name");
-                String pickup_location = obj.getString("pickup_location");
-                String destination_location = obj.getString("destination_location");
-                String product_desc = obj.getString("product_desc");
-                String product_weight = obj.getString("product_weight");
-                String product_cost = obj.getString("product_cost");
-                String payment_mode = obj.getString("payment_mode");
-
-                String product_pic = obj.getString("product_pic");
-                String booking_status = obj.getString("booking_status");
-                String trevaller_count = obj.getString("trevaller_count");
-                product_id = obj.getString("post_id");
-
-                productNameTv.setText(product_name);
-                pickupTV.setText(pickup_location);
-                destinationTV.setText(destination_location);
-
-                priceTV.setText(product_cost);
-                weightTV.setText(product_weight);
-                descTV.setText(product_desc);
-                paymentTV.setText(payment_mode);
-
-                if (booking_status.equalsIgnoreCase("2"))
-                {
-                    total_countTV.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.booked,0);
-                    total_countTV.setText("Booked");
-                    total_countTV.setTextColor(getResources().getColor(R.color.book_green));
-                }
-                else {
-                    total_countTV.setCompoundDrawablesWithIntrinsicBounds(R.drawable.request,0,0,0);
-                    total_countTV.setText(trevaller_count + " Booking requests");
-                }
-                String[] uris = product_pic.split(",");
-
-                ArrayList<Uri> imageArray = new ArrayList<>();
-                for (String uri : uris) {
-                    imageArray.add(Uri.parse(uri));
-                }
-
-                init(imageArray);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        if (bundle != null) {
+            product_id = bundle.getString("post_id");
         }
 
     }
@@ -143,5 +103,120 @@ public class ItemDetails extends AppCompatActivity {
                 mPager.setCurrentItem(currentPage[0]++, true);
             }
         };
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getItemDetails();
+    }
+
+    private void getItemDetails() {
+        final AsyncHttpClient client = new AsyncHttpClient();
+        final RequestParams params = new RequestParams();
+//        final Dialog ringProgressDialog = new Dialog(getApplicationContext(), R.style.Theme_AppCompat_Dialog);
+//        ringProgressDialog.setContentView(R.layout.loading);
+//        ringProgressDialog.setCancelable(false);
+//        ringProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+//        ringProgressDialog.show();
+//        GifImageView gifview = ringProgressDialog.findViewById(R.id.loaderGif);
+//        gifview.setGifImageResource(R.drawable.loader2);
+        responseDEtailsOBJ = new JSONObject();
+        String user_id = getData(getApplicationContext(), "user_id", "");
+
+        params.put("user_id", user_id);
+        params.put("post_id", product_id);
+
+        client.setTimeout(60 * 1000);
+        client.setConnectTimeout(60 * 1000);
+        client.setResponseTimeout(60 * 1000);
+        client.post(BASE_URL_NEW + "post_details", params, new JsonHttpResponseHandler() {
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+
+//                ringProgressDialog.dismiss();
+                System.out.println(response);
+                try {
+                    String response_fav = response.getString("status");
+                    if (response_fav.equals("1")) {
+                        JSONObject obj = response.getJSONObject("post");
+                        System.out.println(obj);
+                        responseDEtailsOBJ = obj;
+                        addvalues(responseDEtailsOBJ);
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+//                ringProgressDialog.dismiss();
+                System.out.println("**** fav api ****fail***** " + product_id);
+                System.out.println(errorResponse);
+                responseDEtailsOBJ = errorResponse;
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+
+                // ringProgressDialog.dismiss();
+                System.out.println("**** fave api ****fail***** " + product_id);
+                System.out.println(responseString);
+
+            }
+
+        });
+    }
+
+    private void addvalues(JSONObject obj) {
+
+        try {
+
+            System.out.println("========== details post======");
+            System.out.println(obj);
+            String product_name = obj.getString("product_name");
+            String pickup_location = obj.getString("pickup_location");
+            String destination_location = obj.getString("destination_location");
+            String product_desc = obj.getString("product_desc");
+            String product_weight = obj.getString("product_weight");
+            String product_cost = obj.getString("product_cost");
+            String payment_mode = obj.getString("payment_mode");
+
+            String product_pic = obj.getString("product_pic");
+            String booking_status = obj.getString("booking_status");
+            String trevaller_count = obj.getString("trevaller_count");
+
+
+            productNameTv.setText(product_name);
+            pickupTV.setText(pickup_location);
+            destinationTV.setText(destination_location);
+
+            priceTV.setText(product_cost);
+            weightTV.setText(product_weight);
+            descTV.setText(product_desc);
+            paymentTV.setText(payment_mode);
+
+            if (booking_status.equalsIgnoreCase("2")) {
+                total_countTV.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.booked, 0);
+                total_countTV.setText("Booked");
+                total_countTV.setTextColor(getResources().getColor(R.color.book_green));
+            } else {
+                total_countTV.setCompoundDrawablesWithIntrinsicBounds(R.drawable.request, 0, 0, 0);
+                total_countTV.setText(trevaller_count + " Booking requests");
+            }
+            String[] uris = product_pic.split(",");
+
+            ArrayList<Uri> imageArray = new ArrayList<>();
+            for (String uri : uris) {
+                imageArray.add(Uri.parse(uri));
+            }
+
+            init(imageArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

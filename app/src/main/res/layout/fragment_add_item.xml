@@ -119,7 +119,7 @@
                     android:background="@drawable/edit_text"
                     android:fontFamily="@font/asap"
                     android:hint="Product Weight"
-                    android:imeOptions="actionNext"
+                    android:imeOptions="actionDone"
                     android:inputType="number|numberDecimal"
                     android:minWidth="200dp"
                     android:padding="8dp"
@@ -214,13 +214,9 @@
                 android:textSize="15sp"
                 tools:targetApi="jelly_bean" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.2dp"
-                android:background="@color/colorPrimaryDark" />
-
 
             <android.support.v7.widget.AppCompatSpinner
+                android:layout_marginTop="10dp"
                 android:id="@+id/payment_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -230,12 +226,9 @@
                 android:paddingRight="15dp"
                 android:paddingStart="1dp"
                 android:prompt="@string/payment_mode"
-                tools:ignore="HardcodedText"></android.support.v7.widget.AppCompatSpinner>
+                tools:ignore="HardcodedText"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.2dp"
-                android:background="@color/colorPrimaryDark" />
+
 
             <TextView
                 android:id="@+id/uploadIDCardTV"

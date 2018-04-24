@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <com.nfsapp.surbhi.nfsapplication.other.GifImageView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <com.nfsapp.surbhi.nfsapplication.other.GifImageView
         android:id="@+id/loaderGif"
         android:layout_width="10dp"
         android:layout_height="10dp"/>
+    <TextView
+        android:id="@+id/progressper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/alegreya"
+        android:gravity="center_horizontal"
+        android:textColor="@color/white"
+        android:textSize="15sp"/>
+</LinearLayout>
