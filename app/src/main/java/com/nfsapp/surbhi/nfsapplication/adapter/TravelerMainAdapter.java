@@ -128,7 +128,7 @@ public class TravelerMainAdapter extends ArrayAdapter<Traveller> implements View
         System.out.println("====== traveller status====");
         System.out.println(trevaller_status);
         if (trevaller_status.equalsIgnoreCase("1")) {
-            viewHolder.details_btn.setText("Applied");
+            viewHolder.details_btn.setText("Reserved");
             viewHolder.details_btn.setBackgroundResource(R.drawable.green_rect);
             viewHolder.view_btn.setVisibility(View.GONE);
         }

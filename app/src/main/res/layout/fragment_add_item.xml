@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:id="@+id/formLay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -164,8 +164,6 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/edit_text"
-                android:drawableEnd="@drawable/drop"
-                android:drawableRight="@drawable/drop"
                 android:fontFamily="@font/asap"
                 android:gravity="center_vertical"
                 android:hint="@string/pickup_location2"
@@ -183,8 +181,6 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/edit_text"
-                android:drawableEnd="@drawable/drop"
-                android:drawableRight="@drawable/drop"
                 android:fontFamily="@font/asap"
                 android:gravity="center_vertical"
                 android:hint="@string/destination_location2"
@@ -213,22 +209,6 @@
                 android:textColor="@color/black"
                 android:textSize="15sp"
                 tools:targetApi="jelly_bean" />
-
-
-            <android.support.v7.widget.AppCompatSpinner
-                android:layout_marginTop="10dp"
-                android:id="@+id/payment_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/edit_text"
-                android:paddingEnd="15dp"
-                android:paddingLeft="1dp"
-                android:paddingRight="15dp"
-                android:paddingStart="1dp"
-                android:prompt="@string/payment_mode"
-                tools:ignore="HardcodedText"/>
-
-
 
             <TextView
                 android:id="@+id/uploadIDCardTV"
@@ -353,6 +333,7 @@
                 tools:targetApi="jelly_bean" />
 
 <LinearLayout
+    android:gravity="center_vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
@@ -366,16 +347,31 @@
         tools:targetApi="jelly_bean" />
 
     <TextView
+        android:gravity="center_vertical"
         android:id="@+id/prohibitedTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="5dp"
         android:text="@string/prohibited_item"
         android:textColor="@color/colorPrimaryDark"
         />
 
 
 </LinearLayout>
+
+
+            <android.support.v7.widget.AppCompatSpinner
+                android:id="@+id/payment_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edit_text"
+                android:paddingEnd="15dp"
+                android:paddingLeft="1dp"
+                android:paddingRight="15dp"
+                android:paddingStart="1dp"
+                android:prompt="@string/payment_mode"
+                android:visibility="gone"
+                tools:ignore="HardcodedText"/>
 
             <Button
                 android:id="@+id/book_btn"
@@ -384,7 +380,7 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/btn"
                 android:fontFamily="@font/asap"
-                android:text="@string/add_item"
+                android:text="Pay"
                 android:textColor="@color/white"
                 tools:targetApi="jelly_bean" />
         </LinearLayout>
@@ -416,6 +412,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="18dp"
                 android:layout_alignParentBottom="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:visibility="gone">
+            <ImageView
+                android:id="@+id/cancel_btn"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="10sp"
+                android:padding="8dp"
+                android:src="@drawable/cancel_blue"/>
         </RelativeLayout>
     </RelativeLayout>
 </ScrollView>

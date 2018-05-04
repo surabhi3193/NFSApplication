@@ -70,7 +70,8 @@ public class ProfileFragment extends Fragment {
     //    private String pathid="";
     private RelativeLayout imageLay;
     private String p_lat = "0.0", p_lng = "0.0";
-    private TextView nametV, locationTv, emailTv, phoneTV, accountTv, uploadtV, logoutTV, cityEt;
+    private TextView nametV, locationTv, emailTv, phoneTV, accountTv, uploadtV, logoutTV,streetTv,postalTv;
+    private EditText cityEt,streetEt,postalEt;
      Dialog dialog;
     static void makeToast(Context ctx, String s) {
         Toast.makeText(ctx, s, Toast.LENGTH_SHORT).show();
@@ -94,6 +95,8 @@ public class ProfileFragment extends Fragment {
         nametV = v.findViewById(R.id.nameTv);
         locationTv = v.findViewById(R.id.locationTv);
         emailTv = v.findViewById(R.id.emailTV);
+        streetTv = v.findViewById(R.id.streetTV);
+        postalTv = v.findViewById(R.id.postalTV);
         phoneTV = v.findViewById(R.id.phoneTV);
         accountTv = v.findViewById(R.id.accountTv);
         uploadtV = v.findViewById(R.id.uploadTv);
@@ -170,7 +173,26 @@ public class ProfileFragment extends Fragment {
     private void setDataToIds(final User user) {
 
         nametV.setText(user.getName());
-        locationTv.setText(user.getLocation());
+        System.err.println("==========getLocation");
+        System.err.println(user.getLocation());
+
+        String street ="",postal="",city="";
+        try{
+            city =user.getLocation().split(",")[1];
+            street =user.getLocation().split(",")[0];
+           postal= user.getLocation().split(",")[2];
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            city =user.getLocation();
+    }
+
+        locationTv.setText(city);
+        streetTv.setText(street);
+        postalTv.setText(postal);
+
         emailTv.setText(user.getEmail());
         phoneTV.setText(user.getPhone());
         accountTv.setText(user.getAccount_no());
@@ -215,6 +237,8 @@ public class ProfileFragment extends Fragment {
         View v = inflater.inflate(R.layout.update_profile, null);
         final EditText fullnameET = v.findViewById(R.id.fullnameET);
         cityEt = v.findViewById(R.id.cityEt);
+        streetEt = v.findViewById(R.id.streetET);
+        postalEt = v.findViewById(R.id.postalET);
         final EditText emailEt = v.findViewById(R.id.EmailEt);
         final EditText phoneNumberEditText = v.findViewById(R.id.phoneNumberEditText);
         final EditText accountEt = v.findViewById(R.id.accountEt);
@@ -230,20 +254,20 @@ public class ProfileFragment extends Fragment {
         phoneNumberEditText.setText(user.getPhone());
         accountEt.setText(user.getAccount_no());
 
-
-        cityEt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                System.out.println("====== pickup clicked======");
-                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-
-                try {
-                    startActivityForResult(builder.build(getActivity()), PLACE_PICKER_REQUEST);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+//
+//        cityEt.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                System.out.println("====== pickup clicked======");
+//                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+//
+//                try {
+//                    startActivityForResult(builder.build(getActivity()), PLACE_PICKER_REQUEST);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
 
         if (user.getId_image() != null && !user.getId_image().equals(BASE_IMAGE_URL)) {
             uploadTV.setText("Update id Card");
@@ -274,6 +298,8 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 String name = fullnameET.getText().toString();
                 String city = cityEt.getText().toString();
+                String street = streetEt.getText().toString();
+                String postal = postalEt.getText().toString();
                 String email = emailEt.getText().toString();
                 String mobile = phoneNumberEditText.getText().toString();
                 String acc_no = accountEt.getText().toString();
@@ -295,7 +321,7 @@ public class ProfileFragment extends Fragment {
                     }
 
 
-                    PostUserUpdatedDetail(user.getId(), name, city, email, mobile,
+                    PostUserUpdatedDetail(user.getId(), name, city,street,postal, email, mobile,
                             acc_no, pathid);
 
                     alert.dismiss();
@@ -465,7 +491,7 @@ public class ProfileFragment extends Fragment {
         });
     }
 
-    private void PostUserUpdatedDetail(String id, String name, String city, String email,
+    private void PostUserUpdatedDetail(String id, String name, String city,String street,String postal, String email,
                                        String mobile, String acc_no, String pathid) {
 
         final Dialog ringProgressDialog = new Dialog(getActivity(), R.style.Theme_AppCompat_Dialog);
@@ -486,6 +512,8 @@ public class ProfileFragment extends Fragment {
         params.put("user_email", email);
         params.put("deposit_account", acc_no);
         params.put("user_city", city);
+        params.put("user_street", street);
+        params.put("user_postalcode", postal);
 
         System.out.println("path id ========" + pathid);
         if (pathid != null && pathid.length() > 0) {
@@ -513,12 +541,22 @@ public class ProfileFragment extends Fragment {
                         Toast.makeText(getActivity(), response.getString("message"), Toast.LENGTH_LONG).show();
                     } else {
                         JSONObject jsonObject = response.getJSONObject("result");
+
+                        String street =jsonObject.getString("user_street");
+                        String city =jsonObject.getString("user_city").trim();
+                        String postal =jsonObject.getString("user_postalcode").trim();
+                        String address =street+", " + city+ ", "+postal;
+
+                        if (address.startsWith(",") && address.endsWith(","))
+                            address=city;
+
+
                         final User user = User.getInstance();
 
                         user.setId(jsonObject.getString("user_id"));
                         user.setProfile_pic(jsonObject.getString("user_pic"));
                         user.setName(jsonObject.getString("user_name"));
-                        user.setLocation(jsonObject.getString("user_city"));
+                        user.setLocation(address);
                         user.setProfile_percent(jsonObject.getString("profile_sttaus"));
                         user.setEmail(jsonObject.getString("user_email"));
                         user.setPhone(jsonObject.getString("user_phone_no"));

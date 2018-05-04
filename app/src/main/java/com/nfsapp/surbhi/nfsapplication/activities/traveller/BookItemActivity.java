@@ -46,9 +46,9 @@ public class BookItemActivity extends AppCompatActivity {
     private static final int ID_REQUEST_IMAGE = 3;
     private static final int TICKET_REQUEST_IMAGE = 4;
     TextView destET, pickupET;
-    String name = "", address = "", phone = "", email = "";
+    String name = "", address = "", phone = "", email = "",street="",postal="";
     private TextView dateTVdeparture, dateTVarrival;
-    private EditText nameET, addressET, emailEt, phoneEt, flightEt;
+    private EditText nameET, addressET, emailEt, phoneEt, flightEt,streetEt,zipET;
     private Uri idimageUri;
     private Uri ticketImageurI;
     private ImageView idIV, ticketIV;
@@ -68,6 +68,8 @@ public class BookItemActivity extends AppCompatActivity {
         dateTVarrival = findViewById(R.id.dateTVarrival);
         nameET = findViewById(R.id.nameET);
         addressET = findViewById(R.id.addressET);
+        streetEt = findViewById(R.id.streetET);
+        zipET = findViewById(R.id.postalET);
         emailEt = findViewById(R.id.emailEt);
         phoneEt = findViewById(R.id.phoneEt);
         pickupET = findViewById(R.id.pickupET);
@@ -77,10 +79,25 @@ public class BookItemActivity extends AppCompatActivity {
         ticketIV = findViewById(R.id.ticketIV);
         header_text.setText("Traveller Detail");
         final User user = User.getInstance();
+
+        try{
+            address =user.getLocation().split(",")[1];
+            street =user.getLocation().split(",")[0];
+            postal= user.getLocation().split(",")[2];
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            address =user.getLocation();
+        }
         name = user.getName();
-        address = user.getLocation();
         email = user.getEmail();
         phone = user.getPhone();
+
+        streetEt.setText(street);
+        zipET.setText(postal);
+
         if (name != null)
             nameET.setText(name);
         if (address != null)
@@ -225,7 +242,7 @@ public class BookItemActivity extends AppCompatActivity {
         }
     }
 
-    private void warningBooking(final String traveller_name, final String address, final String email, final String phone, final String pickup, final String destination, final String dateDepart, final String dateArrival, final String flight, final String pathid, final String pathTicket) {
+    private void warningBooking(final String traveller_name, final String address, final String street, final String postal, final String email, final String phone, final String pickup, final String destination, final String dateDepart, final String dateArrival, final String flight, final String pathid, final String pathTicket) {
         final Dialog dialog = new Dialog(BookItemActivity.this, R.style.Theme_AppCompat_Dialog);
         dialog.setContentView(R.layout.alertdialog);
         dialog.setCancelable(false);
@@ -238,7 +255,7 @@ public class BookItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
-                BookItem(traveller_name, address, email, phone, pickup, destination, dateDepart, dateArrival, flight, pathid, pathTicket);
+                BookItem(traveller_name, address,street,postal, email, phone, pickup, destination, dateDepart, dateArrival, flight, pathid, pathTicket);
 
             }
         });
@@ -255,6 +272,8 @@ public class BookItemActivity extends AppCompatActivity {
         String rec_mob_2 = "";
         String traveller_name = nameET.getText().toString();
         String address = addressET.getText().toString();
+        String street = streetEt.getText().toString();
+        String postal = zipET.getText().toString();
         String email = emailEt.getText().toString();
         String pickup = pickupET.getText().toString();
         String destination = destET.getText().toString();
@@ -270,6 +289,12 @@ public class BookItemActivity extends AppCompatActivity {
 
         if (address.length() == 0) {
             makeToast(BookItemActivity.this, "Enter your address");
+            return;
+        }  if (street.length() == 0) {
+            makeToast(BookItemActivity.this, "Enter your street");
+            return;
+        }  if (postal.length() == 0) {
+            makeToast(BookItemActivity.this, "Enter your postal/zip code");
             return;
         }
 
@@ -327,10 +352,10 @@ public class BookItemActivity extends AppCompatActivity {
 
         String pathid = getRealPathFromURI(idimageUri, BookItemActivity.this);
         String pathTicket = getRealPathFromURI(ticketImageurI, BookItemActivity.this);
-        warningBooking(traveller_name, address, email, phone, pickup, destination, dateDepart, dateArrival, flight, pathid, pathTicket);
+        warningBooking(traveller_name, address,street,postal, email, phone, pickup, destination, dateDepart, dateArrival, flight, pathid, pathTicket);
     }
 
-    private void BookItem(String traveller_name, String address, String email, String phone, String pickup, String destination,
+    private void BookItem(String traveller_name, String address,String street,String postal, String email, String phone, String pickup, String destination,
                           String dateDepart, String dateArrival, String flight, String pathid, String pathTicket)
 
     {
@@ -353,6 +378,8 @@ public class BookItemActivity extends AppCompatActivity {
         params.put("user_id", userid);
         params.put("trevaller_name", traveller_name);
         params.put("trevaller_address", address);
+        params.put("trevaller_street", street);
+        params.put("trevaller_postalcode", postal);
         params.put("trevaller_email", email);
         params.put("trevaller_phone", phone);
         params.put("trevaller_from", pickup);

@@ -181,7 +181,7 @@ public class LoginActivity extends AppCompatActivity {
                         GPSTracker gps = new GPSTracker(LoginActivity.this);
                         double latitude = gps.getLatitude();
                         double longitude = gps.getLongitude();
-                        String city = getAddressFromLatlng(new LatLng(latitude, longitude), LoginActivity.this, 0);
+                        String city = getAddressFromLatlng(new LatLng(latitude, longitude), LoginActivity.this, 1);
 
                         user.setId(response.getString("user_id"));
                         user.setProfile_pic(response.getString("user_pic"));

@@ -59,9 +59,30 @@ android:padding="10dp"
                 <TextView
                     android:fontFamily="@font/asap"
                     android:padding="3dip"
+                    android:text="Street"
+                    android:textColor="@color/colorPrimary" />
+                <EditText
+                    android:id="@+id/streetET"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/edit_text_style"
+                    android:fontFamily="@font/asap"
+                    android:gravity="start"
+                    android:hint="Street"
+                    android:imeOptions="actionNext"
+                    android:maxLines="1"
+                    android:padding="3dip"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey" />
+            </TableRow>
+            <TableRow
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:fontFamily="@font/asap"
+                    android:padding="3dip"
                     android:text="@string/location"
                     android:textColor="@color/colorPrimary" />
-                <TextView
+                <EditText
                     android:layout_marginLeft="10dp"
 
                     android:fontFamily="@font/asap"
@@ -69,6 +90,28 @@ android:padding="10dp"
                     android:background="@drawable/edit_text_style"
                     android:gravity="start"
                     android:hint="@string/location"
+                    android:imeOptions="actionNext"
+                    android:maxLines="1"
+                    android:padding="3dip"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey" />
+            </TableRow>
+            <TableRow
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:fontFamily="@font/asap"
+                    android:padding="3dip"
+                    android:text="Postal/Zip code"
+                    android:textColor="@color/colorPrimary" />
+                <EditText
+                    android:id="@+id/postalET"
+
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/edit_text_style"
+                    android:fontFamily="@font/asap"
+                    android:gravity="start"
+                    android:hint="Postal/Zip code"
                     android:imeOptions="actionNext"
                     android:maxLines="1"
                     android:padding="3dip"

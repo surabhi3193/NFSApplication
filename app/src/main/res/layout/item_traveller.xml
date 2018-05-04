@@ -73,7 +73,7 @@
                 android:fontFamily="@font/asap"
                 android:textColor="@color/colorPrimaryDark"
                 android:text="Departure : "
-                android:layout_width="80dp"
+                android:layout_width="85dp"
                 android:layout_height="wrap_content"
                 />
 
@@ -101,7 +101,7 @@
                 android:padding="3dp"
                 android:textColor="@color/colorPrimaryDark"
                 android:text="Arrival : "
-                android:layout_width="80dp"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content" />
 
             <TextView
@@ -128,7 +128,7 @@
                 android:fontFamily="@font/asap"
                 android:padding="3dp"
                 android:textColor="@color/colorPrimaryDark"
-                android:text="Amount : "
+                android:text="Money To Earn : "
                 android:layout_width="80dp"
                 android:layout_height="wrap_content" />
 

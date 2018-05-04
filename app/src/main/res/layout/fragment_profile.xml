@@ -135,6 +135,66 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/street"
+                        android:drawablePadding="8dp"
+                        android:fontFamily="@font/asap"
+                        android:gravity="center_vertical"
+                        android:singleLine="true"
+                        android:text="Street "
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/streetTV"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="8dp"
+                        android:fontFamily="@font/asap"
+                        android:gravity="center_vertical"
+                        android:singleLine="true"
+                        android:text="abcxyz"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="14sp" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_marginTop="10dp"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/postal"
+                        android:drawablePadding="8dp"
+                        android:fontFamily="@font/asap"
+                        android:gravity="center_vertical"
+                        android:singleLine="true"
+                        android:text="Postal /Zip code "
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/postalTV"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="8dp"
+                        android:fontFamily="@font/asap"
+                        android:gravity="center_vertical"
+                        android:singleLine="true"
+                        android:text="000000"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="14sp" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_marginTop="10dp"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/email"
                         android:drawablePadding="8dp"
                         android:fontFamily="@font/asap"

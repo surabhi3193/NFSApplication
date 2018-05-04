@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -29,21 +28,39 @@
 
 
             <EditText
-                android:background="@drawable/edit_text"
                 android:id="@+id/nameET"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"
+                android:background="@drawable/edit_text"
                 android:fontFamily="@font/asap"
                 android:hint="@string/full_name_as_shown_on_id"
                 android:imeOptions="actionNext"
+                android:inputType="text"
                 android:padding="8dp"
                 android:singleLine="true"
                 android:textColor="@color/colorPrimaryDark"
                 android:textCursorDrawable="@null"
                 android:textSize="15sp"
                 android:visibility="visible"
+                tools:targetApi="lollipop" />
+
+            <EditText
+                android:id="@+id/streetET"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/edit_text"
+                android:fontFamily="@font/asap"
+                android:hint="Street"
+                android:imeOptions="actionNext"
                 android:inputType="text"
+                android:padding="8dp"
+                android:singleLine="true"
+                android:textColor="@color/colorPrimaryDark"
+                android:textCursorDrawable="@null"
+                android:textSize="15sp"
+                android:visibility="visible"
                 tools:targetApi="lollipop" />
 
             <EditText
@@ -53,15 +70,33 @@
                 android:layout_marginTop="5dp"
                 android:background="@drawable/edit_text"
                 android:fontFamily="@font/asap"
-                android:hint="@string/address"
+                android:hint="City "
                 android:imeOptions="actionNext"
+                android:inputType="text"
                 android:padding="8dp"
                 android:singleLine="true"
                 android:textColor="@color/colorPrimaryDark"
                 android:textCursorDrawable="@null"
                 android:textSize="15sp"
                 android:visibility="visible"
+                tools:targetApi="lollipop" />
+
+            <EditText
+                android:id="@+id/postalET"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/edit_text"
+                android:fontFamily="@font/asap"
+                android:hint="Postal/Zip code"
+                android:imeOptions="actionNext"
                 android:inputType="text"
+                android:padding="8dp"
+                android:singleLine="true"
+                android:textColor="@color/colorPrimaryDark"
+                android:textCursorDrawable="@null"
+                android:textSize="15sp"
+                android:visibility="visible"
                 tools:targetApi="lollipop" />
 
             <EditText
@@ -73,18 +108,17 @@
                 android:fontFamily="@font/asap"
                 android:hint="@string/email"
                 android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
                 android:padding="8dp"
                 android:singleLine="true"
                 android:textColor="@color/colorPrimaryDark"
                 android:textCursorDrawable="@null"
                 android:textSize="15sp"
                 android:visibility="visible"
-                tools:targetApi="lollipop"
-                android:inputType="textEmailAddress" />
+                tools:targetApi="lollipop" />
 
             <EditText
                 android:id="@+id/phoneEt"
-
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
@@ -103,11 +137,11 @@
                 tools:targetApi="lollipop" />
 
             <TextView
-                android:background="@drawable/edit_text"
                 android:id="@+id/pickupET"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
+                android:background="@drawable/edit_text"
                 android:fontFamily="@font/asap"
                 android:gravity="center_vertical"
                 android:hint="@string/travelling_from_departure_airport"
@@ -120,30 +154,29 @@
                 tools:targetApi="jelly_bean" />
 
             <TextView
-                android:background="@drawable/edit_text"
-                android:drawableEnd="@drawable/drop"
                 android:id="@+id/dateTVdepature"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"
+                android:background="@drawable/edit_text"
+                android:drawableEnd="@drawable/drop"
+                android:drawableRight="@drawable/drop"
                 android:fontFamily="@font/asap"
                 android:gravity="center_vertical"
                 android:hint="@string/departure_date"
+                android:paddingEnd="10dp"
                 android:paddingLeft="10dp"
+                android:paddingStart="10dp"
                 android:textColor="@color/black"
                 android:textSize="15sp"
-                tools:targetApi="jelly_bean"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:drawableRight="@drawable/drop" />
-
+                tools:targetApi="jelly_bean" />
 
             <TextView
-                android:background="@drawable/edit_text"
                 android:id="@+id/destET"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
+                android:background="@drawable/edit_text"
                 android:fontFamily="@font/asap"
                 android:gravity="center_vertical"
                 android:hint="@string/travelling_to_arrival_airport"
@@ -156,22 +189,22 @@
                 tools:targetApi="jelly_bean" />
 
             <TextView
-                android:background="@drawable/edit_text"
-                android:drawableRight="@drawable/drop"
                 android:id="@+id/dateTVarrival"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"
+                android:background="@drawable/edit_text"
+                android:drawableEnd="@drawable/drop"
+                android:drawableRight="@drawable/drop"
                 android:fontFamily="@font/asap"
                 android:gravity="center_vertical"
                 android:hint="@string/arrival_date"
+                android:paddingEnd="10dp"
                 android:paddingLeft="10dp"
+                android:paddingStart="10dp"
                 android:textColor="@color/black"
                 android:textSize="15sp"
-                tools:targetApi="jelly_bean"
-                android:paddingStart="10dp"
-                android:drawableEnd="@drawable/drop"
-                android:paddingEnd="10dp" />
+                tools:targetApi="jelly_bean" />
 
             <EditText
                 android:id="@+id/flightEt"
@@ -182,13 +215,13 @@
                 android:fontFamily="@font/asap"
                 android:hint="@string/flight_number"
                 android:imeOptions="actionDone"
+                android:inputType="text"
                 android:padding="8dp"
                 android:singleLine="true"
                 android:textColor="@color/colorPrimaryDark"
                 android:textCursorDrawable="@null"
                 android:textSize="15sp"
-                tools:targetApi="lollipop"
-                android:inputType="text" />
+                tools:targetApi="lollipop" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -213,11 +246,11 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/upload"
                 android:drawablePadding="5dp"
+                android:drawableStart="@drawable/upload"
                 android:fontFamily="@font/asap"
                 android:padding="8dp"
-                android:drawableStart="@drawable/upload"
-                android:textColor="@color/colorPrimaryDark"
                 android:text="@string/upload_valid_id_card"
+                android:textColor="@color/colorPrimaryDark"
                 android:visibility="visible"
                 tools:targetApi="jelly_bean" />
 
@@ -233,9 +266,9 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/upload"
                 android:drawablePadding="5dp"
+                android:drawableStart="@drawable/upload"
                 android:fontFamily="@font/asap"
                 android:padding="8dp"
-                android:drawableStart="@drawable/upload"
                 android:text="@string/upload_traveller_s_valid_travelling_ticket"
                 android:textColor="@color/colorPrimaryDark"
                 tools:targetApi="jelly_bean" />

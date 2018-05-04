@@ -107,16 +107,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Toast.makeText(MainActivity.this, response.getString("message"), Toast.LENGTH_SHORT).show();
                         return;
                     }
+                    String street =response.getString("user_street").trim();
+                    String city =response.getString("user_city").trim();
+                    String postal =response.getString("user_postalcode").trim();
+                    String address =street+", " + city+ ", "+postal;
+
+                    if (address.startsWith(",") || address.endsWith(","))
+                        address=city;
+
+                    System.out.println("----------> add---->");
+                    System.out.println(address);
+
                     final User user = User.getInstance();
+                    user.setLocation(address);
                     user.setId(response.getString("user_id"));
                     user.setProfile_pic(response.getString("user_pic"));
                     user.setName(response.getString("full_name"));
-                    user.setLocation(response.getString("user_city"));
-//                    user.setProfile_percent(response.getString("profile_sttaus"));
                     user.setEmail(response.getString("user_email"));
                     user.setPhone(response.getString("user_phone"));
                     user.setAccount_no(response.getString("deposit_account"));
                     user.setId_image(response.getString("valid_identity"));
+
+
                     nameTV.setText(user.getName());
 
                     if (user.getProfile_pic()!=null && user.getProfile_pic().length()>0)

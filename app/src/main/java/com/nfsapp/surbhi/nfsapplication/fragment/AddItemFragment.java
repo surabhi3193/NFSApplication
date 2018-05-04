@@ -36,6 +36,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.braintreepayments.api.dropin.DropInActivity;
+import com.braintreepayments.api.dropin.DropInRequest;
+import com.braintreepayments.api.dropin.DropInResult;
+import com.braintreepayments.api.dropin.utils.PaymentMethodType;
+import com.braintreepayments.api.models.PaymentMethodNonce;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
@@ -48,16 +53,27 @@ import com.nfsapp.surbhi.nfsapplication.constants.Utility;
 import com.nfsapp.surbhi.nfsapplication.other.GifImageView;
 import com.nfsapp.surbhi.nfsapplication.other.MultiPhotoSelectActivity;
 import com.nfsapp.surbhi.nfsapplication.other.NetworkClass;
+import com.nfsapp.surbhi.nfsapplication.payment.ConfirmationActivity;
+import com.nfsapp.surbhi.nfsapplication.payment.PayPalConfig;
+import com.paypal.android.sdk.payments.PayPalConfiguration;
+import com.paypal.android.sdk.payments.PayPalPayment;
+import com.paypal.android.sdk.payments.PayPalService;
+import com.paypal.android.sdk.payments.PaymentActivity;
+import com.paypal.android.sdk.payments.PaymentConfirmation;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import cz.msebera.android.httpclient.Header;
 import me.relex.circleindicator.CircleIndicator;
@@ -68,45 +84,64 @@ import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.BASE_URL_NEW;
 import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.getRealPathFromURI;
 
 public class AddItemFragment extends Fragment {
+    public static final int PAYPAL_REQUEST_CODE = 123;
     private static final int CAPTURE_IMAGES_FROM_CAMERA = 1;
     private static final int PLACE_PICKER_REQUEST = 3;
     private static final int PLACE_PICKER_REQUEST_DEST = 4;
     private static final int GALLERY_PICTURE = 5;
+    private static final int BRAINTREE_REQUEST_CODE = 6;
+    //Paypal Configuration Object
+    private static PayPalConfiguration config = new PayPalConfiguration()
+            .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
+            .clientId(PayPalConfig.PAYPAL_CLIENT_ID);
+    public RelativeLayout sliderLay;
+    public LinearLayout formLay;
     ArrayList<Uri> imageArray = new ArrayList<>();
+    String cost = "1", pweight, path;
+    Dialog dialog;
+    HashMap<String, String> paramHash;
+    Button book_btn;
     private LinearLayout camera_lay;
     private int image_count_before;
     private ViewPager mPager;
-
     private CircleIndicator indicator;
     private Uri idimageUri;
     private ImageView idIV;
     private TextView dateTV;
     private String p_lat = "0.0", p_lng = "0.0";
     private String d_lat = "0.0", d_lng = "0.0";
+    private AutoCompleteTextView pickupEt, destET;
+    private String send_payment_details = "Payment_APi";
+    private String get_token = "http://mindinfodemo.com/NFS/index.php/Webservice/get_token";
+    //    private String token = "eyJ2ZXJzaW9uIjoyLCJhdXRob3JpemF0aW9uRmluZ2VycHJpbnQiOiJiZmMzNDg1MDA0ZjZhMzMyMDI0MTljODJhMGY0N2NiZDIwNThhMDc2MDM5YjdjMjM2OWU5YzhjOGQwNmYyOWY3fGNyZWF0ZWRfYXQ9MjAxOC0wNC0yOFQxMDo0NDoxNC4xMzQwNTY1MzQrMDAwMFx1MDAyNm1lcmNoYW50X2lkPTM0OHBrOWNnZjNiZ3l3MmJcdTAwMjZwdWJsaWNfa2V5PTJuMjQ3ZHY4OWJxOXZtcHIiLCJjb25maWdVcmwiOiJodHRwczovL2FwaS5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tOjQ0My9tZXJjaGFudHMvMzQ4cGs5Y2dmM2JneXcyYi9jbGllbnRfYXBpL3YxL2NvbmZpZ3VyYXRpb24iLCJjaGFsbGVuZ2VzIjpbXSwiZW52aXJvbm1lbnQiOiJzYW5kYm94IiwiY2xpZW50QXBpVXJsIjoiaHR0cHM6Ly9hcGkuc2FuZGJveC5icmFpbnRyZWVnYXRld2F5LmNvbTo0NDMvbWVyY2hhbnRzLzM0OHBrOWNnZjNiZ3l3MmIvY2xpZW50X2FwaSIsImFzc2V0c1VybCI6Imh0dHBzOi8vYXNzZXRzLmJyYWludHJlZWdhdGV3YXkuY29tIiwiYXV0aFVybCI6Imh0dHBzOi8vYXV0aC52ZW5tby5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tIiwiYW5hbHl0aWNzIjp7InVybCI6Imh0dHBzOi8vY2xpZW50LWFuYWx5dGljcy5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tLzM0OHBrOWNnZjNiZ3l3MmIifSwidGhyZWVEU2VjdXJlRW5hYmxlZCI6dHJ1ZSwicGF5cGFsRW5hYmxlZCI6dHJ1ZSwicGF5cGFsIjp7ImRpc3BsYXlOYW1lIjoiQWNtZSBXaWRnZXRzLCBMdGQuIChTYW5kYm94KSIsImNsaWVudElkIjpudWxsLCJwcml2YWN5VXJsIjoiaHR0cDovL2V4YW1wbGUuY29tL3BwIiwidXNlckFncmVlbWVudFVybCI6Imh0dHA6Ly9leGFtcGxlLmNvbS90b3MiLCJiYXNlVXJsIjoiaHR0cHM6Ly9hc3NldHMuYnJhaW50cmVlZ2F0ZXdheS5jb20iLCJhc3NldHNVcmwiOiJodHRwczovL2NoZWNrb3V0LnBheXBhbC5jb20iLCJkaXJlY3RCYXNlVXJsIjpudWxsLCJhbGxvd0h0dHAiOnRydWUsImVudmlyb25tZW50Tm9OZXR3b3JrIjp0cnVlLCJlbnZpcm9ubWVudCI6Im9mZmxpbmUiLCJ1bnZldHRlZE1lcmNoYW50IjpmYWxzZSwiYnJhaW50cmVlQ2xpZW50SWQiOiJtYXN0ZXJjbGllbnQzIiwiYmlsbGluZ0FncmVlbWVudHNFbmFibGVkIjp0cnVlLCJtZXJjaGFudEFjY291bnRJZCI6ImFjbWV3aWRnZXRzbHRkc2FuZGJveCIsImN1cnJlbmN5SXNvQ29kZSI6IlVTRCJ9LCJtZXJjaGFudElkIjoiMzQ4cGs5Y2dmM2JneXcyYiIsInZlbm1vIjoib2ZmIn0=";
+    private String token, rec_mob_2, pname, pdesc, pickup, destination, date, payment, receiver, rec_mob_1, rec_mail, isinsure = "";
 
-    private AutoCompleteTextView pickupEt,destET;
-
-     Dialog dialog;
-
-    public RelativeLayout sliderLay;
-    public LinearLayout formLay;
     static void makeToast(Context ctx, String s) {
-        Toast.makeText(ctx, s, Toast.LENGTH_SHORT).show();
+        Toast.makeText(ctx, s, Toast.LENGTH_LONG).show();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         Utility.checkCameraPermission(getActivity());
         View v = inflater.inflate(R.layout.fragment_add_item, null);
+
+        getToken();
+        Intent intent = new Intent(getActivity(), PayPalService.class);
+
+        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
+
+        Objects.requireNonNull(getActivity()).startService(intent);
+
         mPager = v.findViewById(R.id.pager);
         indicator = v.findViewById(R.id.indicator);
-        Button book_btn = v.findViewById(R.id.book_btn);
+        book_btn = v.findViewById(R.id.book_btn);
         final EditText p_nameEt = v.findViewById(R.id.p_nameEt);
         final EditText p_descEt = v.findViewById(R.id.p_descEt);
         final EditText weightEt = v.findViewById(R.id.weightEt);
         final EditText p_costEt = v.findViewById(R.id.p_costEt);
 //        pickupEt = v.findViewById(R.id.pickupEt);
-        pickupEt =v.findViewById(R.id.pickupEt);
+        pickupEt = v.findViewById(R.id.pickupEt);
         destET = v.findViewById(R.id.destET);
 
         final TextView prohibitedTV = v.findViewById(R.id.prohibitedTV);
@@ -129,14 +164,14 @@ public class AddItemFragment extends Fragment {
         final CheckBox termsCB = v.findViewById(R.id.termsCB);
         final CheckBox itemCB = v.findViewById(R.id.itemCB);
 
-        String airportlist = getData(getActivity(),"country_list","");
+        String airportlist = getData(getActivity(), "country_list", "");
         String[] airports = airportlist.split("/");
 
         // Creating adapter for spinner
         List<String> weightlist = new ArrayList<>();
         weightlist.add("Kg");
         weightlist.add("Lbs");
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(),R.layout.spinner_item,weightlist);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, weightlist);
 
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         weightSpinner.setAdapter(dataAdapter);
@@ -150,25 +185,18 @@ public class AddItemFragment extends Fragment {
         list.add("Payment mode");
         list.add("Debit/Credit Card");
         list.add("Paypal");
-
         // country_list
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item,list);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, list);
         payment_spinner.setAdapter(adapter);
-
-
         final Calendar myCalendar = Calendar.getInstance();
-
-
         final DatePickerDialog.OnDateSetListener datestock = new DatePickerDialog.OnDateSetListener() {
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
                 NetworkClass.updateLabel(dateTV, myCalendar);
             }
         };
-
         dateTV.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -183,9 +211,9 @@ public class AddItemFragment extends Fragment {
         idTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              boolean per =  Utility.checkWriteStoragePermission(getActivity());
-              if (per)
-                getIDImage();
+                boolean per = Utility.checkWriteStoragePermission(getActivity());
+                if (per)
+                    getIDImage();
             }
         });
         costCB.setOnClickListener(new View.OnClickListener() {
@@ -206,19 +234,17 @@ public class AddItemFragment extends Fragment {
         book_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String rec_mob_2 = "";
-                String pname = p_nameEt.getText().toString();
-                String pdesc = p_descEt.getText().toString();
-                String pweight = weightEt.getText().toString();
-                String pickup = pickupEt.getText().toString();
-                String destination = destET.getText().toString();
-                String date = dateTV.getText().toString();
-                String payment = payment_spinner.getSelectedItem().toString();
-                String receiver = rec_nameEt.getText().toString();
-                String rec_mob_1 = rec_mob1.getText().toString();
+                rec_mob_2 = "";
+                pname = p_nameEt.getText().toString();
+                pdesc = p_descEt.getText().toString();
+                pweight = weightEt.getText().toString();
+                pickup = pickupEt.getText().toString();
+                destination = destET.getText().toString();
+                date = dateTV.getText().toString();
+                receiver = rec_nameEt.getText().toString();
+                rec_mob_1 = rec_mob1.getText().toString();
                 rec_mob_2 = rec_mob2.getText().toString();
-                String rec_mail = rec_emailEt.getText().toString();
-                String cost = "$200";
+                rec_mail = rec_emailEt.getText().toString();
 
                 if (costCB.isChecked())
                     cost = p_costEt.getText().toString();
@@ -262,10 +288,10 @@ public class AddItemFragment extends Fragment {
                     return;
                 }
 
-                if (payment.length() == 0 || payment.equalsIgnoreCase("payment mode")) {
-                    makeToast(getActivity(), "Enter payment mode");
-                    return;
-                }
+//                if (payment.length() == 0 || payment.equalsIgnoreCase("payment mode")) {
+//                    makeToast(getActivity(), "Enter payment mode");
+//                    return;
+//                }
 
                 if (receiver.length() == 0) {
                     makeToast(getActivity(), "Enter receiver name");
@@ -301,17 +327,17 @@ public class AddItemFragment extends Fragment {
 
                 }
 
-                String isinsure = "";
+
                 String isProhibited = "";
                 if (insureCB.isChecked())
                     isinsure = "yes";
                 else
                     isinsure = "no";
-
-                String path = getRealPathFromURI(idimageUri, getActivity());
+//
+                path = getRealPathFromURI(idimageUri, getActivity());
                 pweight = pweight + " " + weightSpinner.getSelectedItem().toString();
-                postItem(imageArray, pname, pdesc, pweight,cost, pickup, destination, date, payment, path, receiver, rec_mob_1,
-                        rec_mob_2, rec_mail, p_lat, p_lng, isinsure);
+                onBraintreeSubmit();
+
             }
         });
 
@@ -323,8 +349,6 @@ public class AddItemFragment extends Fragment {
                 imageDialog();
             }
         });
-
-
         prohibitedTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -334,6 +358,26 @@ public class AddItemFragment extends Fragment {
         return v;
     }
 
+    private void getPayment() {
+        //Getting the amount from editText
+
+        //Creating a paypalpayment
+        PayPalPayment payment = new PayPalPayment(new BigDecimal(String.valueOf(cost)), "USD", "Nfs Fee",
+                PayPalPayment.PAYMENT_INTENT_SALE);
+
+        //Creating Paypal Payment activity intent
+        Intent intent = new Intent(getActivity(), PaymentActivity.class);
+
+        //putting the paypal configuration to the intent
+        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
+
+        //Puting paypal payment to the intent
+        intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
+
+        //Starting the intent activity for result
+        //the request code will be used on the method onActivityResult
+        startActivityForResult(intent, PAYPAL_REQUEST_CODE);
+    }
 
     private void imageDialog() {
         dialog = new Dialog(getActivity(), R.style.Theme_AppCompat_Dialog);
@@ -350,11 +394,11 @@ public class AddItemFragment extends Fragment {
             public void onClick(View view) {
 
                 boolean per = Utility.checkReadStoragePermission(getActivity());
-                 if (per) {
-                     startActivityForResult(new Intent(getActivity().getBaseContext(),
-                             MultiPhotoSelectActivity.class), GALLERY_PICTURE);
+                if (per) {
+                    startActivityForResult(new Intent(getActivity().getBaseContext(),
+                            MultiPhotoSelectActivity.class), GALLERY_PICTURE);
 
-                 }
+                }
                 dialog.dismiss();
             }
         });
@@ -371,19 +415,16 @@ public class AddItemFragment extends Fragment {
                     Intent cameraIntent = new Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA);
                     List<ResolveInfo> activities = getActivity().getPackageManager().queryIntentActivities(cameraIntent, 0);
 
-                    if (activities.size() > 0)
-                    {
+                    if (activities.size() > 0) {
                         Toast.makeText(getActivity(), getResources().getString(R.string.click_photo), Toast.LENGTH_LONG).show();
                         startActivityForResult(cameraIntent, CAPTURE_IMAGES_FROM_CAMERA);
-                    }
-                    else
+                    } else
                         Toast.makeText(getActivity(), getResources().getString(R.string.no_camera_app), Toast.LENGTH_SHORT).show();
                 }
                 dialog.dismiss();
             }
         });
     }
-
 
     private void getIDImage() {
         String fileName = "Camera_Example.jpg";
@@ -408,7 +449,8 @@ public class AddItemFragment extends Fragment {
 
     private void postItem(ArrayList<Uri> imageArray, String pname, String pdesc, String pweight, String cost,
                           String pickup, String destination, String date, String payment, String idimageUri, String receiver,
-                          String rec_mob_1, String rec_mob_2, String recMail, String p_lat, String p_lng, String isinsure) {
+                          String rec_mob_1, String rec_mob_2, String recMail, String p_lat, String p_lng, String isinsure,
+                          String payment_id) {
 
         final AsyncHttpClient client = new AsyncHttpClient();
         final RequestParams params = new RequestParams();
@@ -425,6 +467,7 @@ public class AddItemFragment extends Fragment {
         String userid = getData(getActivity(), "user_id", "");
         System.out.println("========== userid========== " + userid);
 
+        params.put("payment_id", payment_id);
         params.put("user_id", userid);
         params.put("product_name", pname);
         params.put("product_desc", pdesc);
@@ -442,32 +485,33 @@ public class AddItemFragment extends Fragment {
 
         for (int i = 0; i < imageArray.size(); i++) {
             String path_product = (imageArray.get(i).getPath());
+            System.out.println("======== Productimg  ========= ");
+            System.out.println(path_product);
             File imageFile = new File(path_product);
             try {
                 params.put("product_pic" + i, imageFile);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
+                ringProgressDialog.dismiss();
+                makeToast(getActivity(),"Image not found , Try again");
+
+
             }
-
         }
-
 
         File idfile = new File(idimageUri);
         try {
             System.out.println(idimageUri);
             System.out.println(idfile);
-
             params.put("sender_identity", idfile);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
-
         System.out.println("============= post item  api ==============");
         System.err.println(params);
-        client.setConnectTimeout(120*1000);
-        client.post(BASE_URL_NEW + "add_post", params, new JsonHttpResponseHandler()
-        {
+        client.setConnectTimeout(120 * 1000);
+        client.post(BASE_URL_NEW + "add_post", params, new JsonHttpResponseHandler() {
 
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 System.out.println(response);
@@ -504,37 +548,38 @@ public class AddItemFragment extends Fragment {
             public void onProgress(long bytesWritten, long totalSize) {
                 super.onProgress(bytesWritten, totalSize);
                 Log.e("progress", "pos: " + bytesWritten + " len: " + totalSize);
-                int per =0;
-                per=(int)((bytesWritten*100)/totalSize);
-                System.err.println(per);
-                progressper.setText(per-2 + "%");
-                if (per==100)
+                int per = 0;
+                per = (int) ((bytesWritten * 100) / totalSize);
+
+                progressper.setText(per - 2 + "%");
+                if (per == 100)
                     progressper.setText("Done");
                 // Progress 379443 from 2720368 (14%)
             }
         });
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         System.out.println("=========== after clicking image ============");
         System.out.println(requestCode);
         System.out.println(resultCode);
+
         switch (requestCode) {
             case CAPTURE_IMAGES_FROM_CAMERA:
                 exitingCamera();
                 break;
 
             case 2:
-                if (resultCode!= 0) {
+                if (resultCode != 0) {
                     if (idimageUri != null && idimageUri.getPath().length() > 0) {
                         Picasso.with(getActivity()).load(idimageUri).into(idIV);
                         idIV.setVisibility(View.VISIBLE);
                     } else {
                         idIV.setVisibility(View.GONE);
                     }
-                }
-                else {
-                    idimageUri=null;
+                } else {
+                    idimageUri = null;
                     idIV.setVisibility(View.GONE);
                 }
 
@@ -586,8 +631,194 @@ public class AddItemFragment extends Fragment {
                     }
                 }
                 break;
+            case PAYPAL_REQUEST_CODE:
+                //If the result is OK i.e. user has not canceled the payment
+                if (resultCode == Activity.RESULT_OK) {
+                    //Getting the payment confirmation
+                    PaymentConfirmation confirm = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
 
+                    //if confirmation is not null
+                    if (confirm != null) {
+                        try {
+                            //Getting the payment details
+                            String paymentDetails = confirm.toJSONObject().toString(4);
+                            Log.i("paymentExample", paymentDetails);
+
+                            //Starting a new activity for the payment details and also putting the payment details with intent
+                            startActivity(new Intent(getActivity(), ConfirmationActivity.class)
+                                    .putExtra("PaymentDetails", paymentDetails)
+                                    .putExtra("PaymentAmount", cost));
+
+                        } catch (JSONException e) {
+                            Log.e("paymentExample", "an extremely unlikely failure occurred: ", e);
+                        }
+                    }
+                } else if (resultCode == Activity.RESULT_CANCELED) {
+                    Log.i("paymentExample", "The user canceled.");
+                } else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
+                    Log.i("paymentExample", "An invalid Payment or PayPalConfiguration was submitted. Please see the docs.");
+                }
+
+            case BRAINTREE_REQUEST_CODE:
+                if (resultCode == Activity.RESULT_OK) {
+                    DropInResult result = data.getParcelableExtra(DropInResult.EXTRA_DROP_IN_RESULT);
+                    PaymentMethodNonce nonce = result.getPaymentMethodNonce();
+                    PaymentMethodType method = result.getPaymentMethodType();
+                    String type = method.getCanonicalName();
+                    String stringNonce = nonce.getNonce();
+                    Log.d("mylog", "Result: " + stringNonce);
+                    Log.d("mylog", "Type: " + type);
+                    // Send payment price with the nonce
+                    // use the result to update your UI and send the payment method nonce to your server
+                    if (!cost.equalsIgnoreCase("0")) {
+                        System.err.println("======= naunce key ==========");
+                        System.err.println(stringNonce);
+
+                        payment = type;
+                     sendPayment(cost, stringNonce,payment);
+                    } else
+                        Toast.makeText(getActivity(), "Please enter a valid amount.", Toast.LENGTH_SHORT).show();
+
+                } else if (resultCode == Activity.RESULT_CANCELED) {
+                    Toast.makeText(getActivity(), "Transaction canceled", Toast.LENGTH_SHORT).show();
+                    Log.d("mylog", "user canceled");
+                } else {
+                    // handle errors here, an exception may be available in
+                    Exception error = (Exception) data.getSerializableExtra(DropInActivity.EXTRA_ERROR);
+                    Log.d("mylog", "Error : " + error.toString());
+                    Toast.makeText(getActivity(), "Under development", Toast.LENGTH_SHORT).show();
+                }
+                break;
         }
+    }
+
+    public void onBraintreeSubmit() {
+        DropInRequest dropInRequest = new DropInRequest()
+                .clientToken(token);
+        dropInRequest.collectDeviceData(true);
+        startActivityForResult(dropInRequest.getIntent(getActivity()), BRAINTREE_REQUEST_CODE);
+    }
+
+    public void sendPayment(final String cost, String stringNonce,final  String payment_type) {
+
+        final Dialog ringProgressDialog = new Dialog(getActivity(), R.style.Theme_AppCompat_Dialog);
+        ringProgressDialog.setContentView(R.layout.loading);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        ringProgressDialog.show();
+        GifImageView gifview = ringProgressDialog.findViewById(R.id.loaderGif);
+        final TextView progressper = ringProgressDialog.findViewById(R.id.progressper);
+        gifview.setGifImageResource(R.drawable.loader2);
+
+        final AsyncHttpClient client = new AsyncHttpClient();
+        final RequestParams params = new RequestParams();
+        client.setTimeout(60 * 1000);
+        client.setConnectTimeout(60 * 1000);
+        client.setResponseTimeout(60 * 1000);
+
+        String userid = getData(getActivity(), "user_id", "");
+        params.put("amount", cost);
+        params.put("user_id", userid);
+        params.put("nonce_key", stringNonce);
+        params.put("payment_type", payment_type);
+
+        client.post(BASE_URL_NEW + "payment", params, new JsonHttpResponseHandler() {
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                System.out.println(response);
+                try {
+                    ringProgressDialog.dismiss();
+//                    Toast.makeText(getActivity(), "Transaction successful", Toast.LENGTH_LONG).show();
+                    String payment_id = response.getString("payment_id");
+                    proceedItem(payment_id, true,payment_type);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    ringProgressDialog.dismiss();
+                }
+
+            }
+
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                ringProgressDialog.dismiss();
+                Toast.makeText(getActivity(), "Transaction Fail", Toast.LENGTH_LONG).show();
+                System.out.println("**** payment api ****fail***** ");
+                System.out.println(errorResponse);
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Toast.makeText(getActivity(), "Transaction Fail", Toast.LENGTH_LONG).show();
+                ringProgressDialog.dismiss();
+                System.out.println(responseString);
+
+            }
+
+            @Override
+            public void onProgress(long bytesWritten, long totalSize) {
+                super.onProgress(bytesWritten, totalSize);
+                ringProgressDialog.show();
+            }
+        });
+
+    }
+    private void proceedItem(final String payment_id, final boolean paid,final String payment_type) {
+        final Dialog dialog = new Dialog(getActivity(), R.style.Theme_AppCompat_Dialog);
+        dialog.setContentView(R.layout.transection_successfull);
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.show();
+
+        TextView ok_btn = dialog.findViewById(R.id.gallery_btn);
+
+        GifImageView gifview = dialog.findViewById(R.id.loaderGif);
+        gifview.setGifImageResource(R.drawable.success);
+
+        ok_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                postItem(imageArray, pname, pdesc, pweight, "$"+cost, pickup, destination, date, payment_type, path, receiver, rec_mob_1,
+                        rec_mob_2, rec_mail, p_lat, p_lng, isinsure, payment_id);
+            }
+        });
+    }
+
+
+    public void getToken() {
+
+        final AsyncHttpClient client = new AsyncHttpClient();
+        final RequestParams params = new RequestParams();
+        client.setTimeout(60 * 1000);
+        client.setConnectTimeout(60 * 1000);
+        client.setResponseTimeout(60 * 1000);
+        client.post(BASE_URL_NEW + "get_token", params, new JsonHttpResponseHandler() {
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                System.out.println(response);
+                try {
+                    token = response.getString("token");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+
+                System.out.println("**** payment api ****fail***** ");
+                System.out.println(errorResponse);
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                System.out.println("**** payment get token  api ****fail***** ");
+                System.out.println(responseString);
+
+            }
+
+        });
+
     }
 
     public Cursor loadCursor() {
@@ -673,24 +904,16 @@ public class AddItemFragment extends Fragment {
                 mPager.setCurrentItem(currentPage[0]++, true);
             }
         };
-//        Timer swipeTimer = new Timer();
-//        swipeTimer.schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//                handler.post(Update);
-//            }
-//        }, 2500, 2500);
     }
+
     public void onBackPressed() {
-        if (dialog!=null)
+        if (dialog != null)
             dialog.dismiss();
 
         else
             getActivity().onBackPressed();
 
     }
-
-
 
     private void prohibitedList() {
         final Dialog dialog = new Dialog(getActivity(), R.style.Theme_AppCompat_Dialog);
@@ -731,4 +954,9 @@ public class AddItemFragment extends Fragment {
     }
 
 
+    @Override
+    public void onDestroy() {
+        Objects.requireNonNull(getActivity()).stopService(new Intent(getActivity(), PayPalService.class));
+        super.onDestroy();
+    }
 }

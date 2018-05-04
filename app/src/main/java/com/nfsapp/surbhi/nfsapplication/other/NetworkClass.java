@@ -36,8 +36,10 @@ import static com.nfsapp.surbhi.nfsapplication.other.MySharedPref.saveData;
 
 public class NetworkClass {
 
-    public static final String BASE_URL_NEW = "http://18.218.89.83/NFS/index.php/Webservice/";
-    public static final String BASE_IMAGE_URL = "http://18.218.89.83/NFS/uploads/users/temp/";
+//    public static final String BASE_URL_NEW = "http://18.218.89.83/NFS/index.php/Webservice/";
+    public static final String BASE_URL_NEW = "http://mindinfodemo.com/NFS/index.php/Webservice/";
+//    public static final String BASE_IMAGE_URL = "http://18.218.89.83/NFS/uploads/users/temp/";
+    public static final String BASE_IMAGE_URL = "http://mindinfodemo.com/NFS/uploads/users/temp/";
 
     private static JSONObject responseDEtailsOBJ;
 
@@ -52,7 +54,6 @@ public class NetworkClass {
         return matcher.matches();
 
     }
-
     public static void getPostDetails(final Activity context, String user_id, final String post_id,
                                       final Class toAct,final String act_from) {
 

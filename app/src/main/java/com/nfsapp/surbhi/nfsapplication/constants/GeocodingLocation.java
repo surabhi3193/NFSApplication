@@ -92,7 +92,14 @@ public class GeocodingLocation {
                     String country = addresses.get(0).getCountryName();
                     String postalCode = addresses.get(0).getPostalCode();
                     String knownName = addresses.get(0).getFeatureName();
-                    fulladdress = knownName + ", " + postalCode + ", " + city + ", " + state + ", " + country;
+
+                    fulladdress=city;
+
+                    if (knownName.length()>2)
+                        fulladdress=knownName+", "+city;
+
+                    if (postalCode.length()>2)
+                        fulladdress = knownName + ", " + city + ", " + postalCode;
 
                 } else
                     fulladdress = "N/A";
@@ -103,6 +110,8 @@ public class GeocodingLocation {
         if (select == 0) {
             return city;
         } else {
+            System.out.println("---------> full address ------------>");
+            System.out.println(fulladdress);
             return fulladdress;
         }
 
