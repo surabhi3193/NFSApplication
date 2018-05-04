@@ -541,7 +541,6 @@ public class ProfileFragment extends Fragment {
                         Toast.makeText(getActivity(), response.getString("message"), Toast.LENGTH_LONG).show();
                     } else {
                         JSONObject jsonObject = response.getJSONObject("result");
-
                         String street =jsonObject.getString("user_street");
                         String city =jsonObject.getString("user_city").trim();
                         String postal =jsonObject.getString("user_postalcode").trim();
