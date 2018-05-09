@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.nfsapp.surbhi.nfsapplication.activities.BookingListActivity;
 import com.nfsapp.surbhi.nfsapplication.activities.ItemDetails;
 import com.nfsapp.surbhi.nfsapplication.activities.sender.TravellerDetails;
 
@@ -109,6 +110,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     saveData(getApplicationContext(),"product_id",product_id);
 
                     resultIntent = new Intent(getApplicationContext(), TravellerDetails.class);
+                    resultIntent.putExtra("notification_message", message);
+                    resultIntent.putExtra("act_name", "notification");
+                    resultIntent.putExtra("trevaller_id", id);
+                    resultIntent.putExtra("product_id", product_id);
+
+                }
+                else if (type.equalsIgnoreCase("5"))
+
+                {
+                    saveData(getApplicationContext(),"product_id",product_id);
+
+                    resultIntent = new Intent(getApplicationContext(), BookingListActivity.class);
                     resultIntent.putExtra("notification_message", message);
                     resultIntent.putExtra("act_name", "notification");
                     resultIntent.putExtra("trevaller_id", id);

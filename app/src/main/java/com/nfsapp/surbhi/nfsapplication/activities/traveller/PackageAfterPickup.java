@@ -116,6 +116,7 @@ public class PackageAfterPickup extends AppCompatActivity {
         }
         else if (booking_status.equalsIgnoreCase("2"))
         {
+            stausTV.setText("On the way");
             pickup_btn.setText("Deliver");
         }
 

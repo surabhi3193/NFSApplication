@@ -69,17 +69,15 @@ public class ChatAdapter extends BaseAdapter {
             String chat_type = responseobj.getString("chat_type");
 
             String chat_msg = responseobj.getString("chat_msg");
-            String my_pic = responseobj.getString("sender_pic");
-            String oppon_pic = responseobj.getString("traveller_pic");
-
-
+//            String my_pic = responseobj.getString("sender_pic");
+            String oppon_pic = responseobj.getString("sender_pic");
             if (chat_type.equalsIgnoreCase("1"))
             {
                 //me
                 holder.userLay.setVisibility(View.VISIBLE);
                 holder.oppnLay.setVisibility(View.GONE);
                 holder.userTV.setText(chat_msg);
-                Picasso.with(context).load(my_pic).placeholder(R.drawable.profile_pic).into(holder.userIv);
+                Picasso.with(context).load(oppon_pic).placeholder(R.drawable.profile_pic).into(holder.userIv);
             }
 
             else if (chat_type.equalsIgnoreCase("2"))
@@ -93,7 +91,6 @@ public class ChatAdapter extends BaseAdapter {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
 
         return convertView;
     }

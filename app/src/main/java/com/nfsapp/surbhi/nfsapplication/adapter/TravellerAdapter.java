@@ -18,22 +18,16 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class TravellerAdapter  extends ArrayAdapter<Traveller> implements View.OnClickListener {
+import static com.nfsapp.surbhi.nfsapplication.other.MySharedPref.saveData;
 
-    private ArrayList<Traveller> dataSet;
+public class TravellerAdapter extends ArrayAdapter<Traveller> implements View.OnClickListener {
+
     Activity mContext;
     String act_name;
+    private ArrayList<Traveller> dataSet;
+    private int lastPosition = -1;
 
-    // View lookup cache
-    private static class ViewHolder {
-        TextView txtName;
-        TextView txtType;
-        TextView txtVersion;
-        TextView datetV;
-        Button details_btn;
-        ImageView image;
-    }
-    public TravellerAdapter(ArrayList<Traveller> data, Activity context,String act_name) {
+    public TravellerAdapter(ArrayList<Traveller> data, Activity context, String act_name) {
         super(context, R.layout.taveller_list_row, data);
         this.dataSet = data;
         this.mContext = context;
@@ -46,8 +40,6 @@ public class TravellerAdapter  extends ArrayAdapter<Traveller> implements View.O
 
 
     }
-
-    private int lastPosition = -1;
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -62,12 +54,12 @@ public class TravellerAdapter  extends ArrayAdapter<Traveller> implements View.O
             viewHolder = new TravellerAdapter.ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.taveller_list_row, parent, false);
-            viewHolder.txtName =convertView.findViewById(R.id.title);
-            viewHolder.datetV =convertView.findViewById(R.id.datetV);
-            viewHolder.txtType =convertView.findViewById(R.id.depart);
-            viewHolder.txtVersion =convertView.findViewById(R.id.arrival);
-            viewHolder.details_btn =convertView.findViewById(R.id.details_btn);
-            viewHolder.image =convertView.findViewById(R.id.image);
+            viewHolder.txtName = convertView.findViewById(R.id.title);
+            viewHolder.datetV = convertView.findViewById(R.id.datetV);
+            viewHolder.txtType = convertView.findViewById(R.id.depart);
+            viewHolder.txtVersion = convertView.findViewById(R.id.arrival);
+            viewHolder.details_btn = convertView.findViewById(R.id.details_btn);
+            viewHolder.image = convertView.findViewById(R.id.image);
             result = convertView;
             convertView.setTag(viewHolder);
         } else {
@@ -93,13 +85,13 @@ public class TravellerAdapter  extends ArrayAdapter<Traveller> implements View.O
         viewHolder.txtVersion.setText(Traveller.getArrival_airport());
 
 
-        if (Traveller.getProduct_pic()!=null && Traveller.getProduct_pic().length()>0)
+        if (Traveller.getProduct_pic() != null && Traveller.getProduct_pic().length() > 0)
             Picasso.with(mContext).load(Traveller.getProduct_pic()).placeholder(R.drawable.profile_pic).into(viewHolder.image);
         else
-        viewHolder.image.setImageResource(R.drawable.profile_pic);
+            viewHolder.image.setImageResource(R.drawable.profile_pic);
 
-        if (Traveller.getStatus()!=null && Traveller.getStatus().equalsIgnoreCase("2")) {
-            act_name="traveller";
+        if (Traveller.getStatus() != null && Traveller.getStatus().equalsIgnoreCase("2")) {
+            act_name = "traveller";
             viewHolder.details_btn.setText("Accepted");
             viewHolder.details_btn.setBackgroundResource(R.drawable.green_rect);
         }
@@ -110,17 +102,29 @@ public class TravellerAdapter  extends ArrayAdapter<Traveller> implements View.O
 
                 System.out.println("======= traveller id ========");
                 System.out.println(Traveller.getId());
+
+                System.out.println("======= product id ========");
+                System.out.println(Traveller.getSender_id());
+
                 Bundle bundle = new Bundle();
-
-
-
-                bundle.putString("act_name",act_name);
-                bundle.putString("trevaller_id",Traveller.getId());
+                saveData(mContext, "product_id", Traveller.getSender_id());
+                bundle.putString("act_name", act_name);
+                bundle.putString("trevaller_id", Traveller.getId());
                 mContext.startActivity(new Intent(mContext, TravellerDetails.class).putExtras(bundle));
 //                getTraveller(mContext, Traveller.getId(), TravellerDetails.class,act_name);
 
             }
         });
         return convertView;
+    }
+
+    // View lookup cache
+    private static class ViewHolder {
+        TextView txtName;
+        TextView txtType;
+        TextView txtVersion;
+        TextView datetV;
+        Button details_btn;
+        ImageView image;
     }
 }

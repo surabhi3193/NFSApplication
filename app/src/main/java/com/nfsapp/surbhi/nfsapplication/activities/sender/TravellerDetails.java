@@ -77,6 +77,8 @@ public class TravellerDetails extends AppCompatActivity {
                     accept_btn.setVisibility(View.VISIBLE);
                     reject_btn.setVisibility(View.VISIBLE);
                 } else {
+                    product_id=getData(getApplicationContext(),"product_id","");
+
                     accept_btn.setVisibility(View.GONE);
                     reject_btn.setVisibility(View.GONE);
                 }

@@ -69,6 +69,7 @@ public class ChatActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String msg = "";
                 msg = msgEt.getText().toString();
+                if (msg.length()>0)
                 sendMessage(sender_id, msg, product_id);
             }
         });
@@ -148,14 +149,7 @@ public class ChatActivity extends AppCompatActivity {
                              final String chat_msg, final String chat_product_id) {
         final AsyncHttpClient client = new AsyncHttpClient();
         final RequestParams params = new RequestParams();
-//
-//        final Dialog ringProgressDialog = new Dialog(ChatActivity.this, R.style.Theme_AppCompat_Dialog);
-//        ringProgressDialog.setContentView(R.layout.loading);
-//        ringProgressDialog.setCancelable(false);
-//        ringProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-//        ringProgressDialog.show();
-//        GifImageView gifview = ringProgressDialog.findViewById(R.id.loaderGif);
-//        gifview.setGifImageResource(R.drawable.loader2);
+
 
         String userid = getData(ChatActivity.this, "user_id", "");
         System.out.println("========== userid========== " + userid);
@@ -163,7 +157,7 @@ public class ChatActivity extends AppCompatActivity {
         params.put("chat_sender_id", userid);
         params.put("chat_reciever_id", chat_reciever_id);
         params.put("chat_msg", chat_msg);
-        params.put("chat_product_id", product_id);
+        params.put("chat_product_id", chat_product_id);
 
         System.err.println(params);
         client.setConnectTimeout(60 * 1000);

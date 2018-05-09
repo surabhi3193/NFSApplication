@@ -104,15 +104,17 @@ public class TravellerListFragment extends Fragment {
                         JSONArray jsonArray = response.getJSONArray("post");
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
-                            String product_id = jsonObject.getString("trevaller_id");
+                            String traveler_id = jsonObject.getString("trevaller_id");
                             String trevaller_name = jsonObject.getString("trevaller_name");
                             String departure = jsonObject.getString("departure");
                             String arrival = jsonObject.getString("arrival");
                             String user_pic = jsonObject.getString("user_pic");
                             String date = jsonObject.getString("departure_date");
+                            String product_id = jsonObject.getString("product_id");
                             trevaller_name = trevaller_name.split(" ")[0];
 
-                            Traveller movie = new Traveller(product_id,"", trevaller_name, user_pic, "Departure : " + departure,
+                            Traveller movie = new Traveller(traveler_id,product_id, trevaller_name, user_pic,
+                                    "Departure : " + departure,
                                     "Arrival : " + arrival, date, "","","");
                             travellerList.add(movie);
 
