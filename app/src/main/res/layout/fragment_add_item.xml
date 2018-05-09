@@ -211,6 +211,7 @@
                 tools:targetApi="jelly_bean" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/uploadIDCardTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

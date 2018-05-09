@@ -20,6 +20,7 @@ import com.nfsapp.surbhi.nfsapplication.notification.Config;
 import com.nfsapp.surbhi.nfsapplication.notification.NotificationUtils;
 
 import static com.nfsapp.surbhi.nfsapplication.other.MySharedPref.getData;
+import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.getAirlineList;
 import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.getAirportList;
 
 public class SplashScreen extends AppCompatActivity {
@@ -33,6 +34,7 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         getAirportList(SplashScreen.this);
+        getAirlineList(SplashScreen.this);
 
 //        FirebaseCrash.report(new Exception("My first Android non-fatal error"));
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {

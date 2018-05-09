@@ -8,11 +8,22 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/image"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="75dp"
+        android:layout_height="70dp"
+        android:paddingBottom="10dp"
         android:src="@drawable/profile_pic"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/type_img"
+        android:layout_width="35dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/image"
+        android:layout_alignEnd="@+id/image"
+        android:layout_alignRight="@+id/image"
+        android:layout_marginBottom="2dp"
+        android:src="@drawable/request_notify" />
     <TextView
         android:layout_marginLeft="8dp"
         android:layout_toRightOf="@+id/image"

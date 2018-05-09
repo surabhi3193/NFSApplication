@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_lay"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background_color"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical"
+    android:padding="8dp">
+    <RelativeLayout
+        android:id="@+id/myLay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/mymsgTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/userIV"
+            android:background="@drawable/blue_rect"
+            android:padding="8dp"
+            android:textColor="@color/white"
+            />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/userIV"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/profile_pic"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/oppnLay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginTop="10dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/oppnIV"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/profile_pic"/>
+
+        <TextView
+            android:id="@+id/oppnTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/oppnIV"
+            android:background="@drawable/textfield_pressed"
+            android:padding="8dp"
+            android:text="pjdnvkjdbvkjdkjdbkdjb"
+            android:textColor="@color/white"
+            />
+    </RelativeLayout>
+
+</LinearLayout>

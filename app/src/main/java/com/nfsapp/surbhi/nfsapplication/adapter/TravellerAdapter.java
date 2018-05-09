@@ -1,6 +1,8 @@
 package com.nfsapp.surbhi.nfsapplication.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +17,6 @@ import com.nfsapp.surbhi.nfsapplication.beans.Traveller;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-
-import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.getTraveller;
 
 public class TravellerAdapter  extends ArrayAdapter<Traveller> implements View.OnClickListener {
 
@@ -92,8 +92,6 @@ public class TravellerAdapter  extends ArrayAdapter<Traveller> implements View.O
         viewHolder.txtType.setText(Traveller.getDeparture_airport());
         viewHolder.txtVersion.setText(Traveller.getArrival_airport());
 
-        System.out.println("====== traveller image====");
-        System.out.println(Traveller.getProduct_pic());
 
         if (Traveller.getProduct_pic()!=null && Traveller.getProduct_pic().length()>0)
             Picasso.with(mContext).load(Traveller.getProduct_pic()).placeholder(R.drawable.profile_pic).into(viewHolder.image);
@@ -112,7 +110,14 @@ public class TravellerAdapter  extends ArrayAdapter<Traveller> implements View.O
 
                 System.out.println("======= traveller id ========");
                 System.out.println(Traveller.getId());
-                getTraveller(mContext, Traveller.getId(), TravellerDetails.class,act_name);
+                Bundle bundle = new Bundle();
+
+
+
+                bundle.putString("act_name",act_name);
+                bundle.putString("trevaller_id",Traveller.getId());
+                mContext.startActivity(new Intent(mContext, TravellerDetails.class).putExtras(bundle));
+//                getTraveller(mContext, Traveller.getId(), TravellerDetails.class,act_name);
 
             }
         });

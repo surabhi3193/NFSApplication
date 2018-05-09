@@ -107,6 +107,7 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/date"
             android:textColor="@color/colorPrimaryDark"
             android:gravity="center"

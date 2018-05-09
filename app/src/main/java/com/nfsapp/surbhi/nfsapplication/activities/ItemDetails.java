@@ -33,12 +33,12 @@ import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.BASE_URL_NEW;
 
 public class ItemDetails extends AppCompatActivity {
 
-
     JSONObject responseDEtailsOBJ;
-    TextView productNameTv, destinationTV, pickupTV, paymentTV, descTV, weightTV, priceTV, total_countTV;
+    TextView productNameTv, destinationTV, pickupTV, paymentTV, descTV, weightTV, priceTV, total_countTV,header_text;
     private ViewPager mPager;
     private CircleIndicator indicator;
-    private String product_id = "";
+    private String product_id = "", notification_type = "0";
+    private Button request_btn;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
 
@@ -57,17 +57,42 @@ public class ItemDetails extends AppCompatActivity {
         weightTV = findViewById(R.id.weightTV);
         priceTV = findViewById(R.id.priceTV);
         total_countTV = findViewById(R.id.total_countTV);
-        Button request_btn = findViewById(R.id.request_btn);
+        request_btn = findViewById(R.id.request_btn);
+        header_text = findViewById(R.id.header_text);
         ImageView image = findViewById(R.id.back_btn);
-        request_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                startActivity(new Intent(ItemDetails.this, RequestList.class)
-                        .putExtra("product_id", product_id));
+        Bundle bundle = getIntent().getExtras();
 
-            }
-        });
+        if (bundle != null) {
+            product_id = bundle.getString("post_id");
+            notification_type = bundle.getString("type","0");
+        }
+
+        if (notification_type.equalsIgnoreCase("3"))
+        {
+
+            total_countTV.setVisibility(View.GONE);
+            request_btn.setText("Rejected");
+            request_btn.setBackgroundResource(R.drawable.grey_bg);
+        }
+        else if (notification_type.equalsIgnoreCase("4")) {
+
+            total_countTV.setVisibility(View.GONE);
+            request_btn.setText("Accepted");
+            request_btn.setBackgroundResource(R.drawable.green_rect);
+        }
+        else {
+            total_countTV.setVisibility(View.VISIBLE);
+            request_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    startActivity(new Intent(ItemDetails.this, RequestList.class)
+                            .putExtra("product_id", product_id));
+
+                }
+            });
+        }
 
 
         image.setOnClickListener(new View.OnClickListener() {
@@ -78,11 +103,6 @@ public class ItemDetails extends AppCompatActivity {
             }
         });
 
-        Bundle bundle = getIntent().getExtras();
-
-        if (bundle != null) {
-            product_id = bundle.getString("post_id");
-        }
 
     }
 
@@ -126,7 +146,6 @@ public class ItemDetails extends AppCompatActivity {
 
         params.put("user_id", user_id);
         params.put("post_id", product_id);
-
         client.setTimeout(60 * 1000);
         client.setConnectTimeout(60 * 1000);
         client.setResponseTimeout(60 * 1000);
@@ -190,6 +209,7 @@ public class ItemDetails extends AppCompatActivity {
             String trevaller_count = obj.getString("trevaller_count");
 
 
+            header_text.setText(product_name);
             productNameTv.setText(product_name);
             pickupTV.setText(pickup_location);
             destinationTV.setText(destination_location);

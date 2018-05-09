@@ -11,6 +11,8 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -54,6 +56,8 @@ public class BookItemActivity extends AppCompatActivity {
     private ImageView idIV, ticketIV;
     private String sender_id = "", post_id = "";
     private boolean cam_open = false;
+    private AutoCompleteTextView airlineEt;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,13 +77,20 @@ public class BookItemActivity extends AppCompatActivity {
         emailEt = findViewById(R.id.emailEt);
         phoneEt = findViewById(R.id.phoneEt);
         pickupET = findViewById(R.id.pickupET);
+        airlineEt = findViewById(R.id.airlineEt);
         destET = findViewById(R.id.destET);
         flightEt = findViewById(R.id.flightEt);
         idIV = findViewById(R.id.idIV);
         ticketIV = findViewById(R.id.ticketIV);
         header_text.setText("Traveller Detail");
-        final User user = User.getInstance();
 
+        String airportlist = getData(BookItemActivity.this, "airline_list", "");
+        String[] airlines = airportlist.split("/");
+        ArrayAdapter<String> airportadapter = new ArrayAdapter<String>(BookItemActivity.this,
+                R.layout.drop_down, airlines);
+        airlineEt.setAdapter(airportadapter);
+
+        final User user = User.getInstance();
         try{
             address =user.getLocation().split(",")[1];
             street =user.getLocation().split(",")[0];
@@ -255,7 +266,7 @@ public class BookItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
-                BookItem(traveller_name, address,street,postal, email, phone, pickup, destination, dateDepart, dateArrival, flight, pathid, pathTicket);
+                BookItem(traveller_name, "","","", "", "", pickup, destination, dateDepart, dateArrival, flight, "", pathTicket);
 
             }
         });
@@ -287,31 +298,31 @@ public class BookItemActivity extends AppCompatActivity {
             return;
         }
 
-        if (address.length() == 0) {
-            makeToast(BookItemActivity.this, "Enter your address");
-            return;
-        }  if (street.length() == 0) {
-            makeToast(BookItemActivity.this, "Enter your street");
-            return;
-        }  if (postal.length() == 0) {
-            makeToast(BookItemActivity.this, "Enter your postal/zip code");
-            return;
-        }
-
-        if (email.length() == 0) {
-            makeToast(BookItemActivity.this, "Enter your email");
-            return;
-        }
-        if (!email.contains("@")) {
-            makeToast(BookItemActivity.this, "Invalid email id");
-            emailEt.setFocusable(true);
-            return;
-        }
-
-        if (phone.length() == 0) {
-            makeToast(BookItemActivity.this, "Enter your phone");
-            return;
-        }
+//        if (address.length() == 0) {
+//            makeToast(BookItemActivity.this, "Enter your address");
+//            return;
+//        }  if (street.length() == 0) {
+//            makeToast(BookItemActivity.this, "Enter your street");
+//            return;
+//        }  if (postal.length() == 0) {
+//            makeToast(BookItemActivity.this, "Enter your postal/zip code");
+//            return;
+//        }
+//
+//        if (email.length() == 0) {
+//            makeToast(BookItemActivity.this, "Enter your email");
+//            return;
+//        }
+//        if (!email.contains("@")) {
+//            makeToast(BookItemActivity.this, "Invalid email id");
+//            emailEt.setFocusable(true);
+//            return;
+//        }
+//
+//        if (phone.length() == 0) {
+//            makeToast(BookItemActivity.this, "Enter your phone");
+//            return;
+//        }
 
         if (pickup.length() == 0) {
             makeToast(BookItemActivity.this, "Enter your departure location");
@@ -338,11 +349,11 @@ public class BookItemActivity extends AppCompatActivity {
             return;
         }
 
-        if (idimageUri == null || idimageUri.getPath().length() == 0) {
-            makeToast(BookItemActivity.this, "Valid id card picture required");
-            return;
-
-        }
+//        if (idimageUri == null || idimageUri.getPath().length() == 0) {
+//            makeToast(BookItemActivity.this, "Valid id card picture required");
+//            return;
+//
+//        }
 
         if (ticketImageurI == null || ticketImageurI.getPath().length() == 0) {
             makeToast(BookItemActivity.this, "Valid travelling ticket picture required");
@@ -350,9 +361,14 @@ public class BookItemActivity extends AppCompatActivity {
 
         }
 
-        String pathid = getRealPathFromURI(idimageUri, BookItemActivity.this);
+//        String pathid = getRealPathFromURI(idimageUri, BookItemActivity.this);
         String pathTicket = getRealPathFromURI(ticketImageurI, BookItemActivity.this);
-        warningBooking(traveller_name, address,street,postal, email, phone, pickup, destination, dateDepart, dateArrival, flight, pathid, pathTicket);
+
+        String per= getData(BookItemActivity.this,"profile_percent","0");
+        if (per.equalsIgnoreCase("100"))
+            warningBooking(traveller_name, address,street,postal, email, phone, pickup, destination, dateDepart, dateArrival, flight, "", pathTicket);
+        else
+            makeToast(BookItemActivity.this,"Profile Incomplete , Go to profile and complete your profile");
     }
 
     private void BookItem(String traveller_name, String address,String street,String postal, String email, String phone, String pickup, String destination,

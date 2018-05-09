@@ -93,10 +93,11 @@ public class NotificationFragment extends Fragment {
                             String sender_id = jsonObject.getString("sender_name");
                             String reciever_id = jsonObject.getString("reciever_id");
                             String noti_message = jsonObject.getString("noti_message");
-                            String noti_date = jsonObject.getString("noti_date").split(" ")[0];
+                            String noti_date = jsonObject.getString("noti_date");
+                            int noti_type = Integer.parseInt(jsonObject.getString("notification_type"));
                             String image = jsonObject.getString("sender_pic");
 
-                            Notification notification = new Notification(notification_id,image, sender_id, noti_message, noti_date);
+                            Notification notification = new Notification(notification_id,image, sender_id, noti_message, noti_date,noti_type);
                             notificationList.add(notification);
 
                         }

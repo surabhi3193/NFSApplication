@@ -60,7 +60,7 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textCursorDrawable="@null"
                 android:textSize="15sp"
-                android:visibility="visible"
+                android:visibility="gone"
                 tools:targetApi="lollipop" />
 
             <EditText
@@ -78,7 +78,7 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textCursorDrawable="@null"
                 android:textSize="15sp"
-                android:visibility="visible"
+                android:visibility="gone"
                 tools:targetApi="lollipop" />
 
             <EditText
@@ -96,7 +96,7 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textCursorDrawable="@null"
                 android:textSize="15sp"
-                android:visibility="visible"
+                android:visibility="gone"
                 tools:targetApi="lollipop" />
 
             <EditText
@@ -114,7 +114,7 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textCursorDrawable="@null"
                 android:textSize="15sp"
-                android:visibility="visible"
+                android:visibility="gone"
                 tools:targetApi="lollipop" />
 
             <EditText
@@ -132,7 +132,7 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textCursorDrawable="@null"
                 android:textSize="15sp"
-                android:visibility="visible"
+                android:visibility="gone"
                 tools:ignore="TextFields"
                 tools:targetApi="lollipop" />
 
@@ -205,7 +205,22 @@
                 android:textColor="@color/black"
                 android:textSize="15sp"
                 tools:targetApi="jelly_bean" />
-
+            <AutoCompleteTextView
+                android:id="@+id/airlineEt"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/edit_text"
+                android:fontFamily="@font/asap"
+                android:gravity="center_vertical"
+                android:hint="Airline Name"
+                android:imeOptions="actionNext"
+                android:padding="8dp"
+                android:singleLine="true"
+                android:textColor="@color/colorPrimaryDark"
+                android:textCursorDrawable="@null"
+                android:textSize="15sp"
+                tools:targetApi="lollipop" />
             <EditText
                 android:id="@+id/flightEt"
                 android:layout_width="match_parent"
@@ -241,6 +256,7 @@
                 tools:targetApi="lollipop" />
 
             <TextView
+
                 android:id="@+id/uploadIDCardTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -251,7 +267,7 @@
                 android:padding="8dp"
                 android:text="@string/upload_valid_id_card"
                 android:textColor="@color/colorPrimaryDark"
-                android:visibility="visible"
+                android:visibility="gone"
                 tools:targetApi="jelly_bean" />
 
             <ImageView
@@ -269,7 +285,7 @@
                 android:drawableStart="@drawable/upload"
                 android:fontFamily="@font/asap"
                 android:padding="8dp"
-                android:text="@string/upload_traveller_s_valid_travelling_ticket"
+                android:text="@string/upload_traveler_s_valid_travelling_ticket"
                 android:textColor="@color/colorPrimaryDark"
                 tools:targetApi="jelly_bean" />
 

@@ -30,7 +30,7 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
-        final Notification Notification = getItem(position);
+        final Notification notification = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
         ViewHolder viewHolder; // view lookup cache stored in tag
 
@@ -45,6 +45,7 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
             viewHolder.msgTV = (TextView) convertView.findViewById(R.id.msgTV);
             viewHolder.dateTV = (TextView) convertView.findViewById(R.id.dateTV);
             viewHolder.image =convertView.findViewById(R.id.image);
+            viewHolder.type_img =convertView.findViewById(R.id.type_img);
 
             result = convertView;
 
@@ -54,19 +55,39 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
             result = convertView;
         }
         lastPosition = position;
-//        Typeface face = Typeface.createFromAsset(mContext.getAssets(),
-//                "fonts/asap.ttf");
-//
-//        viewHolder.sender_nameTV.setTypeface(face);
-//        viewHolder.msgTV.setTypeface(face);
-//        viewHolder.dateTV.setTypeface(face);
+        viewHolder.sender_nameTV.setText(notification.getName());
+        viewHolder.msgTV.setText(notification.getMsg());
+        viewHolder.dateTV.setText(notification.getDate());
 
-        viewHolder.sender_nameTV.setText(Notification.getName());
-        viewHolder.msgTV.setText(Notification.getMsg());
-        viewHolder.dateTV.setText(Notification.getDate());
+        if (notification.getPic()!=null && notification.getPic().length()>0)
+        Picasso.with(mContext).load(notification.getPic()).placeholder(R.drawable.profile_pic).into(viewHolder.image);
+        
+        int not_type = notification.getType();
 
-        if (Notification.getPic()!=null && Notification.getPic().length()>0)
-        Picasso.with(mContext).load(Notification.getPic()).placeholder(R.drawable.profile_pic).into(viewHolder.image);
+        switch (not_type)
+        {
+            case 1:
+                viewHolder.type_img.setImageResource(R.drawable.add_notify);
+                break;
+            case 2:
+                viewHolder.type_img.setImageResource(R.drawable.request_notify);
+                break;
+
+            case 3:
+                viewHolder.type_img.setImageResource(R.drawable.cancel_notify);
+                break;
+
+            case 4:
+                viewHolder.type_img.setImageResource(R.drawable.accept_notify);
+                break;
+
+                default:
+                    viewHolder.type_img.setImageResource(R.drawable.welcome_notify);
+                    break;
+
+
+        }
+        
 
         return convertView;
     }
@@ -76,6 +97,6 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
         TextView sender_nameTV;
         TextView msgTV;
         TextView dateTV;
-        ImageView image;
+        ImageView image,type_img;
     }
 }

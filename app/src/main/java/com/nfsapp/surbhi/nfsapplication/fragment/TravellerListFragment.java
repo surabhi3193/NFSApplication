@@ -14,7 +14,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
-import com.baoyz.widget.RefreshDrawable;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -53,7 +52,6 @@ public class TravellerListFragment extends Fragment {
 
         recyclerView = v.findViewById(R.id.recycler_view);
         EditText msearch = v.findViewById(R.id.msearch);
-
 
         msearch.setVisibility(View.VISIBLE);
         prepareTravellerData();
@@ -112,6 +110,7 @@ public class TravellerListFragment extends Fragment {
                             String arrival = jsonObject.getString("arrival");
                             String user_pic = jsonObject.getString("user_pic");
                             String date = jsonObject.getString("departure_date");
+                            trevaller_name = trevaller_name.split(" ")[0];
 
                             Traveller movie = new Traveller(product_id,"", trevaller_name, user_pic, "Departure : " + departure,
                                     "Arrival : " + arrival, date, "","","");

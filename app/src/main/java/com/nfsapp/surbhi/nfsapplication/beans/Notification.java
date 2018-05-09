@@ -3,16 +3,26 @@ package com.nfsapp.surbhi.nfsapplication.beans;
 public class Notification {
 
     private String id,pic,name,msg, date;
+    int type;
 
     public Notification() {
     }
 
-    public Notification(String id,String pic, String name, String msg, String date) {
+    public Notification(String id,String pic, String name, String msg, String date,int type) {
         this.id = id;
         this.pic = pic;
         this.name = name;
         this.msg = msg;
         this.date = date;
+        this.type = type;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public String getPic() {

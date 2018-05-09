@@ -4,7 +4,9 @@ public final  class User {
     private static volatile User instance;
 
 
-    private String id,name,profile_pic, location, profile_percent,email,phone,account_no,id_image;
+    private String id = "",name= "",profile_pic= "", location= "", profile_percent= "0",email= "",phone= "",
+            account_no= "",id_image= "";
+
 
     public User() {
     }

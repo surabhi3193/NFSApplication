@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary">
+
+        <ImageView
+            android:id="@+id/back_btn"
+            android:layout_width="40dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:padding="12dp"
+            android:src="@drawable/back_arrow"/>
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/oppn_img"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:src="@drawable/profile_pic"/>
+
+        <TextView
+            android:id="@+id/oppon_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:ellipsize="marquee"
+            android:fontFamily="@font/asap"
+            android:gravity="center_vertical"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            />
+
+    </LinearLayout>

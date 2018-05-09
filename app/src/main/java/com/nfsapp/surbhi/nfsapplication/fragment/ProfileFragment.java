@@ -70,9 +70,10 @@ public class ProfileFragment extends Fragment {
     //    private String pathid="";
     private RelativeLayout imageLay;
     private String p_lat = "0.0", p_lng = "0.0";
-    private TextView nametV, locationTv, emailTv, phoneTV, accountTv, uploadtV, logoutTV,streetTv,postalTv;
+    CircleProgressbar circleProgressbar;
     private EditText cityEt,streetEt,postalEt;
      Dialog dialog;
+    private TextView nametV, locationTv, emailTv, phoneTV, accountTv, uploadtV, logoutTV,streetTv,postalTv,percent_text;
     static void makeToast(Context ctx, String s) {
         Toast.makeText(ctx, s, Toast.LENGTH_SHORT).show();
     }
@@ -84,10 +85,9 @@ public class ProfileFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_profile, null);
         Utility.checkCameraPermission(getActivity());
 
-        CircleProgressbar circleProgressbar = (CircleProgressbar) v.findViewById(R.id.progress);
+         circleProgressbar =v.findViewById(R.id.progress);
         final TextView edit_btn = v.findViewById(R.id.edit_btn);
         int animationDuration = 1000; // 2500ms = 2,5s
-        circleProgressbar.setProgressWithAnimation(62, animationDuration); // Default duration = 1500ms
 
         imageLay = v.findViewById(R.id.imageLay);
         profileIV = v.findViewById(R.id.profileIV);
@@ -103,6 +103,7 @@ public class ProfileFragment extends Fragment {
         logoutTV = v.findViewById(R.id.logoutTv);
         cancel_btn = v.findViewById(R.id.camera_btn);
         edit_img = v.findViewById(R.id.edit_img);
+        percent_text = v.findViewById(R.id.percent_text);
 
 
         final User user = User.getInstance();
@@ -178,9 +179,11 @@ public class ProfileFragment extends Fragment {
 
         String street ="",postal="",city="";
         try{
-            city =user.getLocation().split(",")[1];
-            street =user.getLocation().split(",")[0];
-           postal= user.getLocation().split(",")[2];
+            if (user.getLocation()!=null) {
+                city = user.getLocation().split(",")[1];
+                street = user.getLocation().split(",")[0];
+                postal = user.getLocation().split(",")[2];
+            }
 
         }
         catch (Exception e)
@@ -192,13 +195,15 @@ public class ProfileFragment extends Fragment {
         locationTv.setText(city);
         streetTv.setText(street);
         postalTv.setText(postal);
-
         emailTv.setText(user.getEmail());
         phoneTV.setText(user.getPhone());
         accountTv.setText(user.getAccount_no());
+        percent_text.setText("Profile is "+user.getProfile_percent()+"% completed");
+        circleProgressbar.setProgressWithAnimation(Float.parseFloat(user.getProfile_percent()), 1000); // Default duration = 1500ms
 
         System.out.println(user.getName());
         System.out.println(user.getProfile_pic());
+        System.out.println(Float.parseFloat(user.getProfile_percent()));
 
         if (user.getProfile_pic() != null && user.getProfile_pic().length() > 3) {
             Picasso.with(getActivity()).load(user.getProfile_pic()).placeholder(R.drawable.profile_pic).into(profileIV);
@@ -249,10 +254,27 @@ public class ProfileFragment extends Fragment {
         Button update_button = (Button) v.findViewById(R.id.update_button);
 
         fullnameET.setText(user.getName());
-        cityEt.setText(user.getLocation());
         emailEt.setText(user.getEmail());
         phoneNumberEditText.setText(user.getPhone());
         accountEt.setText(user.getAccount_no());
+
+
+        String street ="",postal="",city="";
+        try{
+            city =user.getLocation().split(",")[1];
+            street =user.getLocation().split(",")[0];
+            postal= user.getLocation().split(",")[2];
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            city =user.getLocation();
+        }
+
+        cityEt.setText(city);
+        streetEt.setText(street.trim());
+        postalEt.setText(postal.trim());
 
 //
 //        cityEt.setOnClickListener(new View.OnClickListener() {
@@ -549,6 +571,7 @@ public class ProfileFragment extends Fragment {
                         if (address.startsWith(",") && address.endsWith(","))
                             address=city;
 
+                        String per = jsonObject.getString("profile_sttaus");
 
                         final User user = User.getInstance();
 
@@ -556,11 +579,13 @@ public class ProfileFragment extends Fragment {
                         user.setProfile_pic(jsonObject.getString("user_pic"));
                         user.setName(jsonObject.getString("user_name"));
                         user.setLocation(address);
-                        user.setProfile_percent(jsonObject.getString("profile_sttaus"));
+                        user.setProfile_percent(per);
                         user.setEmail(jsonObject.getString("user_email"));
                         user.setPhone(jsonObject.getString("user_phone_no"));
                         user.setAccount_no(jsonObject.getString("user_deposit_ac_no"));
                         user.setId_image(jsonObject.getString("valid_identity"));
+
+                        saveData(getActivity(),"profile_percent",per);
                         setDataToIds(user);
 
                     }
@@ -592,7 +617,6 @@ public class ProfileFragment extends Fragment {
         ringProgressDialog.show();
         GifImageView gifview = ringProgressDialog.findViewById(R.id.loaderGif);
         gifview.setGifImageResource(R.drawable.loader2);
-
 
         final AsyncHttpClient client = new AsyncHttpClient();
         final RequestParams params = new RequestParams();

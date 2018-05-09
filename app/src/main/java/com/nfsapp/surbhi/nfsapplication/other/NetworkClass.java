@@ -1,7 +1,9 @@
 package com.nfsapp.surbhi.nfsapplication.other;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -17,8 +19,11 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.nfsapp.surbhi.nfsapplication.R;
+import com.nfsapp.surbhi.nfsapplication.constants.GPSTracker;
+import com.nfsapp.surbhi.nfsapplication.services.LocationService;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
@@ -122,7 +127,7 @@ public class NetworkClass {
     }
 
 
-    public static void getTraveller(final Activity context, String traveller_id,final Class toAct,final String act_from) {
+    public static void getTraveller(final Context context, String traveller_id,final Class toAct,final String act_from) {
 
 
         final AsyncHttpClient client = new AsyncHttpClient();
@@ -245,6 +250,63 @@ public class NetworkClass {
 
     }
 
+    public static void getAirlineList(final Activity activity) {
+
+
+        final AsyncHttpClient client = new AsyncHttpClient();
+        final RequestParams params = new RequestParams();
+
+        client.setTimeout(60 * 1000);
+        client.setConnectTimeout(60 * 1000);
+        client.setResponseTimeout(60 * 1000);
+        System.out.println(params);
+        client.post(BASE_URL_NEW + "airline_code", params, new JsonHttpResponseHandler() {
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                System.out.println(response);
+                try {
+                    String response_fav = response.getString("status");
+                    if (response_fav.equals("1")) {
+                        JSONArray obj = response.getJSONArray("notifications");
+                        List<String> airportList = new ArrayList<>();
+                        for (int i = 0; i<obj.length();i++)
+                        {
+                            JSONObject jsonObject =obj.getJSONObject(i);
+                            String name = jsonObject.getString("airline_name");
+                            String iata = jsonObject.getString("iata_code");
+                            String icao = jsonObject.getString("icao_code");
+
+                            airportList.add(name+"," + icao);
+
+                        }
+                        String list = TextUtils.join("/",airportList);
+
+
+                        saveData(activity,"airline_list",list);
+
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                System.out.println(errorResponse);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                System.out.println(responseString);
+
+            }
+
+        });
+
+    }
+
 
 
     public static void confirmBooking(final Activity context, String trevaller_id,
@@ -319,7 +381,7 @@ public class NetworkClass {
 
     }
 
-    private static void openNextAct(Activity context, JSONObject responseDEtailsOBJ,
+    private static void openNextAct(Context context, JSONObject responseDEtailsOBJ,
                                     Class toact,String act_from) {
         if (responseDEtailsOBJ != null) {
             Bundle bundle = new Bundle();
@@ -349,4 +411,59 @@ public class NetworkClass {
         int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
         return cursor.getString(idx);
     }
+
+    public static void addLocation(final Context context) {
+
+        final String userid = getData(context, "user_id", "");
+
+        GPSTracker gps = new GPSTracker(context);
+        double latitude = 0.0;
+        latitude =gps.getLatitude();
+        double  longitude =0.0;
+        longitude=gps.getLongitude();
+
+        final AsyncHttpClient client = new AsyncHttpClient();
+        final RequestParams params = new RequestParams();
+        params.put("traveller_id", userid);
+        params.put("traveller_lat", latitude);
+        params.put("trevaller_log", longitude);
+
+        System.out.println("==========update user location=======");
+        client.setTimeout(60 * 1000);
+        client.setConnectTimeout(60 * 1000);
+        client.setResponseTimeout(60 * 1000);
+        System.out.println(params);
+        client.post(BASE_URL_NEW + "add_location", params, new JsonHttpResponseHandler() {
+
+
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                System.out.println(response);
+                try {
+                    if (response.getString("status").equalsIgnoreCase("0"))
+                    {
+                        Intent alarmIntent = new Intent(context, LocationService.class);
+                        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0);
+                        AlarmManager manager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+                        LocationService.cancelAlarm(pendingIntent,manager);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                System.out.println(errorResponse);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+
+                System.out.println(responseString);
+
+            }
+
+        });
+
+    }
+
 }

@@ -81,7 +81,6 @@ import me.relex.circleindicator.CircleIndicator;
 import static com.nfsapp.surbhi.nfsapplication.constants.GeocodingLocation.getAddressFromLatlng;
 import static com.nfsapp.surbhi.nfsapplication.other.MySharedPref.getData;
 import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.BASE_URL_NEW;
-import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.getRealPathFromURI;
 
 public class AddItemFragment extends Fragment {
     public static final int PAYPAL_REQUEST_CODE = 123;
@@ -97,7 +96,8 @@ public class AddItemFragment extends Fragment {
     public RelativeLayout sliderLay;
     public LinearLayout formLay;
     ArrayList<Uri> imageArray = new ArrayList<>();
-    String cost = "1", pweight, path;
+    String cost = "1", pweight;
+    //path
     Dialog dialog;
     HashMap<String, String> paramHash;
     Button book_btn;
@@ -167,7 +167,6 @@ public class AddItemFragment extends Fragment {
         String airportlist = getData(getActivity(), "country_list", "");
         String[] airports = airportlist.split("/");
 
-        // Creating adapter for spinner
         List<String> weightlist = new ArrayList<>();
         weightlist.add("Kg");
         weightlist.add("Lbs");
@@ -176,7 +175,7 @@ public class AddItemFragment extends Fragment {
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         weightSpinner.setAdapter(dataAdapter);
 
-        ArrayAdapter<String> airportadapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, airports);
+        ArrayAdapter<String> airportadapter = new ArrayAdapter<String>(getActivity(), R.layout.drop_down, airports);
         pickupEt.setAdapter(airportadapter);
         destET.setAdapter(airportadapter);
 
@@ -311,11 +310,11 @@ public class AddItemFragment extends Fragment {
                     return;
                 }
 
-                if (idimageUri == null || idimageUri.getPath().length() == 0) {
-                    makeToast(getActivity(), "Valid id card picture required");
-                    return;
-
-                }
+//                if (idimageUri == null || idimageUri.getPath().length() == 0) {
+//                    makeToast(getActivity(), "Valid id card picture required");
+//                    return;
+//
+//                }
                 if (!termsCB.isChecked()) {
                     makeToast(getActivity(), "Accept terms & conditions to continue ");
                     return;
@@ -326,17 +325,20 @@ public class AddItemFragment extends Fragment {
                     return;
 
                 }
-
-
                 String isProhibited = "";
                 if (insureCB.isChecked())
                     isinsure = "yes";
                 else
                     isinsure = "no";
 //
-                path = getRealPathFromURI(idimageUri, getActivity());
+//               path = getRealPathFromURI(idimageUri, getActivity());
                 pweight = pweight + " " + weightSpinner.getSelectedItem().toString();
+
+               String per= getData(getActivity(),"profile_percent","0");
+               if (per.equalsIgnoreCase("100"))
                 onBraintreeSubmit();
+               else
+                   makeToast(getActivity(),"Profile Incomplete , Go to profile and complete your profile");
 
             }
         });
@@ -778,7 +780,7 @@ public class AddItemFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
-                postItem(imageArray, pname, pdesc, pweight, "$"+cost, pickup, destination, date, payment_type, path, receiver, rec_mob_1,
+                postItem(imageArray, pname, pdesc, pweight, "$"+cost, pickup, destination, date, payment_type, "", receiver, rec_mob_1,
                         rec_mob_2, rec_mail, p_lat, p_lng, isinsure, payment_id);
             }
         });

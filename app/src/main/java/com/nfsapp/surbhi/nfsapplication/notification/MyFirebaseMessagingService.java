@@ -8,15 +8,17 @@ import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.nfsapp.surbhi.nfsapplication.activities.MainActivity;
+import com.nfsapp.surbhi.nfsapplication.activities.ItemDetails;
+import com.nfsapp.surbhi.nfsapplication.activities.sender.TravellerDetails;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static com.nfsapp.surbhi.nfsapplication.other.MySharedPref.saveData;
+
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
-
+    Intent resultIntent;
     private static final String TAG = MyFirebaseMessagingService.class.getSimpleName();
-
     private NotificationUtils notificationUtils;
 
     @Override
@@ -68,17 +70,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             JSONObject data = json.getJSONObject("data");
 
             String title = data.getString("title");
+            String type = data.getString("type");
+            String id = data.getString("id");
+            String product_id = data.getString("product_id");
             String message = data.getString("message");
             boolean isBackground = data.getBoolean("is_background");
-//            String imageUrl = data.getString("image");
             String imageUrl = "";
             String timestamp = data.getString("timestamp");
-//            JSONObject payload = data.getJSONObject("payload");
-
             Log.e(TAG, "title: " + title);
             Log.e(TAG, "message: " + message);
             Log.e(TAG, "isBackground: " + isBackground);
-//            Log.e(TAG, "payload: " + payload.toString());
             Log.e(TAG, "imageUrl: " + imageUrl);
             Log.e(TAG, "timestamp: " + timestamp);
 //            if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
@@ -93,11 +94,27 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //            }
 //            else {
                 System.out.println("===== app is in background=======");
-                // app is in background, show the notification in notification tray
-                Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
-                resultIntent.putExtra("notification_message", message);
+                if (type.equalsIgnoreCase("1") ||
+                        type.equalsIgnoreCase("3") ||
+                        type.equalsIgnoreCase("4"))
+                {
+                     resultIntent = new Intent(getApplicationContext(), ItemDetails.class);
+                    resultIntent.putExtra("notification_message", message);
+                    resultIntent.putExtra("type", type);
+                    resultIntent.putExtra("post_id", id);
+                }
+                else if (type.equalsIgnoreCase("2"))
 
-                // check for image attachment
+                {
+                    saveData(getApplicationContext(),"product_id",product_id);
+
+                    resultIntent = new Intent(getApplicationContext(), TravellerDetails.class);
+                    resultIntent.putExtra("notification_message", message);
+                    resultIntent.putExtra("act_name", "notification");
+                    resultIntent.putExtra("trevaller_id", id);
+                    resultIntent.putExtra("product_id", product_id);
+
+                }
                 if (TextUtils.isEmpty(imageUrl)) {
                     showNotificationMessage(getApplicationContext(), title, message, timestamp, resultIntent);
                 } else {

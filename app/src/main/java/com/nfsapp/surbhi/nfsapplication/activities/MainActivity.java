@@ -30,6 +30,7 @@ import org.json.JSONObject;
 import cz.msebera.android.httpclient.Header;
 
 import static com.nfsapp.surbhi.nfsapplication.other.MySharedPref.getData;
+import static com.nfsapp.surbhi.nfsapplication.other.MySharedPref.saveData;
 import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.BASE_URL_NEW;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -55,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         profile_img = findViewById(R.id.profile_img);
         profile_pic = findViewById(R.id.image);
         nameTV = findViewById(R.id.nameTV);
-        checkNotification();
         setFragment("home");
         fragment = new HomeFragment();
         replaceFragment(fragment, true, "home");
@@ -66,23 +66,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         profile_img.setOnClickListener(this);
         profile_pic.setOnClickListener(this);
 
+        checkNotification();
+
+
+
     }
 
     private void checkNotification() {
         Bundle bundle = getIntent().getExtras();
-        System.err.println("=========== notification msg============ ");
-        if (bundle != null) {
+        if (bundle != null)
+        {
+            System.err.println("=========== notification msg============ ");
             String msg = bundle.getString("notification_message", "");
-
             System.err.println(msg);
-            if (msg.length() > 0) {
+            if (msg.length() > 0)
+            {
                 setFragment("notification");
                 fragment = new NotificationFragment();
                 replaceFragment(fragment, true, "notification");
             }
         }
     }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -94,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         String userid = getData(MainActivity.this, "user_id", "");
-
+        System.out.println("-----> user profile ----------> ");
         params.put("user_id", userid);
 
         client.post(BASE_URL_NEW + "user_profile", params, new JsonHttpResponseHandler() {
@@ -111,6 +115,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     String city =response.getString("user_city").trim();
                     String postal =response.getString("user_postalcode").trim();
                     String address =street+", " + city+ ", "+postal;
+                    String per = response.getString("profile_sttaus");
+
 
                     if (address.startsWith(",") || address.endsWith(","))
                         address=city;
@@ -121,15 +127,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     final User user = User.getInstance();
                     user.setLocation(address);
                     user.setId(response.getString("user_id"));
+                    user.setProfile_percent(per);
                     user.setProfile_pic(response.getString("user_pic"));
                     user.setName(response.getString("full_name"));
                     user.setEmail(response.getString("user_email"));
                     user.setPhone(response.getString("user_phone"));
                     user.setAccount_no(response.getString("deposit_account"));
                     user.setId_image(response.getString("valid_identity"));
-
-
                     nameTV.setText(user.getName());
+                    saveData(MainActivity.this,"profile_percent",per);
 
                     if (user.getProfile_pic()!=null && user.getProfile_pic().length()>0)
                     Picasso.with(getApplicationContext()).load(user.getProfile_pic()).placeholder(R.drawable.profile_pic).into(profile_pic);
@@ -139,10 +145,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
 
+                System.out.println(errorResponse);
             }
 
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-
+                System.out.println(responseString);
             }
         });
     }

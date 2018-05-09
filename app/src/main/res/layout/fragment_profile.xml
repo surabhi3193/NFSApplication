@@ -18,7 +18,7 @@
         <LinearLayout
             android:background="@drawable/profile_bg_blue"
             android:layout_width="match_parent"
-            android:layout_height="280dp"
+            android:layout_height="300dp"
             android:orientation="vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp">
@@ -105,6 +105,7 @@
                 android:textSize="18sp" />
 
             <TextView
+                android:id="@+id/percent_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/asap"
@@ -114,7 +115,7 @@
                 android:text="Profile is 62% completed"
                 android:textColor="@color/white"
                 android:textSize="14sp"
-                android:visibility="gone" />
+                android:visibility="visible" />
         </LinearLayout>
         <LinearLayout
             android:background="@color/background_color"

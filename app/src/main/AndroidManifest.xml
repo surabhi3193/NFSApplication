@@ -109,6 +109,19 @@
             </intent-filter>
         </service>
         <!-- ./Firebase Notifications -->
+
+
+ <!--       <service
+            android:name=".services.LocationService"
+            android:label="location_service_traveler">
+            <intent-filter>
+                <action android:name="com.NFSApplication.name.LONGRUNSERVICE" />
+            </intent-filter>
+        </service>-->
+
+        <receiver android:name=".services.LocationService"></receiver>
+
+
         <activity
             android:name=".other.MultiPhotoSelectActivity"
             android:screenOrientation="portrait"
@@ -126,7 +139,15 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".activities.traveller.StartPickupActivity" />
-        <activity android:name=".payment.ConfirmationActivity"></activity>
+        <activity android:name=".payment.ConfirmationActivity" />
+        <activity android:name=".activities.BookingListActivity" />
+        <activity android:name=".activities.TrackingActivity" />
+
+        <activity android:name=".activities.traveller.PackageAfterPickup" />
+
+        <activity android:name=".activities.traveller.ChatActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
     </application>
 
 </manifest>

@@ -55,12 +55,13 @@ dependencies {
     implementation 'com.google.firebase:firebase-crash:15.0.2'
 
     compile group: 'com.nostra13.universalimageloader', name: 'universal-image-loader', version: '1.9.2'
-
-
     implementation 'com.braintreepayments.api:braintree:2.12.0'
     implementation 'com.braintreepayments.api:drop-in:3.3.0'
     implementation 'com.intuit.sdp:sdp-android:1.0.3'
     implementation 'com.paypal.sdk:paypal-android-sdk:2.14.2'
     implementation 'com.android.volley:volley:1.0.0'
+    compile 'com.yahoo.mobile.client.android.util.rangeseekbar:rangeseekbar-library:0.1.0'
+    compile 'com.anton46:stepsview:0.0.2'
+
 }
 apply plugin: 'com.google.gms.google-services'

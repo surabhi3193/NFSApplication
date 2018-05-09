@@ -18,6 +18,7 @@
             android:src="@drawable/back_arrow"/>
 
         <TextView
+            android:layout_marginRight="40dp"
             android:id="@+id/header_text"
             android:fontFamily="@font/asap"
             android:gravity="center"

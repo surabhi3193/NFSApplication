@@ -20,11 +20,11 @@
     <include layout="@layout/back_layout" />
 
     <ImageView
+        android:layout_height="180dp"
         android:id="@+id/ticketIV"
         android:padding="10dp"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:scaleType="center" />
+        android:background="@color/black"/>
     <TableLayout
         android:stretchColumns="1"
         android:layout_margin="10dp"

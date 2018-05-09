@@ -27,6 +27,7 @@
         android:background="@color/colorPrimary"/>
 
     <TextView
+        android:id="@+id/bookingTV"
         android:textSize="14sp"
         android:layout_marginTop="50dp"
         android:padding="10dp"
@@ -37,7 +38,7 @@
         android:fontFamily="@font/asap"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="My History"
+        android:text="My Bookings"
         />
 
     <TextView
