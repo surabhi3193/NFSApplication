@@ -27,28 +27,22 @@ public class SenderMainActivity extends AppCompatActivity {
     // Titles of the individual pages (displayed in tabs)
     TabLayout tabLayout;
 
-    // The ViewPager is responsible for sliding pages (fragments) in and out upon user input
-    private ViewPager mViewPager;
-    private ImageView profile_pic;
-    private TextView nameTV;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sender_main);
-        mViewPager = (ViewPager)findViewById(R.id.viewpager);
+        ViewPager mViewPager = (ViewPager) findViewById(R.id.viewpager);
         mViewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
         createViewPager(mViewPager);
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(mViewPager);
-
-        profile_pic = findViewById(R.id.image);
-        nameTV = findViewById(R.id.nameTV);
-
+        TextView nameTV= findViewById(R.id.nameTV);
+        ImageView profile_pic = findViewById(R.id.image);
         final User user = User.getInstance();
-        nameTV.setText(user.getName());
 
+
+        nameTV.setText(user.getfirstName());
         if (user.getProfile_pic()!=null && user.getProfile_pic().length()>0)
             Picasso.with(getApplicationContext()).load(user.getProfile_pic()).placeholder(R.drawable.profile_pic).into(profile_pic);
 
@@ -117,5 +111,12 @@ public class SenderMainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        System.out.println("-> on Backpressed main sender-->");
+
     }
 }

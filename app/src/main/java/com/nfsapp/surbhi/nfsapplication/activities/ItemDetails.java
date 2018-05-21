@@ -209,8 +209,9 @@ public class ItemDetails extends AppCompatActivity {
             String trevaller_count = obj.getString("trevaller_count");
 
 
-            header_text.setText(product_name);
-            productNameTv.setText(product_name);
+            header_text.setText(product_id+"- "+product_name);
+            productNameTv.setText(product_id+"- "+product_name);
+//            productNameTv.setText(product_name);
             pickupTV.setText(pickup_location);
             destinationTV.setText(destination_location);
 

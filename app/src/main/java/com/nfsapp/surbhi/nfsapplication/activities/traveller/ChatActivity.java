@@ -1,5 +1,7 @@
 package com.nfsapp.surbhi.nfsapplication.activities.traveller;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -24,13 +26,15 @@ import java.util.ArrayList;
 import cz.msebera.android.httpclient.Header;
 
 import static com.nfsapp.surbhi.nfsapplication.other.MySharedPref.getData;
+import static com.nfsapp.surbhi.nfsapplication.other.MySharedPref.saveData;
 import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.BASE_URL_NEW;
 import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.makeToast;
 
 public class ChatActivity extends AppCompatActivity {
 
-    ListView msg_listview;
-    private String product_id, sender_id;
+    static ListView msg_listview;
+    private static String product_id,product_name;
+    private String sender_id;
     private EditText msgEt;
 
     @Override
@@ -48,10 +52,11 @@ public class ChatActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             product_id = bundle.getString("product_id", "");
+            product_name = bundle.getString("product_name", "");
             sender_id = bundle.getString("sender_id", "");
             String sender_name = bundle.getString("sender_name", "");
             String sender_image = bundle.getString("sender_image", "");
-            oppon_name.setText(sender_name);
+            oppon_name.setText(product_id+"- "+product_name);
             Picasso.with(getApplicationContext()).load(sender_image).placeholder(R.drawable.profile_pic).into(oppn_img);
         }
 
@@ -73,17 +78,16 @@ public class ChatActivity extends AppCompatActivity {
                 sendMessage(sender_id, msg, product_id);
             }
         });
-
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        getmsgList(product_id);
+        saveData(ChatActivity.this,"chat_product_id",product_id);
+        getmsgList(ChatActivity.this,product_id);
     }
 
-    private void getmsgList(final String product_id) {
+    public static void getmsgList(final Context context, final String id) {
         final AsyncHttpClient client = new AsyncHttpClient();
         final RequestParams params = new RequestParams();
 
@@ -94,55 +98,55 @@ public class ChatActivity extends AppCompatActivity {
 //        ringProgressDialog.show();
 //        GifImageView gifview = ringProgressDialog.findViewById(R.id.loaderGif);
 //        gifview.setGifImageResource(R.drawable.loader2);
+            String userid = getData(context, "user_id", "");
+            System.out.println("========== userid========== " + userid);
 
-        String userid = getData(ChatActivity.this, "user_id", "");
-        System.out.println("========== userid========== " + userid);
+            params.put("user_id", userid);
+            params.put("product_id", id);
 
-        params.put("user_id", userid);
-        params.put("product_id", product_id);
+            System.err.println(params);
+            client.setConnectTimeout(60 * 1000);
+            client.setResponseTimeout(60 * 1000);
 
-        System.err.println(params);
-        client.setConnectTimeout(60 * 1000);
-        client.setResponseTimeout(60 * 1000);
+            client.post(BASE_URL_NEW + "chat_details", params, new JsonHttpResponseHandler() {
 
-        client.post(BASE_URL_NEW + "chat_details", params, new JsonHttpResponseHandler() {
-
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                System.out.println(response);
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    System.out.println(response);
 //                ringProgressDialog.dismiss();
-                try {
-                    ArrayList<Confirmpackage> travellerList = new ArrayList<>();
-                    ChatAdapter mAdapter;
-                    if (response.getString("status").equals("1")) {
-                        msg_listview.setVisibility(View.VISIBLE);
-                        JSONArray jsonArray = response.getJSONArray("chat");
+                    try {
+                        ArrayList<Confirmpackage> travellerList = new ArrayList<>();
+                        ChatAdapter mAdapter;
+                        if (response.getString("status").equals("1")) {
+                            msg_listview.setVisibility(View.VISIBLE);
+                            JSONArray jsonArray = response.getJSONArray("chat");
 
-                        mAdapter = new ChatAdapter(jsonArray, ChatActivity.this);
-                        mAdapter.notifyDataSetChanged();
-                        msg_listview.setAdapter(mAdapter);
-                        msg_listview.setSelection(msg_listview.getAdapter().getCount() - 1);
-                    } else {
-                        makeToast(ChatActivity.this, response.getString("message"));
-                        travellerList.clear();
-                        msg_listview.setVisibility(View.GONE);
-                        return;
+                            mAdapter = new ChatAdapter(jsonArray, context);
+                            mAdapter.notifyDataSetChanged();
+                            msg_listview.setAdapter(mAdapter);
+                            msg_listview.setSelection(msg_listview.getAdapter().getCount() - 1);
+                        } else {
+                            makeToast(context, response.getString("message"));
+                            travellerList.clear();
+                            msg_listview.setVisibility(View.GONE);
+                            return;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-            }
 
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
 //                ringProgressDialog.dismiss();
-                System.out.println(errorResponse);
-            }
+                    System.out.println(errorResponse);
+                }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                @Override
+                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
 //                ringProgressDialog.dismiss();
-                System.out.println(responseString);
-            }
-        });
+                    System.out.println(responseString);
+                }
+            });
+
     }
 
     private void sendMessage(final String chat_reciever_id,
@@ -173,7 +177,7 @@ public class ChatActivity extends AppCompatActivity {
                     ChatAdapter mAdapter;
                     if (response.getString("status").equals("1")) {
                         msgEt.setText("");
-                        getmsgList(product_id);
+                        getmsgList(ChatActivity.this,product_id);
 //                        JSONObject jsonObject;
 //                        String sender_id = "";
 //                        JSONArray jsonArray = response.getJSONArray("chat");
@@ -207,4 +211,25 @@ public class ChatActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+       saveData(getApplicationContext(),"chat_product_id","");
+        finish();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        System.out.println("====on pause====");
+        saveData(getApplicationContext(),"chat_product_id","");
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        System.out.println("====onDestroy====");
+        saveData(getApplicationContext(),"chat_product_id","");
+    }
 }

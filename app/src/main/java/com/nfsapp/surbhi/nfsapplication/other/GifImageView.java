@@ -1,21 +1,13 @@
 package com.nfsapp.surbhi.nfsapplication.other;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Movie;
 import android.net.Uri;
-import android.os.Handler;
 import android.os.SystemClock;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
-
-
-import com.nfsapp.surbhi.nfsapplication.R;
-import com.nfsapp.surbhi.nfsapplication.other.gif.GifDecoder;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;

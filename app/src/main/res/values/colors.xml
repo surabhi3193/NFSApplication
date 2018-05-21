@@ -251,7 +251,6 @@
     <color name="Black">#000000</color>
     <color name="call_color">#212BD2</color>
     <color name="black_shade">#333332</color>
-    <color name="gray_shade">#f3f3f3</color>
     <color name="green_shade">#21ce99</color>
     <color name="groupChatDateText">#000000</color>
     <color name="groupChatReadReceiptMe">#000000</color>
@@ -261,4 +260,8 @@
     <color name="groupChatTextMe">#21ce99</color>
     <color name="groupChatBubbleOther">#6495ED</color>
     <color name="groupChatTextOther" >#333332</color>
+
+
+    <color name="seek_bar_light_green" >#D9F7C3</color>
+    <color name="seek_bar_dark_green" >#4EA80D</color>
 </resources>

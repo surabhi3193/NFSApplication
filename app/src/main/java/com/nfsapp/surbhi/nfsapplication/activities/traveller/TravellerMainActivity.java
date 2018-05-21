@@ -1,60 +1,46 @@
 package com.nfsapp.surbhi.nfsapplication.activities.traveller;
 
-import android.app.Dialog;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.baoyz.widget.PullRefreshLayout;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 import com.nfsapp.surbhi.nfsapplication.R;
-import com.nfsapp.surbhi.nfsapplication.adapter.TravelerMainAdapter;
-import com.nfsapp.surbhi.nfsapplication.beans.Traveller;
-import com.nfsapp.surbhi.nfsapplication.constants.GPSTracker;
-import com.nfsapp.surbhi.nfsapplication.other.GifImageView;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.nfsapp.surbhi.nfsapplication.beans.User;
 
 import java.util.ArrayList;
-
-import cz.msebera.android.httpclient.Header;
-
-import static com.nfsapp.surbhi.nfsapplication.other.MySharedPref.getData;
-import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.BASE_URL_NEW;
-import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.makeToast;
+import java.util.List;
 
 public class TravellerMainActivity extends AppCompatActivity {
 
-
-    ListView recyclerView;
-    double latitude = 0.0, longitude = 0.0;
+    TabLayout tabLayout;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_traveller_main);
+        ViewPager mViewPager = (ViewPager) findViewById(R.id.viewpager);
+        mViewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
+        createViewPager(mViewPager);
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout.setupWithViewPager(mViewPager);
+        TextView nameTV = findViewById(R.id.header_text);
+
+        final User user = User.getInstance();
+        nameTV.setText("Traveller");
+
+        createTabIcons();
 
         ImageView back_btn = findViewById(R.id.back_btn);
-        TextView header_text = findViewById(R.id.header_text);
 
-        GPSTracker gps = new GPSTracker(this);
-        latitude = gps.getLatitude();
-        longitude = gps.getLongitude();
-
-
-        System.out.println("============== current location =========");
-        System.out.println(latitude);
-        System.out.println(longitude);
-
-        header_text.setText("Available packages for pickup");
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,101 +48,56 @@ public class TravellerMainActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-        recyclerView = findViewById(R.id.recycler_view);
-        final PullRefreshLayout refreshLayout = findViewById(R.id.refreshLay);
-
-        refreshLayout.setRefreshStyle(PullRefreshLayout.STYLE_RING);
-        refreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refreshLayout.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        prepareTravellerData();
-                        refreshLayout.setRefreshing(false);
-                    }
-                }, 2000);
-            }
-        });
-
-
-        prepareTravellerData();
-    }
-    private void prepareTravellerData() {
-        final AsyncHttpClient client = new AsyncHttpClient();
-        final RequestParams params = new RequestParams();
-
-        final Dialog ringProgressDialog = new Dialog(TravellerMainActivity.this, R.style.Theme_AppCompat_Dialog);
-        ringProgressDialog.setContentView(R.layout.loading);
-        ringProgressDialog.setCancelable(false);
-        ringProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        ringProgressDialog.show();
-        GifImageView gifview = ringProgressDialog.findViewById(R.id.loaderGif);
-        gifview.setGifImageResource(R.drawable.loader2);
-
-        String userid = getData(TravellerMainActivity.this, "user_id", "");
-        System.out.println("========== userid========== " + userid);
-
-        params.put("user_id", userid);
-        params.put("latitude", latitude);
-        params.put("longitude", longitude);
-
-        System.out.println("============= get item  api ==============");
-        System.err.println(params);
-client.setConnectTimeout(60*1000);
-client.setResponseTimeout(60*1000);
-        client.post(BASE_URL_NEW + "trevaller_post_list", params, new JsonHttpResponseHandler() {
-
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                System.out.println(response);
-                ringProgressDialog.dismiss();
-                try {
-
-                    if (response.getString("status").equals("1")) {
-                        ArrayList<Traveller> travellerList = new ArrayList<>();
-                        String sender_id = "";
-                        String trevaller_status="";
-                        JSONArray jsonArray = response.getJSONArray("post");
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject jsonObject = jsonArray.getJSONObject(i);
-                            String product_id = jsonObject.getString("product_id");
-                            String product_name = jsonObject.getString("product_name");
-                            String pickup_location = jsonObject.getString("pickup_location");
-                            String destination_location = jsonObject.getString("destination_location");
-                            String product_pic = jsonObject.getString("product_pic");
-                            String departure_date = jsonObject.getString("departure_date");
-                            sender_id = jsonObject.getString("sender_id");
-                            String amount = jsonObject.getString("prodcust_cost");
-                            String distence = jsonObject.getString("distence");
-                             trevaller_status = jsonObject.getString("trevaller_status");
-                            Traveller movie = new Traveller(product_id, sender_id, product_name, product_pic, pickup_location, destination_location, departure_date, distence + " miles",  amount,trevaller_status);
-                            travellerList.add(movie);
-                        }
-                        TravelerMainAdapter mAdapter;
-                        mAdapter = new TravelerMainAdapter(travellerList, TravellerMainActivity.this);
-                        mAdapter.notifyDataSetChanged();
-                        recyclerView.setAdapter(mAdapter);
-                    } else {
-                        makeToast(TravellerMainActivity.this, response.getString("message"));
-                        return;
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                ringProgressDialog.dismiss();
-                System.out.println(errorResponse);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                ringProgressDialog.dismiss();
-                System.out.println(responseString);
-            }
-        });
     }
 
+    private void createViewPager(ViewPager viewPager) {
+        MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
+        adapter.addFrag(new TravelerPackageList(), "Package list");
+        adapter.addFrag(new TravellerBooking(), "My Bookings");
+        viewPager.setAdapter(adapter);
+    }
+
+    private void createTabIcons() {
+
+        TextView tabThree = (TextView) LayoutInflater.from(getApplicationContext()).inflate(R.layout.custom_tab, null);
+        tabThree.setText("Package list");
+        tabThree.setTextColor(getResources().getColor(R.color.white));
+        tabLayout.getTabAt(0).setCustomView(tabThree);
+
+        TextView tabTwo = (TextView) LayoutInflater.from(getApplicationContext()).inflate(R.layout.custom_tab, null);
+        tabTwo.setText("My Booking");
+        tabTwo.setTextColor(getResources().getColor(R.color.white));
+
+        tabLayout.getTabAt(1).setCustomView(tabTwo);
+
+    }
+
+    public class MyPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public MyPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFrag(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
+    }
 }

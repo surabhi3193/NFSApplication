@@ -17,7 +17,7 @@
         android:textSize="20sp"
         android:fontFamily="@font/asap"
         android:textColor="@color/colorPrimary"
-        android:text="Setting"
+        android:text="Settings"
         android:textAllCaps="true"
         android:textStyle="bold"/>
     <View
@@ -39,6 +39,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="My Bookings"
+        />
+    <TextView
+        android:id="@+id/trackflightTV"
+        android:textSize="14sp"
+        android:padding="10dp"
+        android:drawableLeft="@drawable/arrow"
+        android:drawablePadding="10dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/colorPrimaryDark"
+        android:fontFamily="@font/asap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Track Flight"
         />
 
     <TextView
@@ -118,8 +131,8 @@
         android:text="Help"
         />
     <TextView
+        android:id="@+id/changePassTV"
         android:textSize="14sp"
-
         android:drawablePadding="10dp"
         android:padding="10dp"
         android:drawableLeft="@drawable/arrow"
@@ -130,18 +143,4 @@
         android:layout_height="wrap_content"
         android:text="Change Password"
         />
-    <TextView
-        android:textSize="14sp"
-
-        android:padding="10dp"
-        android:drawableLeft="@drawable/arrow"
-        android:drawablePadding="10dp"
-        android:gravity="center_vertical"
-        android:textColor="@color/colorPrimaryDark"
-        android:fontFamily="@font/asap"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Request Payment"
-        />
-
 </LinearLayout>

@@ -60,18 +60,8 @@ public class ItemListAdapter extends ArrayAdapter<Traveller> {
             result = convertView;
         }
         lastPosition = position;
-//        Typeface face = Typeface.createFromAsset(mContext.getAssets(),
-//                "fonts/asap.ttf");
-//
-//        viewHolder.txtName.setTypeface(face);
-//        viewHolder.txtType.setTypeface(face);
-//        viewHolder.txtVersion.setTypeface(face);
-//        viewHolder.date.setTypeface(face);
-//        viewHolder.head_depart.setTypeface(face);
-//        viewHolder.head_arrival.setTypeface(face);
-
         viewHolder.date.setText(traveller.getDate());
-        viewHolder.txtName.setText(traveller.getName());
+        viewHolder.txtName.setText(traveller.getId()+"- "+traveller.getName());
         viewHolder.txtType.setText(traveller.getDeparture_airport());
         viewHolder.txtVersion.setText(traveller.getArrival_airport());
         Picasso.with(mContext).load(traveller.getProduct_pic()).placeholder(R.drawable.no_pic).into(viewHolder.product_pic);

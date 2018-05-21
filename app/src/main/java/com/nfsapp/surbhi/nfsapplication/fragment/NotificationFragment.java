@@ -89,15 +89,17 @@ public class NotificationFragment extends Fragment {
                         JSONArray jsonArray = response.getJSONArray("notifications");
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
-                            String notification_id = jsonObject.getString("notification_id");
-                            String sender_id = jsonObject.getString("sender_name");
-                            String reciever_id = jsonObject.getString("reciever_id");
+                            String notification_id = jsonObject.getString("id");
+                            String product_id = jsonObject.getString("product_id");
+                            String sender_name = jsonObject.getString("sender_name");
                             String noti_message = jsonObject.getString("noti_message");
                             String noti_date = jsonObject.getString("noti_date");
                             int noti_type = Integer.parseInt(jsonObject.getString("notification_type"));
                             String image = jsonObject.getString("sender_pic");
 
-                            Notification notification = new Notification(notification_id,image, sender_id, noti_message, noti_date,noti_type);
+                            Notification notification = new Notification(notification_id,image, sender_name, product_id,
+                                    noti_message, noti_date,
+                                    noti_type);
                             notificationList.add(notification);
 
                         }
@@ -106,6 +108,7 @@ public class NotificationFragment extends Fragment {
                         listView.setAdapter(mAdapter);
                     } else {
                         makeToast(getActivity(), response.getString("message"));
+                        listView.setVisibility(View.GONE);
                         return;
                     }
                 } catch (Exception e) {

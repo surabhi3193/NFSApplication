@@ -42,6 +42,7 @@
             android:id="@+id/home_img"/>
 
         <ImageView
+            android:visibility="gone"
             android:id="@+id/chat_img"
             android:layout_marginTop="5dp"
             android:padding="15dp"

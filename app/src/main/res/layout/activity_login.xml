@@ -88,6 +88,20 @@
                 android:hint="Password"
                 android:textColorHint="@color/gray_light"
                 android:drawablePadding="10dp"/>
+            <CheckBox
+
+                android:id="@+id/cbShowPwd"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+
+                android:layout_alignLeft="@+id/etPassword"
+
+                android:layout_below="@+id/etPassword"
+
+                android:text="@string/show_pwd" />
+
             <RelativeLayout
                 android:id="@+id/login_btn"
                 android:layout_marginTop="50dp"

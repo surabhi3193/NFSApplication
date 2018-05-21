@@ -27,36 +27,35 @@ public class TravellerDetails extends AppCompatActivity {
     String traveller_tckt = "";
     RelativeLayout imageLay;
 
-    private TextView nameTV,pickupET,pickypdateEt,destTV,destDateTV,flightTV,header_text;
+    private TextView nameTV, pickupET, pickypdateEt, destTV, destDateTV, flightTV, header_text;
     private ImageView ticketIV;
 
-    private String trevaller_id="",product_id="";
+    private String trevaller_id = "", product_id = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_traveller_details);
-         ticketIV = findViewById(R.id.ticketIV);
+        ticketIV = findViewById(R.id.ticketIV);
         ImageView back_btn = findViewById(R.id.back_btn);
         ImageView image_back = findViewById(R.id.image_back);
         final ImageView image_full = findViewById(R.id.image_full);
-         header_text = findViewById(R.id.header_text);
+        header_text = findViewById(R.id.header_text);
 
         imageLay = findViewById(R.id.imageLay);
-         nameTV = findViewById(R.id.nameTV);
-         pickupET = findViewById(R.id.pickupET);
-         pickypdateEt = findViewById(R.id.pickypdateEt);
-         destTV = findViewById(R.id.destTV);
-         destDateTV = findViewById(R.id.destDateTV);
-         flightTV = findViewById(R.id.flightTV);
+        nameTV = findViewById(R.id.nameTV);
+        pickupET = findViewById(R.id.pickupET);
+        pickypdateEt = findViewById(R.id.pickypdateEt);
+        destTV = findViewById(R.id.destTV);
+        destDateTV = findViewById(R.id.destDateTV);
+        flightTV = findViewById(R.id.flightTV);
         Button accept_btn = findViewById(R.id.accept_btn);
         Button reject_btn = findViewById(R.id.reject_btn);
 
 
         Bundle bundle = getIntent().getExtras();
 
-        if (bundle != null)
-        {
+        if (bundle != null) {
             try {
 //                 productDetails = bundle.getString("productDetails");
                 String act_name = bundle.getString("act_name", "");
@@ -66,19 +65,16 @@ public class TravellerDetails extends AppCompatActivity {
                 System.out.println(act_name);
 
 
-                if (act_name.equalsIgnoreCase("notification"))
-                {
-                    act_name="invitations";
+                if (act_name.equalsIgnoreCase("notification")) {
+                    act_name = "invitations";
                 }
 
-                if (act_name.equalsIgnoreCase("invitations"))
-                {
-                    product_id=getData(getApplicationContext(),"product_id","");
+                if (act_name.equalsIgnoreCase("invitations")) {
+                    product_id = getData(getApplicationContext(), "product_id", "");
                     accept_btn.setVisibility(View.VISIBLE);
                     reject_btn.setVisibility(View.VISIBLE);
                 } else {
-                    product_id=getData(getApplicationContext(),"product_id","");
-
+                    product_id = getData(getApplicationContext(), "product_id", "");
                     accept_btn.setVisibility(View.GONE);
                     reject_btn.setVisibility(View.GONE);
                 }
@@ -131,7 +127,7 @@ public class TravellerDetails extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 //                makeToast(getApplicationContext(), "Under development ");
-                confirmBooking(TravellerDetails.this, trevaller_id,product_id, "2");
+                confirmBooking(TravellerDetails.this, trevaller_id, product_id, "2");
 
 
             }
@@ -147,7 +143,7 @@ public class TravellerDetails extends AppCompatActivity {
             finish();
     }
 
-    public  void getTraveller(String traveller_id) {
+    public void getTraveller(String traveller_id) {
 
 
         final AsyncHttpClient client = new AsyncHttpClient();
@@ -189,9 +185,9 @@ public class TravellerDetails extends AppCompatActivity {
         });
 
     }
+
     private void setData(JSONObject obj) {
         try {
-
             trevaller_id = obj.getString("trevaller_id");
             String trevaller_name = obj.getString("trevaller_name");
             String trevaller_from = obj.getString("trevaller_from");
@@ -200,7 +196,7 @@ public class TravellerDetails extends AppCompatActivity {
             String arrival_date = obj.getString("arrival_date");
             String trevaller_flight_no = obj.getString("trevaller_flight_no");
             traveller_tckt = obj.getString("trevaller_ticket_pic");
-          String  product_name = obj.getString("product_name");
+            String product_name = obj.getString("product_name");
             nameTV.setText(trevaller_name);
             pickupET.setText(trevaller_from);
             pickypdateEt.setText(departure_date);
@@ -208,10 +204,10 @@ public class TravellerDetails extends AppCompatActivity {
             destDateTV.setText(arrival_date);
             flightTV.setText(trevaller_flight_no);
             header_text.setText(product_name);
+
             if (traveller_tckt.length() > 0)
                 Picasso.with(getApplicationContext()).load(traveller_tckt).placeholder(R.drawable.no_pic).into(ticketIV);
-        }catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

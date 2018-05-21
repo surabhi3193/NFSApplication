@@ -8,7 +8,7 @@
     <string name="cancel">Cancel</string>
     <string name="gender">Gender</string>
     <string name="date_of_birth">Date of Birth</string>
-    <string name="full_name">Full Name</string>
+    <string name="full_name">First Name</string>
     <string name="location">City</string>
 
     <string name="phone_no">Mobile Number</string>
@@ -23,7 +23,7 @@
     <string name="product_weight">Product Weight :</string>
     <string name="money_to_be_earned">Money to be Earned :</string>
     <string name="pickup_location">Pickup Location :</string>
-    <string name="payment_mode">Payment Mode :</string>
+    <string name="payment_mode">Choose account</string>
     <string name="add_item">Add Item</string>
     <string name="prohibited_item">I am not sending Prohibited item per NFS policy</string>
     <string name="terms_and_conditions">I agree to NFS Terms and Conditions </string>
@@ -60,6 +60,7 @@
     <string name="upload_valid_id_card">Upload valid id card</string>
     <string name="accept">Accept</string>
     <string name="reject">Reject</string>
+    <string name="show_pwd">Show password</string>
     <string-array name="type_arrays">
         <item>Type</item>
         <item>Type1</item>

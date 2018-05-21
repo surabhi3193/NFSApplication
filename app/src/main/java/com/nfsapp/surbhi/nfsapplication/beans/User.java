@@ -4,7 +4,9 @@ public final  class User {
     private static volatile User instance;
 
 
-    private String id = "",name= "",profile_pic= "", location= "", profile_percent= "0",email= "",phone= "",
+    private String id = "",firstName= "",middleName= "",lastName= "",profile_pic= "", city= "",
+            street= "", street2= "", state= "", zipcode= "",profile_percent= "0",
+            email= "",phone= "",
             account_no= "",id_image= "";
 
 
@@ -22,17 +24,64 @@ public final  class User {
     }
 
 
-    public User(String id, String name, String profile_pic, String location, String profile_percent, String email,
+    public User(String id, String firstName,String middleName,String lastName, String profile_pic,String street,String street2,
+                String city, String state,String zipcode, String profile_percent, String email,
                 String phone, String account_no,String id_image) {
         this.id = id;
-        this.name = name;
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.lastName = lastName;
         this.profile_pic = profile_pic;
-        this.location = location;
+        this.street = street;
+        this.street2 = street2;
+        this.city = city;
+        this.state = state;
+        this.zipcode = zipcode;
         this.profile_percent = profile_percent;
         this.email = email;
         this.phone = phone;
         this.account_no = account_no;
         this.id_image = id_image;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getStreet2() {
+        return street2;
+    }
+
+    public void setStreet2(String street2) {
+        this.street2 = street2;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getZipcode() {
+        return zipcode;
+    }
+
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
     }
 
     public String getId() {
@@ -43,12 +92,28 @@ public final  class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getMiddleName() {
+        return middleName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getfirstName() {
+        return firstName;
+    }
+
+    public void setfirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getProfile_pic() {
@@ -59,14 +124,6 @@ public final  class User {
         this.profile_pic = profile_pic;
         System.out.println("=========== profile pic ========");
         System.out.println(profile_pic);
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
     }
 
     public String getProfile_percent() {

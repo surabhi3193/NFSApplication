@@ -1,10 +1,13 @@
 package com.nfsapp.surbhi.nfsapplication.activities.traveller;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -35,23 +38,23 @@ import cz.msebera.android.httpclient.Header;
 import static com.nfsapp.surbhi.nfsapplication.other.MySharedPref.getData;
 import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.BASE_URL_NEW;
 import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.makeToast;
+import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.startLocationService;
+import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.stopLocationService;
 
 public class PackageAfterPickup extends AppCompatActivity {
 
-    private String product_id, sender_id, sender_name, sender_image_url;
+    private String product_id, sender_id, sender_name, sender_image_url,product;
     private LinearLayout otpMainLay;
     private TextView header_text;
     private TextView stausTV;
     private EditText o1, o2, o3, o4;
     private Button pickup_btn;
-    private String booking_status;
-
+    private String booking_status,otp_type="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_package_after_pickup);
-
 
         ImageView product_img = findViewById(R.id.product_img);
         ImageView back_btn = findViewById(R.id.back_btn);
@@ -70,6 +73,7 @@ public class PackageAfterPickup extends AppCompatActivity {
 
         otpMainLay = findViewById(R.id.otpMainLay);
         TextView verify_btn = findViewById(R.id.verifyOtp);
+        final TextView verifyHEad = findViewById(R.id.verifyHEad);
         header_text = findViewById(R.id.header_text);
          pickup_btn = findViewById(R.id.pickup_btn);
         Button chat_btn = findViewById(R.id.chat_btn);
@@ -85,7 +89,7 @@ public class PackageAfterPickup extends AppCompatActivity {
 
                 String trevaller_to = responseObj.getString("trevaller_to");
                 String trevaller_from = responseObj.getString("trevaller_from");
-                String product = responseObj.getString("product_name");
+                 product = responseObj.getString("product_name");
                  booking_status = responseObj.getString("booking_status");
 
                 String type = responseObj.getString("type");
@@ -98,7 +102,7 @@ public class PackageAfterPickup extends AppCompatActivity {
                 sender_name = responseObj.getString("user_name");
 
                 departuredateTV.setText(departure_date);
-                product_name.setText(product);
+                product_name.setText(product_id+"- "+product);
                 traveler_nameTV.setText(sender_name);
                 departureTv.setText(trevaller_from);
                 arrivalTv.setText(trevaller_to);
@@ -112,18 +116,29 @@ public class PackageAfterPickup extends AppCompatActivity {
 
         if (booking_status.equalsIgnoreCase("1"))
         {
+            stausTV.setText("Ready to pickup");
             pickup_btn.setText("Pick-up");
+            otp_type="1";
         }
         else if (booking_status.equalsIgnoreCase("2"))
         {
             stausTV.setText("On the way");
             pickup_btn.setText("Deliver");
+            pickup_btn.setBackgroundResource(R.drawable.green_rect);
         }
 
         else if (booking_status.equalsIgnoreCase("3"))
         {
+            stausTV.setText("On Flight");
+            pickup_btn.setText("Deliver");
             pickup_btn.setBackgroundResource(R.drawable.green_rect);
-            pickup_btn.setText("Delivered");
+            otp_type="2";
+        }
+        else if (booking_status.equalsIgnoreCase("4"))
+        {
+            stausTV.setText("Delivered");
+            pickup_btn.setText("Deliverd");
+            pickup_btn.setBackgroundResource(R.drawable.grey_bg);
         }
 
         back_btn.setOnClickListener(new View.OnClickListener() {
@@ -139,6 +154,7 @@ public class PackageAfterPickup extends AppCompatActivity {
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), ChatActivity.class)
                         .putExtra("product_id", product_id)
+                        .putExtra("product_name", product)
                         .putExtra("sender_id", sender_id)
                         .putExtra("sender_name", sender_name)
                         .putExtra("sender_image", sender_image_url)
@@ -166,7 +182,9 @@ public class PackageAfterPickup extends AppCompatActivity {
 
                 if (otp1.length() > 0 && otp2.length() > 0 && otp3.length() > 0 && otp4.length() > 0) {
                     otp = otp1 + otp2 + otp3 + otp4;
-                    verifyOtp(sender_id, product_id, otp);
+
+                    System.out.println("======== otp_type========= "  + otp_type);
+                    verifyOtp(sender_id, product_id, otp,otp_type);
                 } else {
                     makeToast(getApplicationContext(), "Invalid OTP");
                 }
@@ -179,22 +197,20 @@ public class PackageAfterPickup extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (pickup_btn.getText().toString().equalsIgnoreCase("Pick-up")) {
+                if (pickup_btn.getText().toString().equalsIgnoreCase("Pick-up"))
+                {
+                    otp_type="1";
+                    verifyHEad.setText("Enter Pick-up Code");
                     header_text.setText("Pickup Code");
                     otpMainLay.setVisibility(View.VISIBLE);
                 }
-                else
+                if (pickup_btn.getText().toString().equalsIgnoreCase("Deliver"))
                 {
-                    System.out.println(pickup_btn.getText().toString());
-                    makeToast(getApplicationContext(),"Under Development");
-
-                    // Retrieve a PendingIntent that will perform a broadcast
-//                    Intent alarmIntent = new Intent(PackageAfterPickup.this, LocationService.class);
-//                    PendingIntent    pendingIntent = PendingIntent.getBroadcast(PackageAfterPickup.this,
-//                            0, alarmIntent, 0);
-//                    AlarmManager manager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-//
-//                    LocationService.startAlarm(pendingIntent,manager);
+                    otp_type="2";
+                    verifyHEad.setText("Enter Delivery Code");
+                    header_text.setText("Delivery Code");
+                    otpMainLay.setVisibility(View.VISIBLE);
+                    stopLocationService();
                 }
             }
         });
@@ -206,7 +222,6 @@ public class PackageAfterPickup extends AppCompatActivity {
                 o1.setCursorVisible(true);
 
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() > 0) {
@@ -221,7 +236,6 @@ public class PackageAfterPickup extends AppCompatActivity {
 
             }
         });
-
 
         o2.addTextChangedListener(new TextWatcher() {
             @Override
@@ -298,7 +312,7 @@ public class PackageAfterPickup extends AppCompatActivity {
 
     }
 
-    private void verifyOtp(String sender_id, String product_id, String otp) {
+    private void verifyOtp(String sender_id, final String product_id, String otp,final String otp_type) {
 
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
@@ -318,7 +332,7 @@ public class PackageAfterPickup extends AppCompatActivity {
         params.put("sender_id", sender_id);
         params.put("product_id", product_id);
         params.put("otp_code", otp);
-
+        params.put("otp_type", otp_type);
         System.out.println(params);
         client.setConnectTimeout(30000);
         client.post(BASE_URL_NEW + "pickup_product", params, new JsonHttpResponseHandler() {
@@ -333,26 +347,31 @@ public class PackageAfterPickup extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),
                                 response.getString("message"), Toast.LENGTH_SHORT).show();
 
-                    } else {
+                    } else
+                        {
                         Toast.makeText(getApplicationContext(),
                                 response.getString("message"), Toast.LENGTH_SHORT).show();
-                        stausTV.setText("On the way");
-                        pickup_btn.setText("Deliver");
-                        onBackPressed();
+                        if (otp_type.equalsIgnoreCase("1")) {
+                            stausTV.setText("On the way");
+                            pickup_btn.setText("Deliver");
+                            pickup_btn.setBackgroundResource(R.drawable.green_rect);
+                        }
+                        else if (otp_type.equalsIgnoreCase("2"))
+                        {
+                            stausTV.setText("Delivered");
+                            pickup_btn.setText("Delivered");
+                            pickup_btn.setBackgroundResource(R.drawable.grey_bg);
 
-                        // Retrieve a PendingIntent that will perform a broadcast
-                        Intent alarmIntent = new Intent(PackageAfterPickup.this, LocationService.class);
-                        PendingIntent    pendingIntent = PendingIntent.getBroadcast(PackageAfterPickup.this, 0, alarmIntent, 0);
-                        AlarmManager manager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-
-                        LocationService.startAlarm(pendingIntent,manager);
+                        }
+                            onBackPressed();
+                            startLocationService(PackageAfterPickup.this, product_id);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
             }
-
+//            trevaller_id=4&product_id=85
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 ringProgressDialog.dismiss();
                 System.out.println(errorResponse);
@@ -381,4 +400,5 @@ public class PackageAfterPickup extends AppCompatActivity {
             finish();
         }
     }
+
 }

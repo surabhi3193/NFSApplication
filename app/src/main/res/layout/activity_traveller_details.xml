@@ -131,6 +131,7 @@
         </TableRow>
 
         <TableRow
+            android:visibility="gone"
             android:layout_marginTop="10dp">
             <TextView
                 android:textSize="18sp"

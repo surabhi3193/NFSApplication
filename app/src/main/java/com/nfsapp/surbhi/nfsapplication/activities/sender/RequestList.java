@@ -41,7 +41,7 @@ public class RequestList extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_traveller_main);
+        setContentView(R.layout.activity_request_list);
 
         ImageView back_btn = findViewById(R.id.back_btn);
         TextView header_text = findViewById(R.id.header_text);
@@ -78,31 +78,30 @@ public class RequestList extends AppCompatActivity {
                 refreshLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        prepareTravellerData(product_id);
+                        prepareTravellerData(product_id,true);
                         refreshLayout.setRefreshing(false);
                     }
                 }, 2000);
             }
         });
-
-
-        prepareTravellerData(product_id);
+        prepareTravellerData(product_id,false);
     }
 
-    private void prepareTravellerData(final String product_id) {
+    private void prepareTravellerData(final String product_id,final boolean isrefreshed) {
         final AsyncHttpClient client = new AsyncHttpClient();
         final RequestParams params = new RequestParams();
 
-        final Dialog ringProgressDialog = new Dialog(RequestList.this, R.style.Theme_AppCompat_Dialog);
-        ringProgressDialog.setContentView(R.layout.loading);
-        ringProgressDialog.setCancelable(false);
-        ringProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        ringProgressDialog.show();
-        GifImageView gifview = ringProgressDialog.findViewById(R.id.loaderGif);
-        gifview.setGifImageResource(R.drawable.loader2);
+
+        final   Dialog ringProgressDialog   = new Dialog(RequestList.this, R.style.Theme_AppCompat_Dialog);
+            ringProgressDialog.setContentView(R.layout.loading);
+            ringProgressDialog.setCancelable(false);
+            ringProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            ringProgressDialog.show();
+            GifImageView gifview = ringProgressDialog.findViewById(R.id.loaderGif);
+            gifview.setGifImageResource(R.drawable.loader2);
 
         String userid = getData(RequestList.this, "user_id", "");
-        System.out.println("========== userid========== " + userid);
+        System.out.println("=======  post invitation list ========= " + isrefreshed);
 
         params.put("user_id", userid);
         params.put("product_id", product_id);
@@ -114,7 +113,8 @@ public class RequestList extends AppCompatActivity {
 
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 System.out.println(response);
-                ringProgressDialog.dismiss();
+                    ringProgressDialog.dismiss();
+
                 try {
                     ArrayList<Traveller> travellerList = new ArrayList<>();
                     TravellerAdapter mAdapter ;
@@ -123,7 +123,10 @@ public class RequestList extends AppCompatActivity {
                         String sender_id = "";
                         JSONArray jsonArray = response.getJSONArray("invitations");
                         for (int i = 0; i < jsonArray.length(); i++) {
+
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            System.out.println("-------- invitation obj ---------");
+                            System.out.println(jsonObject);
                             String trevaller_id = jsonObject.getString("trevaller_id");
                             String trevaller_name = jsonObject.getString("trevaller_name");
                             String departure = jsonObject.getString("departure");
@@ -131,15 +134,12 @@ public class RequestList extends AppCompatActivity {
                             String user_pic = jsonObject.getString("user_pic");
                             String departure_date = jsonObject.getString("departure_date");
                             String booking_status = jsonObject.getString("booking_status");
-
-                            saveData(getApplicationContext(), "product_id", product_id);
-                            Traveller movie = new Traveller(trevaller_id, "", trevaller_name, user_pic,
+                            String product_id = jsonObject.getString("product_id");
+                            Traveller movie = new Traveller(trevaller_id, product_id, trevaller_name, user_pic,
                                     "Departure : " + departure, "Arrival : "
                                     + arrival, departure_date, "", "", booking_status);
                             travellerList.add(movie);
-
                         }
-
                          mAdapter = new TravellerAdapter(travellerList, RequestList.this, "invitations");
                         mAdapter.notifyDataSetChanged();
                         recyclerView.setAdapter(mAdapter);
@@ -156,13 +156,15 @@ public class RequestList extends AppCompatActivity {
             }
 
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                ringProgressDialog.dismiss();
+
+                    ringProgressDialog.dismiss();
                 System.out.println(errorResponse);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                ringProgressDialog.dismiss();
+
+                    ringProgressDialog.dismiss();
                 System.out.println(responseString);
             }
         });
@@ -176,6 +178,6 @@ public class RequestList extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        prepareTravellerData(product_id);
+        prepareTravellerData(product_id,false);
     }
 }

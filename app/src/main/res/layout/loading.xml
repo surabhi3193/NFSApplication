@@ -12,7 +12,7 @@
         android:id="@+id/progressper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/alegreya"
+        android:fontFamily="@font/asap"
         android:gravity="center_horizontal"
         android:textColor="@color/white"
         android:textSize="15sp"/>

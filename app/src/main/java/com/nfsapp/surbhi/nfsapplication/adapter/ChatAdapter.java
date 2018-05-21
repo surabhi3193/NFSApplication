@@ -2,6 +2,7 @@ package com.nfsapp.surbhi.nfsapplication.adapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,15 +20,18 @@ import org.json.JSONObject;
 
 public class ChatAdapter extends BaseAdapter {
     private JSONArray jArray;
-    private Activity context;
+    private Context context;
+    LayoutInflater inflater;
 
-//    public ChatAdapter(JSONArray jArray, Activity context) {
+
+    //    public ChatAdapter(JSONArray jArray, Activity context) {
 //        this.context = context;
 //        this.jArray = jArray;
 //    }
-    public ChatAdapter(JSONArray jArray, Activity context) {
+    public ChatAdapter(JSONArray jArray, Context context) {
         this.context = context;
         this.jArray = jArray;
+        inflater = LayoutInflater.from(this.context);
     }
 
     @Override
@@ -48,8 +52,8 @@ public class ChatAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View view, ViewGroup parent) {
-        LayoutInflater inflater = context.getLayoutInflater();
-        @SuppressLint("ViewHolder") View convertView = inflater.inflate(R.layout.msg_row, null, true);
+       @SuppressLint("ViewHolder") View convertView = inflater.inflate(R.layout.msg_row, parent, false);
+
         final ViewHolder holder = new ViewHolder();
         JSONObject responseobj = new JSONObject();
 

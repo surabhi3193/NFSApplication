@@ -94,7 +94,41 @@
                 android:layout_height="50dp"
                 android:drawableLeft="@drawable/profile"
                 android:textColor="@color/colorPrimaryDark"
-                android:hint="Full Name"
+                android:hint="First Name"
+                android:textColorHint="@color/gray_light"
+                android:drawablePadding="10dp"/>
+
+            <EditText
+                android:cursorVisible="true"
+                android:textCursorDrawable="@null"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:fontFamily="@font/asap"
+                android:textSize="15sp"
+                android:layout_marginTop="10dp"
+                android:inputType="text"
+                android:id="@+id/middlenameEt"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawableLeft="@drawable/profile"
+                android:textColor="@color/colorPrimaryDark"
+                android:hint="Middle Name (optional)"
+                android:textColorHint="@color/gray_light"
+                android:drawablePadding="10dp"/>
+
+            <EditText
+                android:cursorVisible="true"
+                android:textCursorDrawable="@null"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:fontFamily="@font/asap"
+                android:textSize="15sp"
+                android:layout_marginTop="10dp"
+                android:inputType="text"
+                android:id="@+id/lastNameEt"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawableLeft="@drawable/profile"
+                android:textColor="@color/colorPrimaryDark"
+                android:hint="Last Name"
                 android:textColorHint="@color/gray_light"
                 android:drawablePadding="10dp"/>
 
@@ -133,6 +167,18 @@
                 android:hint="Password"
                 android:textColorHint="@color/gray_light"
                 android:drawablePadding="10dp"/>
+            <CheckBox
+
+                android:id="@+id/cbShowPwd"
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+
+                android:layout_alignLeft="@+id/etPassword"
+
+                android:layout_below="@+id/etPassword"
+
+                android:text="@string/show_pwd" />
 
         </LinearLayout>
         <RelativeLayout

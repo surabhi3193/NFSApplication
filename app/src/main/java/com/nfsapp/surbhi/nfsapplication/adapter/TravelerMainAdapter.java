@@ -106,7 +106,7 @@ public class TravelerMainAdapter extends ArrayAdapter<Traveller> implements View
 //        viewHolder.distanceTV.setTypeface(face);
 //        viewHolder.amountTv.setTypeface(face);
 
-        viewHolder.txtName.setText(Traveller.getName());
+        viewHolder.txtName.setText(Traveller.getId()+"- "+Traveller.getName());
         viewHolder.txtDeparture.setText(Traveller.getDeparture_airport());
         viewHolder.tctArrival.setText(Traveller.getArrival_airport());
         viewHolder.date.setText(Traveller.getDate());

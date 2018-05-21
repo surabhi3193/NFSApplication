@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -11,7 +12,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +22,8 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.nfsapp.surbhi.nfsapplication.R;
+import com.nfsapp.surbhi.nfsapplication.activities.EditProfileActivity;
+import com.nfsapp.surbhi.nfsapplication.activities.traveller.PackageAfterPickup;
 import com.nfsapp.surbhi.nfsapplication.constants.GPSTracker;
 import com.nfsapp.surbhi.nfsapplication.services.LocationService;
 
@@ -39,12 +44,16 @@ import cz.msebera.android.httpclient.Header;
 import static com.nfsapp.surbhi.nfsapplication.other.MySharedPref.getData;
 import static com.nfsapp.surbhi.nfsapplication.other.MySharedPref.saveData;
 
-public class NetworkClass {
+public class NetworkClass extends AppCompatActivity{
 
+
+    private static PendingIntent pendingIntent;
+    private static AlarmManager manager;
 //    public static final String BASE_URL_NEW = "http://18.218.89.83/NFS/index.php/Webservice/";
     public static final String BASE_URL_NEW = "http://mindinfodemo.com/NFS/index.php/Webservice/";
-//    public static final String BASE_IMAGE_URL = "http://18.218.89.83/NFS/uploads/users/temp/";
+   public static final String BASE_ID_IMAGE_URL = "http://mindinfodemo.com/NFS/uploads/users/temp/";
     public static final String BASE_IMAGE_URL = "http://mindinfodemo.com/NFS/uploads/users/temp/";
+
 
     private static JSONObject responseDEtailsOBJ;
 
@@ -353,7 +362,7 @@ public class NetworkClass {
 
                     if (response_fav.equals("0"))
                     {
-                   makeToast(context,response.getString("message"));
+//                   makeToast(context,response.getString("message"));
                     }
 
 
@@ -412,7 +421,7 @@ public class NetworkClass {
         return cursor.getString(idx);
     }
 
-    public static void addLocation(final Context context) {
+    public static void addLocation(final Context context, final String id) {
 
         final String userid = getData(context, "user_id", "");
 
@@ -424,6 +433,7 @@ public class NetworkClass {
 
         final AsyncHttpClient client = new AsyncHttpClient();
         final RequestParams params = new RequestParams();
+        params.put("product_id", id);
         params.put("traveller_id", userid);
         params.put("traveller_lat", latitude);
         params.put("trevaller_log", longitude);
@@ -441,10 +451,12 @@ public class NetworkClass {
                 try {
                     if (response.getString("status").equalsIgnoreCase("0"))
                     {
-                        Intent alarmIntent = new Intent(context, LocationService.class);
-                        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0);
-                        AlarmManager manager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-                        LocationService.cancelAlarm(pendingIntent,manager);
+//                        Intent alarmIntent = new Intent(, LocationService.class);
+//                        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0);
+//                        AlarmManager manager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+//                        LocationService.cancelAlarm(pendingIntent,manager);
+
+                        stopLocationService();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -464,6 +476,43 @@ public class NetworkClass {
 
         });
 
+    }
+
+    public static void startLocationService(Activity activity,String product_id) {
+
+        // Retrieve a PendingIntent that will perform a broadcast
+        Intent alarmIntent = new Intent("location_receiver");
+        alarmIntent.putExtra("product_id",product_id);
+        pendingIntent = PendingIntent.getBroadcast(activity, 0,
+                alarmIntent, 0);
+        manager = (AlarmManager)activity.getSystemService(Context.ALARM_SERVICE);
+        LocationService.startAlarm(pendingIntent,manager,product_id);
+    }
+
+
+    public static void stopLocationService()
+    {
+        System.out.println("=========== stop location service=======");
+        LocationService.cancelAlarm(pendingIntent,manager);
+    }
+
+
+    public static void sendToProfile(final Context context) {
+        final Dialog dialog = new Dialog(context, R.style.Theme_AppCompat_Dialog);
+        dialog.setContentView(R.layout.profile_update_alert);
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.show();
+
+        TextView update_btn = dialog.findViewById(R.id.update_btn);
+
+        update_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+             context.startActivity(new Intent(context, EditProfileActivity.class));
+            }
+        });
     }
 
 }

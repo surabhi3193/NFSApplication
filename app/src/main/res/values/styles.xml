@@ -30,13 +30,13 @@
     </style>-->
 
     <style name="MyAlertDialogStyle1" parent="@android:style/Theme.Dialog">
-        <item name="android:windowAnimationStyle">@style/CustomDialogAnimation</item>
+        <!--<item name="android:windowAnimationStyle">@style/CustomDialogAnimation</item>-->
     </style>
-
+<!--
     <style name="CustomDialogAnimation">
         <item name="android:windowEnterAnimation">@anim/grow_in</item>
         <item name="android:windowExitAnimation">@anim/grow_out</item>
-    </style>
+    </style>-->
 
 
 </resources>

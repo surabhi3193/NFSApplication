@@ -48,6 +48,8 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.nfsapp.surbhi.nfsapplication.R;
+import com.nfsapp.surbhi.nfsapplication.activities.EditProfileActivity;
+import com.nfsapp.surbhi.nfsapplication.activities.traveller.BookItemActivity;
 import com.nfsapp.surbhi.nfsapplication.adapter.SliderAdapter;
 import com.nfsapp.surbhi.nfsapplication.constants.Utility;
 import com.nfsapp.surbhi.nfsapplication.other.GifImageView;
@@ -81,6 +83,8 @@ import me.relex.circleindicator.CircleIndicator;
 import static com.nfsapp.surbhi.nfsapplication.constants.GeocodingLocation.getAddressFromLatlng;
 import static com.nfsapp.surbhi.nfsapplication.other.MySharedPref.getData;
 import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.BASE_URL_NEW;
+import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.makeToast;
+import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.sendToProfile;
 
 public class AddItemFragment extends Fragment {
     public static final int PAYPAL_REQUEST_CODE = 123;
@@ -101,6 +105,7 @@ public class AddItemFragment extends Fragment {
     Dialog dialog;
     HashMap<String, String> paramHash;
     Button book_btn;
+    String per;
     private LinearLayout camera_lay;
     private int image_count_before;
     private ViewPager mPager;
@@ -113,7 +118,6 @@ public class AddItemFragment extends Fragment {
     private AutoCompleteTextView pickupEt, destET;
     private String send_payment_details = "Payment_APi";
     private String get_token = "http://mindinfodemo.com/NFS/index.php/Webservice/get_token";
-    //    private String token = "eyJ2ZXJzaW9uIjoyLCJhdXRob3JpemF0aW9uRmluZ2VycHJpbnQiOiJiZmMzNDg1MDA0ZjZhMzMyMDI0MTljODJhMGY0N2NiZDIwNThhMDc2MDM5YjdjMjM2OWU5YzhjOGQwNmYyOWY3fGNyZWF0ZWRfYXQ9MjAxOC0wNC0yOFQxMDo0NDoxNC4xMzQwNTY1MzQrMDAwMFx1MDAyNm1lcmNoYW50X2lkPTM0OHBrOWNnZjNiZ3l3MmJcdTAwMjZwdWJsaWNfa2V5PTJuMjQ3ZHY4OWJxOXZtcHIiLCJjb25maWdVcmwiOiJodHRwczovL2FwaS5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tOjQ0My9tZXJjaGFudHMvMzQ4cGs5Y2dmM2JneXcyYi9jbGllbnRfYXBpL3YxL2NvbmZpZ3VyYXRpb24iLCJjaGFsbGVuZ2VzIjpbXSwiZW52aXJvbm1lbnQiOiJzYW5kYm94IiwiY2xpZW50QXBpVXJsIjoiaHR0cHM6Ly9hcGkuc2FuZGJveC5icmFpbnRyZWVnYXRld2F5LmNvbTo0NDMvbWVyY2hhbnRzLzM0OHBrOWNnZjNiZ3l3MmIvY2xpZW50X2FwaSIsImFzc2V0c1VybCI6Imh0dHBzOi8vYXNzZXRzLmJyYWludHJlZWdhdGV3YXkuY29tIiwiYXV0aFVybCI6Imh0dHBzOi8vYXV0aC52ZW5tby5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tIiwiYW5hbHl0aWNzIjp7InVybCI6Imh0dHBzOi8vY2xpZW50LWFuYWx5dGljcy5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tLzM0OHBrOWNnZjNiZ3l3MmIifSwidGhyZWVEU2VjdXJlRW5hYmxlZCI6dHJ1ZSwicGF5cGFsRW5hYmxlZCI6dHJ1ZSwicGF5cGFsIjp7ImRpc3BsYXlOYW1lIjoiQWNtZSBXaWRnZXRzLCBMdGQuIChTYW5kYm94KSIsImNsaWVudElkIjpudWxsLCJwcml2YWN5VXJsIjoiaHR0cDovL2V4YW1wbGUuY29tL3BwIiwidXNlckFncmVlbWVudFVybCI6Imh0dHA6Ly9leGFtcGxlLmNvbS90b3MiLCJiYXNlVXJsIjoiaHR0cHM6Ly9hc3NldHMuYnJhaW50cmVlZ2F0ZXdheS5jb20iLCJhc3NldHNVcmwiOiJodHRwczovL2NoZWNrb3V0LnBheXBhbC5jb20iLCJkaXJlY3RCYXNlVXJsIjpudWxsLCJhbGxvd0h0dHAiOnRydWUsImVudmlyb25tZW50Tm9OZXR3b3JrIjp0cnVlLCJlbnZpcm9ubWVudCI6Im9mZmxpbmUiLCJ1bnZldHRlZE1lcmNoYW50IjpmYWxzZSwiYnJhaW50cmVlQ2xpZW50SWQiOiJtYXN0ZXJjbGllbnQzIiwiYmlsbGluZ0FncmVlbWVudHNFbmFibGVkIjp0cnVlLCJtZXJjaGFudEFjY291bnRJZCI6ImFjbWV3aWRnZXRzbHRkc2FuZGJveCIsImN1cnJlbmN5SXNvQ29kZSI6IlVTRCJ9LCJtZXJjaGFudElkIjoiMzQ4cGs5Y2dmM2JneXcyYiIsInZlbm1vIjoib2ZmIn0=";
     private String token, rec_mob_2, pname, pdesc, pickup, destination, date, payment, receiver, rec_mob_1, rec_mail, isinsure = "";
 
     static void makeToast(Context ctx, String s) {
@@ -125,7 +129,6 @@ public class AddItemFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         Utility.checkCameraPermission(getActivity());
         View v = inflater.inflate(R.layout.fragment_add_item, null);
-
         getToken();
         Intent intent = new Intent(getActivity(), PayPalService.class);
 
@@ -140,10 +143,8 @@ public class AddItemFragment extends Fragment {
         final EditText p_descEt = v.findViewById(R.id.p_descEt);
         final EditText weightEt = v.findViewById(R.id.weightEt);
         final EditText p_costEt = v.findViewById(R.id.p_costEt);
-//        pickupEt = v.findViewById(R.id.pickupEt);
         pickupEt = v.findViewById(R.id.pickupEt);
         destET = v.findViewById(R.id.destET);
-
         final TextView prohibitedTV = v.findViewById(R.id.prohibitedTV);
         final EditText rec_nameEt = v.findViewById(R.id.rec_nameEt);
         final EditText rec_mob1 = v.findViewById(R.id.rec_mob1);
@@ -154,10 +155,8 @@ public class AddItemFragment extends Fragment {
 
         idIV = v.findViewById(R.id.idIV);
         dateTV = v.findViewById(R.id.dateTVStock);
-
         sliderLay = v.findViewById(R.id.sliderLay);
         formLay = v.findViewById(R.id.formLay);
-
         TextView idTV = v.findViewById(R.id.uploadIDCardTV);
         final CheckBox costCB = v.findViewById(R.id.costCB);
         final CheckBox insureCB = v.findViewById(R.id.insureCB);
@@ -166,7 +165,6 @@ public class AddItemFragment extends Fragment {
 
         String airportlist = getData(getActivity(), "country_list", "");
         String[] airports = airportlist.split("/");
-
         List<String> weightlist = new ArrayList<>();
         weightlist.add("Kg");
         weightlist.add("Lbs");
@@ -179,12 +177,11 @@ public class AddItemFragment extends Fragment {
         pickupEt.setAdapter(airportadapter);
         destET.setAdapter(airportadapter);
 
-
         ArrayList<String> list = new ArrayList<>();
         list.add("Payment mode");
         list.add("Debit/Credit Card");
         list.add("Paypal");
-        // country_list
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, list);
         payment_spinner.setAdapter(adapter);
         final Calendar myCalendar = Calendar.getInstance();
@@ -248,6 +245,14 @@ public class AddItemFragment extends Fragment {
                 if (costCB.isChecked())
                     cost = p_costEt.getText().toString();
 
+                if (!per.equalsIgnoreCase("100"))
+                {
+
+                    makeToast(getActivity(), "Profile Incomplete , Go to profile and complete your profile");
+                    startActivity(new Intent(getActivity(), EditProfileActivity.class));
+
+                    return;
+                }
                 if (imageArray.size() == 0) {
                     makeToast(getActivity(), "Capture product image to post ");
                     return;
@@ -287,11 +292,6 @@ public class AddItemFragment extends Fragment {
                     return;
                 }
 
-//                if (payment.length() == 0 || payment.equalsIgnoreCase("payment mode")) {
-//                    makeToast(getActivity(), "Enter payment mode");
-//                    return;
-//                }
-
                 if (receiver.length() == 0) {
                     makeToast(getActivity(), "Enter receiver name");
                     return;
@@ -310,11 +310,6 @@ public class AddItemFragment extends Fragment {
                     return;
                 }
 
-//                if (idimageUri == null || idimageUri.getPath().length() == 0) {
-//                    makeToast(getActivity(), "Valid id card picture required");
-//                    return;
-//
-//                }
                 if (!termsCB.isChecked()) {
                     makeToast(getActivity(), "Accept terms & conditions to continue ");
                     return;
@@ -330,15 +325,12 @@ public class AddItemFragment extends Fragment {
                     isinsure = "yes";
                 else
                     isinsure = "no";
-//
-//               path = getRealPathFromURI(idimageUri, getActivity());
                 pweight = pweight + " " + weightSpinner.getSelectedItem().toString();
 
-               String per= getData(getActivity(),"profile_percent","0");
-               if (per.equalsIgnoreCase("100"))
-                onBraintreeSubmit();
-               else
-                   makeToast(getActivity(),"Profile Incomplete , Go to profile and complete your profile");
+                if (per.equalsIgnoreCase("100"))
+                    onBraintreeSubmit();
+                else
+                    makeToast(getActivity(), "Profile Incomplete , Go to profile and complete your profile");
 
             }
         });
@@ -495,7 +487,7 @@ public class AddItemFragment extends Fragment {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
                 ringProgressDialog.dismiss();
-                makeToast(getActivity(),"Image not found , Try again");
+                makeToast(getActivity(), "Image not found , Try again");
 
 
             }
@@ -677,7 +669,7 @@ public class AddItemFragment extends Fragment {
                         System.err.println(stringNonce);
 
                         payment = type;
-                     sendPayment(cost, stringNonce,payment);
+                        sendPayment(cost, stringNonce, payment);
                     } else
                         Toast.makeText(getActivity(), "Please enter a valid amount.", Toast.LENGTH_SHORT).show();
 
@@ -701,7 +693,7 @@ public class AddItemFragment extends Fragment {
         startActivityForResult(dropInRequest.getIntent(getActivity()), BRAINTREE_REQUEST_CODE);
     }
 
-    public void sendPayment(final String cost, String stringNonce,final  String payment_type) {
+    public void sendPayment(final String cost, String stringNonce, final String payment_type) {
 
         final Dialog ringProgressDialog = new Dialog(getActivity(), R.style.Theme_AppCompat_Dialog);
         ringProgressDialog.setContentView(R.layout.loading);
@@ -731,7 +723,7 @@ public class AddItemFragment extends Fragment {
                     ringProgressDialog.dismiss();
 //                    Toast.makeText(getActivity(), "Transaction successful", Toast.LENGTH_LONG).show();
                     String payment_id = response.getString("payment_id");
-                    proceedItem(payment_id, true,payment_type);
+                    proceedItem(payment_id, true, payment_type);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -764,7 +756,8 @@ public class AddItemFragment extends Fragment {
         });
 
     }
-    private void proceedItem(final String payment_id, final boolean paid,final String payment_type) {
+
+    private void proceedItem(final String payment_id, final boolean paid, final String payment_type) {
         final Dialog dialog = new Dialog(getActivity(), R.style.Theme_AppCompat_Dialog);
         dialog.setContentView(R.layout.transection_successfull);
         dialog.setCancelable(false);
@@ -780,7 +773,7 @@ public class AddItemFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
-                postItem(imageArray, pname, pdesc, pweight, "$"+cost, pickup, destination, date, payment_type, "", receiver, rec_mob_1,
+                postItem(imageArray, pname, pdesc, pweight, "$" + cost, pickup, destination, date, payment_type, "", receiver, rec_mob_1,
                         rec_mob_2, rec_mail, p_lat, p_lng, isinsure, payment_id);
             }
         });
@@ -909,12 +902,12 @@ public class AddItemFragment extends Fragment {
     }
 
     public void onBackPressed() {
+        System.out.println("-> on Backpressed add-->");
         if (dialog != null)
             dialog.dismiss();
 
         else
             getActivity().onBackPressed();
-
     }
 
     private void prohibitedList() {
@@ -961,4 +954,30 @@ public class AddItemFragment extends Fragment {
         Objects.requireNonNull(getActivity()).stopService(new Intent(getActivity(), PayPalService.class));
         super.onDestroy();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        per = getData(getActivity(), "profile_percent", "0");
+
+    }
+
+    private  void sendToProfile() {
+       dialog = new Dialog(getActivity(), R.style.Theme_AppCompat_Dialog);
+        dialog.setContentView(R.layout.profile_update_alert);
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.show();
+
+        TextView update_btn = dialog.findViewById(R.id.update_btn);
+
+        update_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                startActivity(new Intent(getActivity(), EditProfileActivity.class));
+            }
+        });
+    }
+
 }

@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:background="@color/background_color"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".activities.EditProfileActivity">
+<LinearLayout
+    android:paddingBottom="10dp"
+    android:orientation="vertical"
+    android:background="@color/background_color"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".activities.EditProfileActivity">
+
+    <include
+        layout="@layout/back_layout"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="General"
+        android:fontFamily="@font/asap"
+        android:textColor="@color/black"
+        android:textSize="23sp"
+        android:padding="15dp"/>
+
+    <EditText
+        android:paddingLeft="5dp"
+        android:minHeight="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/fullnameET"
+        android:fontFamily="@font/asap"
+        android:background="@drawable/edit_text_style"
+        android:hint="@string/full_name"
+        android:imeOptions="actionNext"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black_grey" />
+
+    <EditText
+        android:layout_marginTop="10dp"
+        android:paddingLeft="5dp"
+        android:minHeight="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/middlenameEt"
+        android:fontFamily="@font/asap"
+        android:background="@drawable/edit_text_style"
+        android:hint="Middle Name (optional)"
+        android:imeOptions="actionNext"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black_grey" />
+
+    <EditText
+        android:layout_marginTop="10dp"
+        android:paddingLeft="5dp"
+        android:minHeight="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/lastNameEt"
+        android:fontFamily="@font/asap"
+        android:background="@drawable/edit_text_style"
+        android:hint="Last Name"
+        android:imeOptions="actionNext"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black_grey" />
+    <EditText
+        android:layout_marginTop="10dp"
+        android:paddingLeft="5dp"
+        android:minHeight="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/asap"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/EmailEt"
+        android:background="@drawable/edit_text_style"
+        android:gravity="center_vertical"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:imeOptions="actionNext"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black_grey" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="Address"
+        android:textColor="@color/black"
+        android:fontFamily="@font/asap"
+
+        android:textSize="23sp"
+        android:padding="15dp"/>
+    <EditText
+        android:gravity="center_vertical"
+        android:minHeight="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/streetET"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/edit_text_style"
+        android:fontFamily="@font/asap"
+        android:hint="Street Address 1"
+        android:imeOptions="actionNext"
+        android:maxLines="1"
+        android:paddingLeft="5dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black_grey" />
+
+    <EditText
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:minHeight="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/streetET2"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/edit_text_style"
+        android:fontFamily="@font/asap"
+        android:hint="Street Address 2"
+        android:imeOptions="actionNext"
+        android:maxLines="1"
+        android:layout_marginRight="10dp"
+        android:paddingLeft="5dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black_grey" />
+
+    <EditText
+        android:layout_marginTop="10dp"
+        android:minHeight="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:fontFamily="@font/asap"
+        android:id="@+id/cityEt"
+        android:background="@drawable/edit_text_style"
+        android:gravity="center_vertical"
+        android:hint="@string/location"
+        android:imeOptions="actionNext"
+        android:maxLines="1"
+        android:paddingLeft="5dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black_grey" />
+
+
+    <EditText
+        android:layout_marginTop="10dp"
+        android:minHeight="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:fontFamily="@font/asap"
+        android:id="@+id/stateEt"
+        android:background="@drawable/edit_text_style"
+        android:gravity="center_vertical"
+        android:hint="State"
+        android:imeOptions="actionNext"
+        android:maxLines="1"
+        android:paddingLeft="5dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black_grey" />
+    <EditText
+        android:layout_marginTop="10dp"
+        android:minHeight="50dp"
+        android:id="@+id/postalET"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/edit_text_style"
+        android:fontFamily="@font/asap"
+        android:gravity="center_vertical"
+        android:hint="Postal/Zip code"
+        android:imeOptions="actionDone"
+        android:maxLines="1"
+        android:padding="3dip"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black_grey" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:fontFamily="@font/asap"
+
+        android:text="Privacy"
+        android:textColor="@color/black"
+        android:textSize="23sp"
+
+        android:padding="15dp"/>
+    <TextView
+        android:id="@+id/updateIDTV"
+        android:textSize="18sp"
+        android:layout_marginTop="10dp"
+        android:visibility="visible"
+        android:drawablePadding="10dp"
+        android:drawableLeft="@drawable/upload_blue"
+        android:padding="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/asap"
+        android:text="Upload valid id card (Passport, Driving License etc.)"/>
+
+    <ImageView
+        android:layout_margin="10dp"
+        android:visibility="gone"
+        android:background="@color/black"
+        android:scaleType="fitCenter"
+        android:id="@+id/idIV"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
+
+    <CheckBox
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:textSize="15sp"
+        android:id="@+id/termsCB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:fontFamily="@font/asap"
+        android:text="@string/terms_and_conditions"
+        android:textColor="@color/colorPrimaryDark"
+        tools:targetApi="jelly_bean" />
+
+    <Button
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/update_button"
+        android:layout_width="120dp"
+        android:layout_height="42dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/blue_btn"
+        android:text="@string/update"
+        android:textAllCaps="false"
+        android:textColor="@color/white" />
+
+
+</LinearLayout>
+</ScrollView>

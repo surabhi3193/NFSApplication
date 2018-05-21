@@ -35,12 +35,12 @@ import static com.nfsapp.surbhi.nfsapplication.other.NetworkClass.BASE_URL_NEW;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    ImageView home_img, chat_img, notify_img, settings_img, profile_img;
+    ImageView home_img,  notify_img, settings_img, profile_img;
     public TextView nameTV;
     public ImageView profile_pic;
     FragmentManager fm;
     Fragment fragment;
-
+//    chat_img
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fm = getSupportFragmentManager();
         Utility.checkFINELOCATION(this);
         home_img = findViewById(R.id.home_img);
-        chat_img = findViewById(R.id.chat_img);
+//        chat_img = findViewById(R.id.chat_img);
         notify_img = findViewById(R.id.notify_img);
         settings_img = findViewById(R.id.settings_img);
         profile_img = findViewById(R.id.profile_img);
@@ -60,16 +60,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fragment = new HomeFragment();
         replaceFragment(fragment, true, "home");
         home_img.setOnClickListener(this);
-        chat_img.setOnClickListener(this);
         notify_img.setOnClickListener(this);
         settings_img.setOnClickListener(this);
         profile_img.setOnClickListener(this);
         profile_pic.setOnClickListener(this);
-
-        checkNotification();
-
-
-
     }
 
     private void checkNotification() {
@@ -111,31 +105,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Toast.makeText(MainActivity.this, response.getString("message"), Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    String street =response.getString("user_street").trim();
-                    String city =response.getString("user_city").trim();
-                    String postal =response.getString("user_postalcode").trim();
-                    String address =street+", " + city+ ", "+postal;
-                    String per = response.getString("profile_sttaus");
-
-
-                    if (address.startsWith(",") || address.endsWith(","))
-                        address=city;
-
-                    System.out.println("----------> add---->");
-                    System.out.println(address);
 
                     final User user = User.getInstance();
-                    user.setLocation(address);
+
+                    String street =response.getString("user_street");
+                    String street2 =response.getString("user_street2");
+                    String city =response.getString("user_city");
+                    String user_state =response.getString("user_state");
+                    String postal =response.getString("user_postalcode").trim();
+                    String per = response.getString("profile_sttaus");
+
                     user.setId(response.getString("user_id"));
-                    user.setProfile_percent(per);
                     user.setProfile_pic(response.getString("user_pic"));
-                    user.setName(response.getString("full_name"));
+                    user.setfirstName(response.getString("first_name"));
+                    user.setMiddleName(response.getString("middle_name"));
+                    user.setLastName(response.getString("last_name"));
+                    user.setStreet(street);
+                    user.setStreet2(street2);
+                    user.setCity(city);
+                    user.setState(user_state);
+                    user.setZipcode(postal);
+
+                    user.setProfile_percent(per);
                     user.setEmail(response.getString("user_email"));
                     user.setPhone(response.getString("user_phone"));
-                    user.setAccount_no(response.getString("deposit_account"));
+
                     user.setId_image(response.getString("valid_identity"));
-                    nameTV.setText(user.getName());
+
+                    nameTV.setText(user.getfirstName());
+
                     saveData(MainActivity.this,"profile_percent",per);
+
 
                     if (user.getProfile_pic()!=null && user.getProfile_pic().length()>0)
                     Picasso.with(getApplicationContext()).load(user.getProfile_pic()).placeholder(R.drawable.profile_pic).into(profile_pic);
@@ -165,13 +165,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     replaceFragment(fragment, true, "home");
                 }
                 break;
-            case R.id.chat_img:
+    /*        case R.id.chat_img:
                 if (!fr.equals("chat")) {
                     setFragment("chat");
                     fragment = new ChatFragment();
                     replaceFragment(fragment, true, "chat");
                 }
-                break;
+                break;*/
             case R.id.notify_img:
                 if (!fr.equals("notification")) {
                     setFragment("notification");
@@ -244,7 +244,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (str) {
             case "home":
                 home_img.setImageResource(R.drawable.home1);
-                chat_img.setImageResource(R.drawable.chat);
+//                chat_img.setImageResource(R.drawable.chat);
                 notify_img.setImageResource(R.drawable.notification);
                 settings_img.setImageResource(R.drawable.setting);
                 profile_img.setImageResource(R.drawable.profie_footer);
@@ -252,7 +252,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case "chat":
-                chat_img.setImageResource(R.drawable.chat1);
+//                chat_img.setImageResource(R.drawable.chat1);
                 home_img.setImageResource(R.drawable.home);
                 notify_img.setImageResource(R.drawable.notification);
                 settings_img.setImageResource(R.drawable.setting);
@@ -262,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case "notification":
                 notify_img.setImageResource(R.drawable.notification1);
-                chat_img.setImageResource(R.drawable.chat);
+//                chat_img.setImageResource(R.drawable.chat);
                 home_img.setImageResource(R.drawable.home);
                 settings_img.setImageResource(R.drawable.setting);
                 profile_img.setImageResource(R.drawable.profie_footer);
@@ -270,7 +270,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case "setting":
                 settings_img.setImageResource(R.drawable.setting1);
-                chat_img.setImageResource(R.drawable.chat);
+//                chat_img.setImageResource(R.drawable.chat);
                 notify_img.setImageResource(R.drawable.notification);
                 home_img.setImageResource(R.drawable.home);
                 profile_img.setImageResource(R.drawable.profie_footer);
@@ -278,7 +278,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case "profile":
                 profile_img.setImageResource(R.drawable.profil1);
-                chat_img.setImageResource(R.drawable.chat);
+//                chat_img.setImageResource(R.drawable.chat);
                 notify_img.setImageResource(R.drawable.notification);
                 settings_img.setImageResource(R.drawable.setting);
                 home_img.setImageResource(R.drawable.home);

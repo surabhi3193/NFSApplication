@@ -50,7 +50,6 @@
                 android:textColor="@color/colorPrimaryDark" />
             <TextView
                 android:textSize="18sp"
-
                 android:layout_marginLeft="10dp"
                 android:id="@+id/productNameTv"
                 android:fontFamily="@font/asap"

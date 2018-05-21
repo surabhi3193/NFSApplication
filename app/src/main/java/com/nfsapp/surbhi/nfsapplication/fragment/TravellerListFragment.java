@@ -6,11 +6,14 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
@@ -37,8 +40,9 @@ public class TravellerListFragment extends Fragment {
 
 
     ListView recyclerView;
-
     private PullRefreshLayout refreshLayout;
+
+    private String city_name ="";
 
     static void makeToast(Context ctx, String s) {
         Toast.makeText(ctx, s, Toast.LENGTH_SHORT).show();
@@ -51,10 +55,10 @@ public class TravellerListFragment extends Fragment {
 
 
         recyclerView = v.findViewById(R.id.recycler_view);
-        EditText msearch = v.findViewById(R.id.msearch);
+        final EditText msearch = v.findViewById(R.id.msearch);
 
         msearch.setVisibility(View.VISIBLE);
-        prepareTravellerData();
+        prepareTravellerData(false,city_name);
 
         refreshLayout = v.findViewById(R.id.refreshLay);
         refreshLayout.setRefreshStyle(PullRefreshLayout.STYLE_RING);
@@ -64,30 +68,53 @@ public class TravellerListFragment extends Fragment {
                 refreshLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        prepareTravellerData();
+                        prepareTravellerData(true,"");
+                        msearch.setText("");
                         refreshLayout.setRefreshing(false);
                     }
                 }, 2000);
             }
         });
+
+        msearch.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+
+                    city_name = msearch.getText().toString();
+                    prepareTravellerData(true,city_name);
+
+                    return true;
+                }
+                return false;
+            }
+
+        });
+
+
         return v;
     }
-    private void prepareTravellerData() {
+    private void prepareTravellerData(final  boolean isrefreshed,final  String city_name)
+
+    {
+        try
+        {
         final AsyncHttpClient client = new AsyncHttpClient();
         final RequestParams params = new RequestParams();
+            final   Dialog ringProgressDialog = new Dialog(getActivity(), R.style.Theme_AppCompat_Dialog);
 
-        final Dialog ringProgressDialog = new Dialog(getActivity(), R.style.Theme_AppCompat_Dialog);
-        ringProgressDialog.setContentView(R.layout.loading);
-        ringProgressDialog.setCancelable(false);
-        ringProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        ringProgressDialog.show();
-        GifImageView gifview = ringProgressDialog.findViewById(R.id.loaderGif);
-        gifview.setGifImageResource(R.drawable.loader2);
+            ringProgressDialog.setContentView(R.layout.loading);
+            ringProgressDialog.setCancelable(false);
+            ringProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            ringProgressDialog.show();
+            GifImageView gifview = ringProgressDialog.findViewById(R.id.loaderGif);
+            gifview.setGifImageResource(R.drawable.loader2);
 
         String userid = getData(getActivity(), "user_id", "");
         System.out.println("========== userid========== " + userid);
 
         params.put("user_id", userid);
+        params.put("city_name", city_name);
 
         System.out.println("============= get traveller  api ==============");
         System.err.println(params);
@@ -95,7 +122,8 @@ public class TravellerListFragment extends Fragment {
 
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 System.out.println(response);
-                ringProgressDialog.dismiss();
+                    ringProgressDialog.dismiss();
+
                 try {
 
                     if (response.getString("status").equals("1")) {
@@ -113,13 +141,13 @@ public class TravellerListFragment extends Fragment {
                             String product_id = jsonObject.getString("product_id");
                             trevaller_name = trevaller_name.split(" ")[0];
 
-                            Traveller movie = new Traveller(traveler_id,product_id, trevaller_name, user_pic,
+                            Traveller movie = new Traveller(traveler_id, product_id, trevaller_name, user_pic,
                                     "Departure : " + departure,
-                                    "Arrival : " + arrival, date, "","","");
+                                    "Arrival : " + arrival, date, "", "", "");
                             travellerList.add(movie);
 
                         }
-                        TravellerAdapter  mAdapter = new TravellerAdapter(travellerList, getActivity(),"traveller");
+                        TravellerAdapter mAdapter = new TravellerAdapter(travellerList, getActivity(), "traveller");
                         mAdapter.notifyDataSetChanged();
                         recyclerView.setAdapter(mAdapter);
                     } else {
@@ -133,16 +161,24 @@ public class TravellerListFragment extends Fragment {
             }
 
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                ringProgressDialog.dismiss();
+                    ringProgressDialog.dismiss();
+
                 System.out.println(errorResponse);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                ringProgressDialog.dismiss();
+                    ringProgressDialog.dismiss();
                 System.out.println(responseString);
             }
         });
+
+
+    }
+    catch( Exception e)
+    {
+        e.printStackTrace();
+    }
     }
 
 }

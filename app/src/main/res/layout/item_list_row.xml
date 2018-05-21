@@ -16,7 +16,7 @@
      android:id="@+id/product_pic"
      android:layout_width="100dp"
      android:layout_height="100dp"
-     android:src="@drawable/item"/>
+     />
 
     <RelativeLayout
         android:paddingLeft="2dp"
@@ -33,15 +33,14 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:text="John "
+                android:text="1-IPHONE"
                 android:fontFamily="@font/asap"
                 android:id="@+id/title"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:padding="3dp"
                 />
-
 
         <LinearLayout
             android:id="@+id/departLay"
@@ -70,6 +69,7 @@
                 android:layout_height="wrap_content"
              />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/arrivalLay"
             android:layout_below="@+id/departLay"

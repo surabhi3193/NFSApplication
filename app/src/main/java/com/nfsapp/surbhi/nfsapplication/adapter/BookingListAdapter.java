@@ -68,17 +68,17 @@ public class BookingListAdapter extends BaseAdapter {
         try {
             responseobj = jArray.getJSONObject(position);
 
+       String product_id = responseobj.getString("product_id");
             String product_name = responseobj.getString("product_name");
             String trevaller_to = responseobj.getString("trevaller_to");
             String trevaller_from = responseobj.getString("trevaller_from");
             String product_pic = responseobj.getString("product_pic");
             String type = responseobj.getString("type");
 
-            holder.txtName.setText(product_name);
+            holder.txtName.setText(product_id+"- "+product_name);
             holder.txtType.setText(trevaller_from);
             holder.txtVersion.setText(trevaller_to);
             Picasso.with(context).load(product_pic).placeholder(R.drawable.no_pic).into(holder.product_pic);
-
 
             if (type.equalsIgnoreCase("sender")) {
                 holder.details_btn.setText("Track package");
@@ -132,108 +132,3 @@ public class BookingListAdapter extends BaseAdapter {
     }
 
 }
-
-
-//        extends ArrayAdapter<Confirmpackage> {
-//
-//    Activity mContext;
-//    private ArrayList<Confirmpackage> dataSet;
-//    private int lastPosition = -1;
-//
-//    public BookingListAdapter(ArrayList<Confirmpackage> data, Activity context) {
-//        super(context, R.layout.item_list_row, data);
-//        this.dataSet = data;
-//        this.mContext = context;
-//
-//    }
-//
-//    @Override
-//    public View getView(int position, View convertView, ViewGroup parent) {
-//        // Get the data item for this position
-//        final Confirmpackage pack = getItem(position);
-//        // Check if an existing view is being reused, otherwise inflate the view
-//        ViewHolder holder; // view lookup cache stored in tag
-//
-//        final View result;
-//
-//        if (convertView == null) {
-//
-//            holder = new ViewHolder();
-//            LayoutInflater inflater = LayoutInflater.from(getContext());
-//            convertView = inflater.inflate(R.layout.item_list_row, parent, false);
-//            holder.txtName =convertView.findViewById(R.id.title);
-//            holder.txtType =convertView.findViewById(R.id.depart);
-//            holder.txtVersion =convertView.findViewById(R.id.arrival);
-//            holder.head_depart =convertView.findViewById(R.id.head_depart);
-//            holder.head_arrival =convertView.findViewById(R.id.head_arrival);
-//            holder.date =convertView.findViewById(R.id.date);
-//            holder.details_btn = convertView.findViewById(R.id.details_btn);
-//            holder.product_pic = convertView.findViewById(R.id.product_pic);
-//            result = convertView;
-//
-//            convertView.setTag(holder);
-//        } else {
-//            holder = (ViewHolder) convertView.getTag();
-//            result = convertView;
-//        }
-//        lastPosition = position;
-////        Typeface face = Typeface.createFromAsset(mContext.getAssets(),
-////                "fonts/asap.ttf");
-////
-////        holder.txtName.setTypeface(face);
-////        holder.txtType.setTypeface(face);
-////        holder.txtVersion.setTypeface(face);
-////        holder.date.setTypeface(face);
-////        holder.head_depart.setTypeface(face);
-////        holder.head_arrival.setTypeface(face);
-//        holder.date.setText(pack.getDate());
-//        holder.txtName.setText(pack.getName());
-//        holder.txtType.setText(pack.getDeparture_airport());
-//        holder.txtVersion.setText(pack.getArrival_airport());
-//        Picasso.with(mContext).load(pack.getProduct_pic()).placeholder(R.drawable.no_pic).into(holder.product_pic);
-//
-//        String type = pack.getUser_type();
-//
-//        if (type.equalsIgnoreCase("sender"))
-//        {
-//            holder.details_btn.setText("Track package");
-//            holder.details_btn.setBackgroundResource(R.drawable.green_rect);
-//            holder.details_btn.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//
-//                    mContext.startActivity(new Intent(mContext,TrackingActivity.class));
-//                }
-//            });
-//        }
-//
-//        else if (type.equalsIgnoreCase("traveller"))
-//        {
-//            holder.details_btn.setText("View package");
-//            holder.details_btn.setBackgroundResource(R.drawable.blue_rect);
-//            holder.details_btn.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//
-//                    mContext.startActivity(new Intent(mContext,PackageAfterPickup.class));
-//                }
-//            });
-//        }
-//
-//
-//        return convertView;
-//    }
-//
-//    private static class ViewHolder {
-//        TextView txtName;
-//        TextView txtType;
-//        TextView head_depart;
-//        TextView head_arrival;
-//        TextView txtVersion, date;
-//        ImageView product_pic;
-//        Button details_btn;
-//
-//    }
-//
-//
-//}

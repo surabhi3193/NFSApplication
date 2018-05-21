@@ -26,6 +26,7 @@ public class ParcelPackageDetail extends AppCompatActivity {
     private ViewPager mPager;
     private CircleIndicator indicator;
     private String sender_id="",product_id="";
+    private  Button book_btn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +34,7 @@ public class ParcelPackageDetail extends AppCompatActivity {
 
         mPager = findViewById(R.id.pager);
         indicator =findViewById(R.id.indicator);
-        Button book_btn =findViewById(R.id.book_btn);
+         book_btn =findViewById(R.id.book_btn);
 
         ImageView back_btn = findViewById(R.id.back_btn);
         TextView header_text = findViewById(R.id.header_text);
@@ -65,12 +66,19 @@ public class ParcelPackageDetail extends AppCompatActivity {
                 String pickup = pickupTV.getText().toString();
                 String dest = destinationTV.getText().toString();
 
-              startActivity(new Intent(ParcelPackageDetail.this,BookItemActivity.class)
+                if (pickup.contains(","))
+                pickup=pickup.split(",")[1];
+
+                if (dest.contains(","))
+                    dest=dest.split(",")[1];
+
+
+                startActivityForResult((new Intent(ParcelPackageDetail.this,BookItemActivity.class)
                       .putExtra("sender_id",sender_id)
                       .putExtra("post_id",product_id)
                       .putExtra("pickup",pickup)
                       .putExtra("destination",dest)
-              );
+              ),1);
             }
         });
 
@@ -94,14 +102,10 @@ public class ParcelPackageDetail extends AppCompatActivity {
                 String product_weight = obj.getString("product_weight");
                 String product_cost = obj.getString("product_cost");
                 String payment_mode = obj.getString("payment_mode");
-//                String reciever_name = obj.getString("reciever_name");
-//                String reciever_phone = obj.getString("reciever_phone");
-//                String reciever_email = obj.getString("reciever_email");
-//                String product_insurence = obj.getString("product_insurence");
-//                String product_added_date = obj.getString("product_added_date");
+
 
                 String product_pic = obj.getString("product_pic");
-                productNameTv.setText(product_name);
+                productNameTv.setText(product_id+"- "+product_name);
                 pickupTV.setText(pickup_location);
                 destinationTV.setText(destination_location);
 
@@ -131,16 +135,16 @@ public class ParcelPackageDetail extends AppCompatActivity {
         mPager.setBackgroundColor(getResources().getColor(R.color.black));
         indicator.setViewPager(mPager);
 
-        // Auto start of viewpager
-        final Handler handler = new Handler();
-        final Runnable Update = new Runnable() {
-            public void run() {
-                if (currentPage[0] == imageArray.size()) {
-                    currentPage[0] = 0;
-                }
-                mPager.setCurrentItem(currentPage[0]++, true);
-            }
-        };
+//        // Auto start of viewpager
+//        final Handler handler = new Handler();
+//        final Runnable Update = new Runnable() {
+//            public void run() {
+//                if (currentPage[0] == imageArray.size()) {
+//                    currentPage[0] = 0;
+//                }
+//                mPager.setCurrentItem(currentPage[0]++, true);
+//            }
+//        };
 //        Timer swipeTimer = new Timer();
 //        swipeTimer.schedule(new TimerTask() {
 //            @Override
@@ -149,4 +153,22 @@ public class ParcelPackageDetail extends AppCompatActivity {
 //            }
 //        }, 2500, 2500);
     }
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK) {
+                boolean booked = data.getBooleanExtra("isbooked",false);
+                if (booked) {
+                    book_btn.setBackgroundResource(R.drawable.green_rect);
+                    book_btn.setText("Reserved");
+                }
+                else
+                {
+                    book_btn.setBackgroundResource(R.drawable.blue_rect);
+                    book_btn.setText("Book Now");
+                }
+            }
+        }
+    }
+
 }

@@ -146,6 +146,7 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:layout_marginLeft="20dp"
                         android:id="@+id/streetTV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -176,6 +177,8 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:layout_marginLeft="20dp"
+
                         android:id="@+id/postalTV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -206,6 +209,8 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:layout_marginLeft="20dp"
+
                         android:id="@+id/emailTV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -237,6 +242,8 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:layout_marginLeft="20dp"
+
                         android:id="@+id/phoneTV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -251,6 +258,7 @@
                 </TableRow>
 
                 <TableRow
+                    android:visibility="gone"
                     android:layout_marginTop="10dp"
 
                     android:padding="10dp">

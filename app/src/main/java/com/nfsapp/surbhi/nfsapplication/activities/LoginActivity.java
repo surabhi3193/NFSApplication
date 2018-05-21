@@ -10,7 +10,11 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -45,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView create_account, codeTV, forgot_pass, btn_text;
     private EditText phoneEt, passEt;
     private RelativeLayout login_btn;
+    private  CheckBox mCbShowPwd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +63,23 @@ public class LoginActivity extends AppCompatActivity {
         forgot_pass = findViewById(R.id.forgot_pass);
         phoneEt = findViewById(R.id.phoneEt);
         passEt = findViewById(R.id.passEt);
+       mCbShowPwd =findViewById(R.id.cbShowPwd);
+
+        // add onCheckedListener on checkbox
+        // when user clicks on this checkbox, this is the handler.
+        mCbShowPwd.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // checkbox status is changed from uncheck to checked.
+                if (!isChecked) {
+                    // show password
+                    passEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                } else {
+                    // hide password
+                    passEt.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                }
+            }
+        });
 
         codeTV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,6 +142,7 @@ public class LoginActivity extends AppCompatActivity {
                 passEt.setVisibility(View.GONE);
                 forgot_pass.setVisibility(View.GONE);
                 create_account.setVisibility(View.GONE);
+                mCbShowPwd.setVisibility(View.GONE);
                 btn_text.setText("Reset");
 
             }
@@ -134,6 +157,7 @@ public class LoginActivity extends AppCompatActivity {
             passEt.setVisibility(View.VISIBLE);
             forgot_pass.setVisibility(View.VISIBLE);
             create_account.setVisibility(View.VISIBLE);
+            mCbShowPwd.setVisibility(View.VISIBLE);
             btn_text.setText("Login");
         }
         else
@@ -158,11 +182,18 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences pref = getApplicationContext().getSharedPreferences(Config.SHARED_PREF, 0);
         String regId = pref.getString("regId", null);
 
+        GPSTracker gps = new GPSTracker(this);
+       double latitude = gps.getLatitude();
+       double longitude = gps.getLongitude();
+
+
         params.put("user_phone", phone);
         params.put("user_password", password);
         params.put("user_device_type", "1");
         params.put("user_device_token", regId);
         params.put("user_device_id", device_id);
+        params.put("traveller_lat", latitude);
+        params.put("trevaller_log", longitude);
 
         System.out.println("============= signin api ==============");
         System.err.println(params);
@@ -175,25 +206,43 @@ public class LoginActivity extends AppCompatActivity {
                 try {
 
                     if (response.getString("status").equals("1")) {
+
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+
+
                         saveData(getApplicationContext(), "login", "1");
                         saveData(getApplicationContext(), "user_id", response.getString("user_id"));
+
+
+                        String street =response.getString("user_street");
+                        String street2 =response.getString("user_street2");
+                        String city =response.getString("user_city");
+                        String user_state =response.getString("user_state");
+                        String postal =response.getString("user_postalcode").trim();
+                        String per = response.getString("profile_sttaus");
+
                         final User user = User.getInstance();
-                        GPSTracker gps = new GPSTracker(LoginActivity.this);
-                        double latitude = gps.getLatitude();
-                        double longitude = gps.getLongitude();
-                        String city = getAddressFromLatlng(new LatLng(latitude, longitude), LoginActivity.this, 1);
 
                         user.setId(response.getString("user_id"));
                         user.setProfile_pic(response.getString("user_pic"));
-                        user.setName(response.getString("full_name"));
-                        user.setLocation(city);
-                        user.setProfile_percent(response.getString("profile_sttaus"));
+                        user.setfirstName(response.getString("first_name"));
+                        user.setMiddleName(response.getString("middle_name"));
+                        user.setLastName(response.getString("last_name"));
+                        user.setStreet(street);
+                        user.setStreet2(street2);
+                        user.setCity(city);
+                        user.setState(user_state);
+                        user.setZipcode(postal);
+
+                        user.setProfile_percent(per);
                         user.setEmail(response.getString("user_email"));
                         user.setPhone(response.getString("user_phone"));
-                        user.setAccount_no(response.getString("deposit_account"));
+
                         user.setId_image(response.getString("valid_identity"));
 
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        saveData(LoginActivity.this,"profile_percent",per);
+
+
                         finish();
                     } else {
                         Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_SHORT).show();

@@ -36,7 +36,7 @@
         android:fontFamily="@font/asap"
         android:paddingLeft="7dp"
         android:paddingTop="7dp"
-        android:text="Transection Successfull"
+        android:text="Transaction Successful"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="22sp"
         android:textStyle="bold" />
